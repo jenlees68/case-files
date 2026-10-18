@@ -202,8 +202,11 @@ table{border-collapse:collapse;width:100%;font-size:15px}
 th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
 th{color:var(--muted);font-weight:600}
 .tablewrap{overflow-x:auto}
+textarea.code{font-family:var(--f-type);font-size:14px;width:100%;background:var(--board2);color:var(--text);border:2px solid var(--line);border-radius:12px;padding:10px 12px;word-break:break-all;resize:vertical}
+textarea.code:focus{outline:3px solid var(--hi);outline-offset:2px}
 input[type=text]{font:inherit;font-size:18px;background:var(--board2);color:var(--text);border:2px solid var(--line);border-radius:12px;padding:10px 12px;min-height:48px}
-.toggle{display:flex;gap:10px;align-items:center;font-size:17px}
+.toggle{display:flex;gap:10px;align-items:center;font-size:17px;flex-wrap:wrap}
+.toggle input[type=text]{flex:1 1 180px;min-width:0}
 
 #toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,140%);background:var(--hi);color:#1b1b2a;font-weight:800;padding:12px 20px;border-radius:16px;transition:transform .35s cubic-bezier(.3,1.4,.5,1);z-index:20;max-width:calc(100% - 32px);text-align:center;font-size:18px}
 #toast.show{transform:translate(-50%,0)}
@@ -244,6 +247,7 @@ input[type=text]{font:inherit;font-size:18px;background:var(--board2);color:var(
 (function(){
 'use strict';
 /* ================= storage ================= */
+var VERSION='v1.1';
 var KEY='caseFilesDetective.v1';
 function defSkill(){return {lvl:1,att:0,first:0,run:0,missRun:0,missed:{}};}
 function defaults(){return {name:'',cases:0,points:0,bestCase:0,badges:[],archive:[],
@@ -429,7 +433,7 @@ function renderHome(){C=null;setHUD(false);try{speechSynthesis.cancel();}catch(e
    '<div class="stats"><div class="stat"><b>'+S.cases+'</b><span>cases closed</span></div><div class="stat"><b>'+S.bestStreak+'</b><span>best streak</span></div><div class="stat"><b>'+S.dayStreak+'</b><span>days in a row</span></div><div class="stat"><b>'+S.wordsRead+'</b><span>words read</span></div></div>'+
    '<section class="card"><h2 class="h2">BADGES</h2><div class="badges">'+badgeHTML+'</div></section>'+
    '<section class="card"><h2 class="h2">CLOSED CASES</h2><div class="archive">'+arc+'</div></section>'+
-   '<div class="row" style="justify-content:center"><button class="link" id="grown">Grown-up report</button></div>';
+   '<div class="row" style="justify-content:center;gap:4px"><button class="link" id="grown">Grown-up report</button><span style="color:var(--muted);font-size:13px">'+VERSION+'</span></div>';
   $('#newCase').onclick=function(){ac();SFX.tap();startCase();};
   $('#grown').onclick=renderGrown;
 }
@@ -680,14 +684,44 @@ function renderGrown(){setHUD(false);
    '<section class="card" style="display:flex;flex-direction:column;gap:14px"><label class="toggle" for="nm">Detective name <input type="text" id="nm" value="'+esc(S.name)+'" maxlength="20"></label>'+
    '<label class="toggle"><input type="checkbox" id="micT" '+(S.mic?'checked':'')+' style="width:26px;height:26px"> Use the microphone to check reading '+(SR?'':'<span style="color:var(--muted)">(this browser can’t listen; use Chrome)</span>')+'</label>'+
    '<p style="margin:0;color:var(--muted);font-size:15px">Cases: '+S.cases+' · Total points: '+S.points+' · Best case: '+S.bestCase+' · Words read: '+S.wordsRead+'</p>'+
-   '<div id="resetBox"><button class="link" id="reset">Reset all progress</button></div></section>';
+   '<div id="resetBox"><button class="link" id="reset">Reset all progress</button></div></section>'+
+   '<section class="card" style="display:flex;flex-direction:column;gap:12px"><h2 class="h2" style="margin:0">PROGRESS BACKUP</h2>'+
+   '<p style="margin:0;color:var(--muted);font-size:16px">Copy this code and text or email it to yourself. If her phone gets replaced or reset, paste it below to bring back every case, badge and level. Make a new one every so often, since it only holds progress up to today.</p>'+
+   '<textarea id="bkOut" class="code" rows="4" readonly aria-label="Backup code"></textarea>'+
+   '<div class="row"><button class="btn" id="bkCopy" style="min-height:52px;font-size:18px">Copy backup code</button><span id="bkMsg" style="color:var(--good);font-weight:600"></span></div>'+
+   '<h2 class="h2" style="margin:8px 0 0">RESTORE FROM A CODE</h2>'+
+   '<textarea id="bkIn" class="code" rows="3" placeholder="Paste a backup code here" aria-label="Paste a backup code"></textarea>'+
+   '<div id="bkRestoreBox"><button class="btn alt" id="bkRestore" style="min-height:52px;font-size:18px">Restore progress</button></div></section>'+
+   '<p style="text-align:center;color:var(--muted);font-size:14px;margin:0">Case Files Detective '+VERSION+'</p>';
   $('#back').onclick=renderHome;
+  var bkCode=makeBackup();$('#bkOut').value=bkCode;
+  $('#bkOut').onfocus=function(){this.select();};
+  $('#bkCopy').onclick=function(){var ta=$('#bkOut');function shown(t){$('#bkMsg').textContent=t;}
+    function fallback(){ta.focus();ta.select();try{document.execCommand('copy');shown('Copied!');}catch(e){shown('Code selected. Copy it from the box.');}}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(bkCode).then(function(){shown('Copied! Now paste it in a text or email to yourself.');},fallback);}else fallback();};
+  $('#bkRestore').onclick=function(){var o=readBackup($('#bkIn').value);var box=$('#bkRestoreBox');
+    if(!o){box.innerHTML='<p style="margin:0 0 10px;color:var(--nudge)">That code didn’t work. Make sure you pasted the whole thing, starting with CF1.</p><button class="btn alt" id="bkRestore2" style="min-height:52px;font-size:18px">Try again</button>';$('#bkRestore2').onclick=function(){renderGrownKeep();};return;}
+    box.innerHTML='<div class="row"><span>Replace the progress on this phone with the backup ('+(o.cases||0)+' cases, '+((o.badges||[]).length)+' badges)?</span><button class="btn pink" id="bkYes" style="min-height:48px;font-size:17px">Yes, restore</button><button class="btn alt" id="bkNo" style="min-height:48px;font-size:17px">Cancel</button></div>';
+    $('#bkYes').onclick=function(){var d=defaults();S=Object.assign(d,o);S.skills=Object.assign(defaults().skills,o.skills||{});persist();syncMute();renderGrown();toast('Progress restored! '+S.cases+' cases are back.');};
+    $('#bkNo').onclick=renderGrown;};
+  function renderGrownKeep(){var v=$('#bkIn').value;renderGrown();$('#bkIn').value=v;}
   $('#nm').oninput=function(e){S.name=e.target.value.trim();persist();};
   $('#micT').onchange=function(e){S.mic=e.target.checked;micBroken=false;persist();};
   $('#reset').onclick=function(){$('#resetBox').innerHTML='<div class="row"><span>Erase every case, badge and score?</span><button class="btn pink" id="yes" style="min-height:48px;font-size:17px">Yes, erase</button><button class="btn alt" id="no" style="min-height:48px;font-size:17px">Keep it</button></div>';
     $('#yes').onclick=function(){var keep=S.name;S=defaults();S.name=keep;persist();renderGrown();};$('#no').onclick=renderGrown;};}
 
-window.__test={align:align,normWord:normWord,match:match,makeCase:makeCase,TR:TR};
+/* ================= backup codes ================= */
+function ckSum(s){var n=0;for(var i=0;i<s.length;i++)n=(n*31+s.charCodeAt(i))%9973;return n;}
+function makeBackup(){var o=JSON.parse(JSON.stringify(S));o.archive=(o.archive||[]).slice(-20);
+  Object.keys(o.skills||{}).forEach(function(k){var m=o.skills[k].missed||{};var n={};Object.keys(m).sort(function(a,b){return m[b]-m[a];}).slice(0,15).forEach(function(x){n[x]=m[x];});o.skills[k].missed=n;});
+  o.v=VERSION;var b=btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  return 'CF1-'+b+'-'+ckSum(b);}
+function readBackup(code){var c=String(code||'').replace(/\s+/g,'');var m=/^CF1-([A-Za-z0-9_-]+)-(\d+)$/.exec(c);if(!m)return null;
+  var b=m[1];if(ckSum(b)!==+m[2])return null;
+  try{b=b.replace(/-/g,'+').replace(/_/g,'/');while(b.length%4)b+='=';var o=JSON.parse(decodeURIComponent(escape(atob(b))));
+    if(!o||typeof o!=='object'||!o.skills||typeof o.cases!=='number')return null;delete o.v;return o;}catch(e){return null;}}
+
+window.__test={align:align,normWord:normWord,match:match,makeCase:makeCase,TR:TR,makeBackup:makeBackup,readBackup:readBackup,getS:function(){return S;}};
 renderHome();
 })();
 </script>
