@@ -179,6 +179,7 @@ button:focus-visible{outline:3px solid var(--hi);outline-offset:3px}
 .w.find{background:var(--hi);color:#1b1b2a}
 .mic{width:110px;height:110px;border-radius:50%;background:var(--pin);font-size:48px;display:grid;place-items:center;box-shadow:0 6px 0 #a8204a}
 .mic.live{animation:live 1.2s ease-in-out infinite}
+.mic.go{background:var(--good);box-shadow:0 6px 0 #1d8a63}
 @keyframes live{50%{box-shadow:0 0 0 18px rgba(255,92,138,.25),0 6px 0 #a8204a}}
 .status{font-size:18px;color:var(--muted);min-height:1.4em;text-align:center;margin:0}
 .fixword{font-family:var(--f-display);font-size:clamp(44px,12vw,72px);color:var(--nudge);background:none}
@@ -247,12 +248,12 @@ input[type=text]{font:inherit;font-size:18px;background:var(--board2);color:var(
 (function(){
 'use strict';
 /* ================= storage ================= */
-var VERSION='v1.1';
+var VERSION='v1.2';
 var KEY='caseFilesDetective.v1';
 function defSkill(){return {lvl:1,att:0,first:0,run:0,missRun:0,missed:{}};}
 function defaults(){return {name:'',cases:0,points:0,bestCase:0,badges:[],archive:[],
   skills:{mult:defSkill(),div:defSkill(),spell:defSkill(),read:defSkill()},
-  wordsRead:0,bestStreak:0,dayStreak:0,lastDay:'',muted:false,mic:true,caseNo:0};}
+  wordsRead:0,bestStreak:0,dayStreak:0,lastDay:'',muted:false,mic:true,micMode:'relaxed',caseNo:0};}
 var S=defaults();
 try{var raw=localStorage.getItem(KEY);if(raw){var o=JSON.parse(raw);var d=defaults();S=Object.assign(d,o);S.skills=Object.assign(defaults().skills,o.skills||{});}}catch(e){}
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
@@ -301,17 +302,28 @@ var HOMO={};[['to','too','two'],['there','their','theyre'],['red','read'],['by',
 var TINY={a:1,an:1,the:1,to:1,of:1,and:1,on:1,in:1,at:1,i:1,it:1,by:1};
 var FILLER={um:1,uh:1,umm:1,uhh:1,hmm:1,er:1,ah:1,mm:1};
 function lev(a,b){var m=a.length,n=b.length,d=[],i,j;for(i=0;i<=m;i++){d[i]=[i];}for(j=0;j<=n;j++)d[0][j]=j;for(i=1;i<=m;i++)for(j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[m][n];}
+function relaxed(){return S.micMode!=='strict';}
+function skel(w){return w.charAt(0)+w.slice(1).replace(/[aeiouy]/g,'').replace(/(.)\1+/g,'$1');}
 function match(heard,target){if(!heard)return false;if(heard===target)return true;if(HOMO[target]&&HOMO[target].indexOf(heard)>=0)return true;
-  if(heard===target+'s'||target===heard+'s')return true;
-  if(target.length>=6&&lev(heard,target)<=1)return true;if(target.length>=9&&lev(heard,target)<=2)return true;return false;}
-/* walk heard words against the sentence. Returns how far she got, and where she slipped (if anywhere). */
-function align(heard,W,start){var p=start,miss=0,problem=-1;
+  if(heard===target+'s'||target===heard+'s'||heard===target+'es'||heard===target+'ed'||target===heard+'ed')return true;
+  if(target.length>=6&&lev(heard,target)<=1)return true;if(target.length>=9&&lev(heard,target)<=2)return true;
+  if(relaxed()&&target.length>=4&&heard.length>=3){
+    if(lev(heard,target)<=1)return true;
+    if(skel(heard)===skel(target))return true;
+    if(target.length>=7&&lev(heard,target)<=2)return true;}
+  return false;}
+/* walk heard words against the sentence. Returns how far she got, and where she slipped (if anywhere).
+   Relaxed: words the recognizer drops (common when reading fast) are forgiven when the next words line up. */
+function align(heard,W,start){var p=start,miss=0,problem=-1,rx=relaxed();
   for(var k=0;k<heard.length;k++){var t=heard[k];if(p>=W.length)break;
     if(match(t,W[p])){p++;miss=0;continue;}
-    if(TINY[W[p]]&&p+1<W.length&&match(t,W[p+1])){p+=2;miss=0;continue;}
-    if(p+1<W.length&&match(t,W[p+1])){problem=p;break;}
-    if(p+2<W.length&&match(t,W[p+2])&&!TINY[W[p]]){problem=p;break;}
-    miss++;if(miss>=2){problem=p;break;}
+    var jumped=false;
+    for(var j=1;j<=3&&p+j<W.length;j++){if(match(t,W[p+j])){
+        var skipped=W.slice(p,p+j);var allTiny=skipped.every(function(x){return TINY[x];});
+        if(allTiny||(rx&&miss===0)){p+=j+1;miss=0;jumped=true;}else{problem=p;}
+        break;}}
+    if(jumped)continue;if(problem>=0)break;
+    miss++;if(miss>=(rx?3:2)){problem=p;break;}
   }
   return {p:p,problem:problem,trail:miss};}
 
@@ -569,8 +581,8 @@ function spellStation(done){var sk=S.skills.spell,n=0,total=3;var pool=shuffle(W
   gen();}
 
 /* ================= WITNESS (reading aloud) ================= */
-var liveRecs=[];
-function stopAllMic(){liveRecs.forEach(function(r){try{r.onend=null;r.onresult=null;r.onerror=null;r.abort();}catch(e){}});liveRecs=[];}
+var liveRecs=[],STALL=null;
+function stopAllMic(){clearInterval(STALL);STALL=null;liveRecs.forEach(function(r){try{r.onend=null;r.onresult=null;r.onerror=null;r.abort();}catch(e){}});liveRecs=[];}
 function readStation(st,done){var sk=S.skills.read;var sents=[st.flavor,st.wit],si=0;
   function render(){stopAllMic();var text=sents[si];var words=text.split(' ');var W=words.map(normWord);var mic=micOn();var sentMiss=0;
     stage.innerHTML=stationHead('read',2)+'<p class="line1">'+(mic?'Tap the mic. Read the witness statement out loud.':'Read it out loud. Tap a word to hear it.')+'</p>'+
@@ -579,7 +591,7 @@ function readStation(st,done){var sk=S.skills.read;var sents=[st.flavor,st.wit],
     for(var x=0;x<si;x++)pip(x+1);
     hookHear($('#stmt'));var spans=$$('#stmt .w');var ctrl=$('#ctrl');
     function paint(p){spans.forEach(function(s,i){if(s.classList.contains('fixed'))return;s.classList.toggle('ok',i<p);s.classList.toggle('now',i===p);});}
-    function finished(){stopAllMic();paint(words.length);SFX.good();S.wordsRead+=words.length;C.learned.read+=words.length;
+    function finished(){listening=false;stopAllMic();paint(words.length);SFX.good();S.wordsRead+=words.length;C.learned.read+=words.length;
       result('read',sentMiss===0,null,$('#stmt'));pip(si+1);
       ctrl.innerHTML='<div class="big" style="color:var(--good);font-size:26px">Got it!</div>';
       setTimeout(function(){if(si<1){si++;render();}else done();},1100);}
@@ -594,46 +606,61 @@ function readStation(st,done){var sk=S.skills.read;var sents=[st.flavor,st.wit],
       return;}
 
     /* --- mic mode --- */
-    var p=0,best=0,listening=false,fixing=false,rec=null;
+    var p=0,best=0,listening=false,fixing=false,rec=null,lastProg=Date.now(),heardSince=false;
     ctrl.innerHTML='<button class="mic" id="micBtn" aria-label="Start reading">🎙️</button><p class="status" id="status">Tap the mic, then read.</p><button class="link" id="noMic">Mic not working? Read without it</button>';
-    $('#noMic').onclick=function(){micBroken=true;stopAllMic();toast('Okay! Tap mode is on.');render();};
+    $('#noMic').onclick=function(){micBroken=true;stopAll();toast('Okay! Tap mode is on.');render();};
     paint(0);
     function fatal(err){return ['not-allowed','service-not-allowed','audio-capture','network','language-not-supported'].indexOf(err)>=0;}
-    function micFail(){micBroken=true;stopAllMic();toast('Mic is off here, so we switched to tap mode.');setTimeout(render,600);}
+    function stopAll(){stopAllMic();}
+    function micFail(){micBroken=true;stopAll();toast('Mic is off here, so we switched to tap mode.');setTimeout(render,600);}
     function setStatus(t){var s=$('#status');if(s)s.textContent=t;}
-    function startListen(){if(fixing)return;stopAllMic();var start=p;
+    function setGo(on){var mb=$('#micBtn');if(mb)mb.classList.toggle('go',!!on);}
+    /* every result: try each of the recognizer's guesses and keep the one that gets her furthest */
+    function bestRead(results,start){var words=[],i,a,res;
+      for(i=0;i<results.length;i++){res=results[i];var pickW=null,pickP=-1,pickBad=1e9;
+        for(a=0;a<res.length;a++){var cand=String(res[a].transcript).split(/\s+/).map(normWord).filter(function(t){return t&&!FILLER[t];});
+          var r=align(words.concat(cand),W,start);var bad=(r.problem>=0?100:0)+r.trail;
+          if(r.p>pickP||(r.p===pickP&&bad<pickBad)){pickP=r.p;pickBad=bad;pickW=cand;}}
+        words=words.concat(pickW||[]);}
+      return align(words,W,start);}
+    function startListen(){if(fixing)return;stopAllMic();var start=best;p=best;
       try{rec=new SR();}catch(e){micFail();return;}
-      rec.lang='en-US';rec.continuous=true;rec.interimResults=true;rec.maxAlternatives=1;liveRecs.push(rec);listening=true;
-      var mb=$('#micBtn');if(mb)mb.classList.add('live');setStatus('Listening… read the yellow-lined word next.');
-      rec.onresult=function(e){var txt='';for(var i=0;i<e.results.length;i++)txt+=' '+e.results[i][0].transcript;
+      rec.lang='en-US';rec.continuous=true;rec.interimResults=true;rec.maxAlternatives=5;liveRecs.push(rec);listening=true;
+      var mb=$('#micBtn');if(mb)mb.classList.add('live');
+      rec.onaudiostart=function(){if(listening&&!fixing){setGo(true);setStatus('Go! Read out loud.');}};
+      rec.onresult=function(e){var r=bestRead(e.results,start);
         var last=e.results[e.results.length-1].isFinal;
-        var heard=txt.split(/\s+/).map(normWord).filter(function(t){return t&&!FILLER[t];});
-        var r=align(heard,W,start);paint(r.p);
-        if(r.p>=W.length){finished();return;}
-        if(last){best=r.p;if(r.problem>=0)problem(r.problem);else if(r.trail>=1)problem(r.p);}};
+        if(r.p>best){best=r.p;lastProg=Date.now();heardSince=false;paint(best);}else heardSince=true;
+        if(best>=W.length){finished();return;}
+        if(last&&r.problem>=0&&r.problem>=best-1){problem(Math.max(r.problem,best));}};
       rec.onerror=function(ev){if(fatal(ev.error))micFail();};
-      rec.onend=function(){if(!listening||fixing)return;p=best;setTimeout(function(){if(listening&&!fixing&&$('#stmt'))startListen();},150);};
-      try{rec.start();}catch(e){micFail();}}
-    function problem(i){fixing=true;listening=false;stopAllMic();p=i;paint(i);sentMiss++;var w=words[i].replace(/[“”".,!?]/g,'');
+      rec.onend=function(){setGo(false);if(!listening||fixing)return;if($('#stmt'))startListen();};
+      try{rec.start();}catch(e){micFail();return;}
+      clearInterval(STALL);STALL=setInterval(function(){if(!listening||fixing||!$('#stmt')){return;}
+        if(heardSince&&Date.now()-lastProg>(relaxed()?6000:4500)){heardSince=false;problem(best);}},500);}
+    function problem(i){if(fixing)return;fixing=true;listening=false;stopAll();setGo(false);p=i;paint(i);sentMiss++;var w=words[i].replace(/[“”".,!?]/g,'');
       sk.missed[w.toLowerCase()]=(sk.missed[w.toLowerCase()]||0)+1;spans[i].classList.add('stuck');SFX.nudge();
-      $('#micBtn').classList.remove('live');
-      ctrl.innerHTML='<p style="font-size:20px;margin:0">Let’s read this one again:</p><button class="fixword" id="fw">'+esc(w)+'</button><p class="status" id="status">Say it now…</p>';
+      ctrl.innerHTML='<p style="font-size:20px;margin:0">Let’s read this one again:</p><button class="fixword" id="fw">'+esc(w)+'</button><p class="status" id="status">Get ready…</p>';
       $('#fw').onclick=function(){say(w,{rate:.75});};
       var tries=0;
-      function listenWord(){var r2;try{r2=new SR();}catch(e){micFail();return;}r2.lang='en-US';r2.continuous=false;r2.interimResults=true;liveRecs.push(r2);var got=false;
-        r2.onresult=function(e){var t='';for(var k=0;k<e.results.length;k++)t+=' '+e.results[k][0].transcript;if(t.split(/\s+/).map(normWord).some(function(x){return match(x,W[i]);})){got=true;try{r2.abort();}catch(er){}ok(false);}};
+      function listenWord(){var r2;try{r2=new SR();}catch(e){micFail();return;}r2.lang='en-US';r2.continuous=false;r2.interimResults=true;r2.maxAlternatives=5;liveRecs.push(r2);var got=false;
+        r2.onaudiostart=function(){if(!got)setStatus('Go! Say it now.');};
+        r2.onresult=function(e){var hit=false;for(var k=0;k<e.results.length&&!hit;k++)for(var a=0;a<e.results[k].length&&!hit;a++){
+            hit=String(e.results[k][a].transcript).split(/\s+/).map(normWord).some(function(x){return match(x,W[i]);});}
+          if(hit&&!got){got=true;try{r2.abort();}catch(er){}ok(false);}};
         r2.onerror=function(ev){if(fatal(ev.error))micFail();};
         r2.onend=function(){if(got||!fixing)return;tries++;
-          if(tries===1){setStatus('Here’s how it sounds. Now you say it!');say(w,{rate:.75,onend:function(){setTimeout(listenWord,300);}});}
+          if(tries===1){setStatus('Here’s how it sounds. Now you say it!');say(w,{rate:.75,onend:function(){setTimeout(listenWord,150);}});}
           else if(tries<4){setStatus('Try once more…');listenWord();}
           else ok(true);};
         try{r2.start();}catch(e){micFail();}}
-      function ok(gaveUp){fixing=false;spans[i].classList.remove('stuck');spans[i].classList.add('fixed');if(!gaveUp)SFX.good();p=i+1;best=p;
+      function ok(gaveUp){fixing=false;spans[i].classList.remove('stuck');spans[i].classList.add('fixed');if(!gaveUp)SFX.good();p=i+1;best=p;lastProg=Date.now();heardSince=false;
         if(p>=W.length){finished();return;}
         ctrl.innerHTML='<button class="mic live" id="micBtn" aria-label="Listening">🎙️</button><p class="status" id="status">'+(gaveUp?'Let’s keep going!':'Nice! Keep reading from the next word.')+'</p>';
-        $('#micBtn').onclick=function(){};paint(p);setTimeout(startListen,250);}
-      setTimeout(listenWord,250);}
-    $('#micBtn').onclick=function(){ac();if(listening){listening=false;stopAllMic();$('#micBtn').classList.remove('live');setStatus('Paused. Tap the mic to keep going.');}else startListen();};
+        $('#micBtn').onclick=pauseOrGo;paint(p);setTimeout(startListen,100);}
+      setTimeout(listenWord,100);}
+    function pauseOrGo(){ac();if(listening){listening=false;stopAll();setGo(false);var mb=$('#micBtn');if(mb)mb.classList.remove('live');setStatus('Paused. Tap the mic to keep going.');}else startListen();}
+    $('#micBtn').onclick=pauseOrGo;
   }
   render();}
 
@@ -683,6 +710,8 @@ function renderGrown(){setHUD(false);
    '<section class="card"><p style="margin-top:0;color:var(--muted)">“First try” means she got it without a hint. The game aims for about 80%: it levels up after 4 first-try answers in a row and quietly eases off after 2 misses in a row.</p><div class="tablewrap"><table><thead><tr><th>Skill</th><th>Level</th><th>Tries</th><th>First try</th><th>Needed help with (times)</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>'+
    '<section class="card" style="display:flex;flex-direction:column;gap:14px"><label class="toggle" for="nm">Detective name <input type="text" id="nm" value="'+esc(S.name)+'" maxlength="20"></label>'+
    '<label class="toggle"><input type="checkbox" id="micT" '+(S.mic?'checked':'')+' style="width:26px;height:26px"> Use the microphone to check reading '+(SR?'':'<span style="color:var(--muted)">(this browser can’t listen; use Chrome)</span>')+'</label>'+
+   '<div class="toggle" role="group" aria-label="Mic pickiness"><span>Mic pickiness</span><button class="btn '+(relaxed()?'':'alt')+'" id="mmR" style="min-height:44px;font-size:16px;padding:6px 14px">Relaxed</button><button class="btn '+(relaxed()?'alt':'')+'" id="mmS" style="min-height:44px;font-size:16px;padding:6px 14px">Strict</button></div>'+
+   '<p style="margin:0;color:var(--muted);font-size:14px">Relaxed lets her read at a normal speed and forgives words the mic misses. Strict stops her on every skipped or slightly-off word.</p>'+
    '<p style="margin:0;color:var(--muted);font-size:15px">Cases: '+S.cases+' · Total points: '+S.points+' · Best case: '+S.bestCase+' · Words read: '+S.wordsRead+'</p>'+
    '<div id="resetBox"><button class="link" id="reset">Reset all progress</button></div></section>'+
    '<section class="card" style="display:flex;flex-direction:column;gap:12px"><h2 class="h2" style="margin:0">PROGRESS BACKUP</h2>'+
@@ -707,6 +736,8 @@ function renderGrown(){setHUD(false);
   function renderGrownKeep(){var v=$('#bkIn').value;renderGrown();$('#bkIn').value=v;}
   $('#nm').oninput=function(e){S.name=e.target.value.trim();persist();};
   $('#micT').onchange=function(e){S.mic=e.target.checked;micBroken=false;persist();};
+  $('#mmR').onclick=function(){S.micMode='relaxed';persist();renderGrownKeep();};
+  $('#mmS').onclick=function(){S.micMode='strict';persist();renderGrownKeep();};
   $('#reset').onclick=function(){$('#resetBox').innerHTML='<div class="row"><span>Erase every case, badge and score?</span><button class="btn pink" id="yes" style="min-height:48px;font-size:17px">Yes, erase</button><button class="btn alt" id="no" style="min-height:48px;font-size:17px">Keep it</button></div>';
     $('#yes').onclick=function(){var keep=S.name;S=defaults();S.name=keep;persist();renderGrown();};$('#no').onclick=renderGrown;};}
 
@@ -721,7 +752,7 @@ function readBackup(code){var c=String(code||'').replace(/\s+/g,'');var m=/^CF1-
   try{b=b.replace(/-/g,'+').replace(/_/g,'/');while(b.length%4)b+='=';var o=JSON.parse(decodeURIComponent(escape(atob(b))));
     if(!o||typeof o!=='object'||!o.skills||typeof o.cases!=='number')return null;delete o.v;return o;}catch(e){return null;}}
 
-window.__test={align:align,normWord:normWord,match:match,makeCase:makeCase,TR:TR,makeBackup:makeBackup,readBackup:readBackup,getS:function(){return S;}};
+window.__test={align:align,normWord:normWord,match:match,makeCase:makeCase,TR:TR,makeBackup:makeBackup,readBackup:readBackup,getS:function(){return S;},openWitness:function(){startCase();runStation(C.stations.findIndex(function(s){return s.type==='read';}));},caseC:function(){return C;}};
 renderHome();
 })();
 </script>
