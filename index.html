@@ -384,7 +384,7 @@ input[type=text]{font:inherit;font-size:18px;background:var(--board2);color:var(
 (function(){
 'use strict';
 /* ================= storage ================= */
-var VERSION='v2.1';
+var VERSION='v2.2';
 var KEY='caseFilesDetective.v1';
 function defSkill(){return {lvl:1,att:0,first:0,run:0,missRun:0,missed:{}};}
 function defaults(){return {name:'',cases:0,points:0,bestCase:0,badges:[],archive:[],
@@ -1305,7 +1305,7 @@ function playMemory(mode){var pairs=[],seen={},g;
 var DEFAULT_REWARDS=[
  {id:'candy',e:'🍫',n:'Candy bar',p:600},
  {id:'slush',e:'🥤',n:'Slushie or special drink',p:800},
- {id:'screen',e:'📱',n:'30 extra minutes of screen time',p:1000},
+ {id:'gamenight',e:'🎲',n:'Family game night: you pick the game',p:1000},
  {id:'late',e:'🌙',n:'Stay up 30 minutes late',p:1200},
  {id:'meal',e:'🍽️',n:'You pick dinner, lunch or breakfast',p:1500},
  {id:'chore',e:'🧹',n:'Skip one chore',p:1800},
@@ -1323,6 +1323,7 @@ function fmt(n){return Number(n||0).toLocaleString('en-US');}
 function ensureWallet(){var ch=false;
   if(!S.wallet){var seed=Math.min(S.points||0,1000);S.wallet={bal:seed,earned:seed,spent:0,log:[]};if(seed)S.wallet.log.push({t:Date.now(),k:'earn',src:'start',l:'Points from before Rewards started',p:seed});ch=true;}
   if(!S.rewards||!S.rewards.length){S.rewards=JSON.parse(JSON.stringify(DEFAULT_REWARDS));ch=true;}
+  var si=S.rewards.findIndex(function(r){return r.id==='screen';});if(si>=0){S.rewards[si]={id:'gamenight',e:'🎲',n:'Family game night: you pick the game',p:1000};if(S.goal==='screen')S.goal='gamenight';ch=true;}
   if(!S.rules){S.rules=Object.assign({},DEFAULT_RULES);ch=true;}
   if(!S.requests){S.requests=[];ch=true;}
   if(!S.pinH){S.pinH=PIN_DEFAULT;ch=true;}
