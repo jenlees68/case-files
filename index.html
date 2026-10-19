@@ -38,6 +38,7 @@ button{font-family:inherit;color:inherit;cursor:pointer;border:0;background:none
 button:focus-visible{outline:3px solid var(--hi);outline-offset:3px}
 #app{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 28px;display:flex;flex-direction:column;gap:14px}
 
+#stage{display:flex;flex-direction:column;gap:14px;min-width:0}
 /* HUD */
 #hud{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;min-width:0}
 #hud[hidden]{display:none!important}
@@ -206,6 +207,52 @@ button:focus-visible{outline:3px solid var(--hi);outline-offset:3px}
 .pup-row{display:flex;align-items:center;gap:14px;font-size:54px;line-height:1}
 .pup-row .q{font-family:var(--f-display);color:var(--pin);font-size:44px;animation:pulse 1.4s infinite;border-radius:50%}
 .pup-hug{animation:popin .6s cubic-bezier(.3,1.6,.5,1) both}
+.grow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.grow>div:first-child{display:flex;flex-direction:column;min-width:0}
+.grow>div:first-child span{color:var(--muted);font-size:14px}
+.gbtns{display:flex;gap:6px}
+.gb{width:44px;height:44px;border-radius:12px;background:var(--board2);border:2px solid var(--line);font-family:var(--f-display);font-size:20px}
+.gb.on{background:var(--hi);color:#1b1b2a;border-color:var(--hi)}
+.dots i.pk{background:var(--pin)}
+.dots i.gone{opacity:.25;position:relative}
+.dots i.gone::after{content:"";position:absolute;left:-2px;right:-2px;top:6px;height:2px;background:var(--text);transform:rotate(-35deg)}
+.bag.left{background:#5a2a3e;border-color:var(--pin)}
+.choice.wide{font-size:26px}
+.arc-entry{display:flex;align-items:center;gap:14px;text-align:left;background:linear-gradient(135deg,#3b2a7a,#1e4f8a);border:2px solid #6c78d8;border-radius:18px;padding:12px 18px;min-height:76px;box-shadow:0 6px 0 #141a45}
+.arc-entry:active{transform:translateY(4px);box-shadow:0 2px 0 #141a45}
+.arc-entry>span:first-child{font-size:42px}
+.arc-entry>span:last-child{display:flex;flex-direction:column}
+.arc-entry b{font-family:var(--f-display);font-weight:400;font-size:24px;color:var(--hi)}
+.arc-entry span span{color:var(--muted);font-size:15px}
+.arc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.arc-tile{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;background:var(--board);border:2px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 5px 0 #0c1230;min-width:0}
+.arc-tile:active{transform:translateY(3px);box-shadow:0 2px 0 #0c1230}
+.arc-tile:last-child:nth-child(odd){grid-column:1/-1}
+.at-icon{font-size:40px}
+.at-cat{font-family:var(--f-type);font-size:12px;color:var(--pin);letter-spacing:.12em}
+.arc-tile b{font-family:var(--f-display);font-weight:400;font-size:20px;line-height:1.1}
+.at-tag{color:var(--muted);font-size:14px}
+.at-best{margin-top:4px;font-weight:800;color:var(--hi);font-size:15px}
+.timer{font-family:var(--f-display);font-size:28px;color:var(--good);font-variant-numeric:tabular-nums}
+.timer.hurry{color:var(--pin);animation:pulse .6s infinite;border-radius:10px}
+.blast{background:radial-gradient(circle,#2e3b80,var(--board));border:3px solid var(--line);border-radius:24px;padding:24px 10px;text-align:center;position:relative}
+.bl-q{font-family:var(--f-display);font-size:clamp(44px,13vw,72px);color:var(--hi)}
+.bl-combo{font-family:var(--f-display);color:var(--pin);font-size:20px;min-height:1.2em}
+.choices.three{grid-template-columns:repeat(3,1fr);max-width:520px}
+.choices.pics .choice{font-size:40px;min-height:96px;font-family:var(--f-body)}
+.stars{display:flex;gap:10px;font-size:56px;line-height:1}
+.stars span{color:var(--line)}
+.stars span.on{color:var(--hi);animation:popin .5s cubic-bezier(.3,1.6,.5,1) both;text-shadow:0 0 18px rgba(255,225,77,.6)}
+.mm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:460px;width:100%;margin:0 auto}
+@media (min-width:520px){.mm-grid{grid-template-columns:repeat(4,1fr)}}
+.mm-card{aspect-ratio:3/4;border-radius:14px;position:relative;perspective:600px;padding:0}
+.mm-card span{position:absolute;inset:0;display:grid;place-items:center;border-radius:14px;backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform .35s;padding:4px;text-align:center;word-break:break-word}
+.mm-back{background:linear-gradient(135deg,var(--pin),#a970ff);font-family:var(--f-display);font-size:40px;color:#fff;box-shadow:0 4px 0 #6b2350}
+.mm-face{background:var(--paper);color:var(--paper-ink);font-weight:800;font-size:clamp(16px,4.6vw,24px);transform:rotateY(180deg);box-shadow:0 4px 0 var(--paper2)}
+.mm-face.emoji{font-size:44px}
+.mm-card.flip .mm-back{transform:rotateY(180deg)}
+.mm-card.flip .mm-face{transform:rotateY(0)}
+.mm-card.done .mm-face{background:var(--good);color:#0b2a1e}
 /* clue reveal + end */
 .reveal .paper{max-width:520px;width:100%;transform:rotate(-1.5deg);animation:slidein .6s cubic-bezier(.3,1.4,.5,1) both}
 @keyframes slidein{from{transform:translateY(60px) rotate(8deg);opacity:0}}
@@ -271,11 +318,11 @@ input[type=text]{font:inherit;font-size:18px;background:var(--board2);color:var(
 (function(){
 'use strict';
 /* ================= storage ================= */
-var VERSION='v1.4';
+var VERSION='v2.0';
 var KEY='caseFilesDetective.v1';
 function defSkill(){return {lvl:1,att:0,first:0,run:0,missRun:0,missed:{}};}
 function defaults(){return {name:'',cases:0,points:0,bestCase:0,badges:[],archive:[],
-  skills:{mult:defSkill(),div:defSkill(),spell:defSkill(),read:defSkill(),hunt:defSkill()},pupSaved:0,
+  skills:{mult:defSkill(),div:defSkill(),spell:defSkill(),read:defSkill(),hunt:defSkill()},pupSaved:0,grade:{math:3,spell:2,read:1},arcade:{},
   wordsRead:0,bestStreak:0,dayStreak:0,lastDay:'',muted:false,mic:true,micMode:'relaxed',caseNo:0};}
 var S=defaults();
 try{var raw=localStorage.getItem(KEY);if(raw){var o=JSON.parse(raw);var d=defaults();S=Object.assign(d,o);S.skills=Object.assign(defaults().skills,o.skills||{});}}catch(e){}
@@ -378,7 +425,7 @@ function align(heard,W,start){var p=start,k=0,rx=relaxed(),problem=-1;
     var close=real.some(function(t){return skipped.some(function(x){return looseMatch(t,x);});});
     if(allTiny||(rx&&(real.length===0||close))){p+=skip+nx.r[1];k=nx.m+nx.r[0];continue;}
     problem=p;break;}
-  return {p:p,problem:problem,trail:Math.max(0,heard.length-k)};}
+  return {p:p,problem:problem,trail:Math.max(0,heard.length-k),k:k};}
 
 /* ================= content ================= */
 var SETTINGS=[
@@ -487,13 +534,148 @@ var BADGES=[
  ['days','3-Day Detective','📅',function(){return S.dayStreak>=3;}],
  ['pup','Puppy Rescuer','🐶',function(){return (S.pupSaved||0)>=1;}],
  ['hunter','Word Hunter','🔍',function(){return S.skills.hunt.first>=15;}],
+ ['arcade','Arcade Star','🕹️',function(){return Object.keys(S.arcade||{}).length>=5;}],
+ ['blast','Lightning Brain','⚡',function(){return ((S.arcade||{}).blaster||{}).best>=250;}],
  ['top','Top Secret Level','🗝️',function(){return ['mult','div','spell'].some(function(k){return S.skills[k].lvl>=3;});}]
 ];
+
+/* ================= GRADE LEVELS =================
+   Each subject has its own grade (set only in the grown-up report). Inside a grade there are 3 steps
+   that move up and down as she plays. Grade numbers are never shown on kid screens. */
+function gr(k){var g=(S.grade&&S.grade[k])||({math:3,spell:2,read:1})[k];return Math.max(1,Math.min(5,g|0));}
+function band(g){return g<=1?1:g<=3?2:3;}
+function fill(t,v,extra){return String(t).replace(/\{v\}/g,v).replace(/\{s\}/g,extra||'');}
+
+/* ---------- math facts (Safe Cracker / Gate Code / Fact Blaster) ---------- */
+function genMath(g,L){var a,b,op='×',miss=false,t;
+  if(g===1){op=L===1?'+':pick(['+','-']);a=L===1?rnd(1,5):L===2?rnd(2,10):rnd(6,18);b=L===1?rnd(1,5):L===2?rnd(1,9):rnd(2,9);
+    if(op==='-'&&b>a){t=a;a=b;b=t;}if(op==='-'&&a===b)a++;}
+  else if(g===2){if(L===1){op=pick(['+','-']);a=rnd(11,59);b=rnd(1,9);}
+    else if(L===2){op=pick(['+','-']);a=rnd(21,79);b=op==='+'?rnd(11,99-a):rnd(11,a-1);}
+    else{op='×';a=pick([2,5,10]);b=rnd(1,10);}}
+  else if(g===3){if(L===1){a=pick([1,2,5,2,5,3]);b=rnd(1,5);}else if(L===2){a=rnd(2,5);b=rnd(1,10);}else{a=rnd(2,5);b=rnd(2,10);miss=Math.random()<.5;}}
+  else if(g===4){if(L===1){a=rnd(6,9);b=rnd(2,9);}else if(L===2){a=rnd(11,30);b=rnd(2,5);}else{a=rnd(12,99);b=rnd(3,9);}}
+  else{if(L===1){a=rnd(101,399);b=rnd(2,5);}else if(L===2){a=rnd(11,19);b=rnd(11,19);}else{a=rnd(12,45);b=rnd(12,25);}}
+  if(op==='×'&&!miss&&g<=3&&Math.random()<.4){t=a;a=b;b=t;}
+  var ans=op==='+'?a+b:op==='-'?a-b:a*b;
+  if(miss)return {q:a+' × ? = '+ans,a:b,key:a+'×'+b,op:'×',x:a,y:b,miss:true,full:a+' × '+b+' = '+ans};
+  return {q:a+' '+op+' '+b+' =',a:ans,key:a+op+b,op:op,x:a,y:b,miss:false,full:a+' '+op+' '+b+' = '+ans};}
+function dotsHTML(n,cols,cls){var h='<div class="dots" style="grid-template-columns:repeat('+Math.min(cols,10)+',14px)">';for(var j=0;j<n;j++)h+='<i class="'+(cls?cls(j):'')+'" style="animation-delay:'+(j*.02)+'s"></i>';return h+'</div>';}
+function mathHint(P){var x=P.x,y=P.y,h='';
+  if(P.op==='+'){if(x+y<=20)return '<p>Count them all!</p>'+dotsHTML(x+y,10,function(j){return j<x?'':'pk';});
+    var tx=Math.floor(x/10)*10,ty=Math.floor(y/10)*10;return '<p>Tens first: <b>'+tx+' + '+ty+' = '+(tx+ty)+'</b>. Then ones: <b>'+(x%10)+' + '+(y%10)+' = '+(x%10+y%10)+'</b>. Put them together!</p>';}
+  if(P.op==='-'){if(x<=20)return '<p>Start with '+x+'. Take away '+y+'. How many are left?</p>'+dotsHTML(x,10,function(j){return j>=x-y?'gone':'';});
+    return '<p>Count back from <b>'+x+'</b>: take away <b>'+(Math.floor(y/10)*10)+'</b>, then <b>'+(y%10)+'</b> more.</p>';}
+  var small=x<=10&&y<=10;
+  if(small||P.miss){var tbl=P.miss?x:Math.min(x,y),times=P.miss?y:Math.max(x,y);if(!P.miss&&Math.min(x,y)===0){tbl=1;}
+    var sk='';for(var i=1;i<=times;i++)sk+='<span style="animation-delay:'+(i*.12)+'s">'+(tbl*i)+'</span>';
+    return '<p>Count by '+tbl+'s, '+times+' times:</p><div class="skip">'+sk+'</div>';}
+  var big=Math.max(x,y),sm=Math.min(x,y);
+  if(sm>=10){var tens=Math.floor(sm/10)*10,ones=sm%10;return '<p>Break it apart: <b>'+big+' × '+tens+' = '+(big*tens)+'</b> and <b>'+big+' × '+ones+' = '+(big*ones)+'</b>. Add them!</p>';}
+  var parts=[],rest=big,place=1;while(rest>0){var dgt=rest%10;if(dgt)parts.unshift(dgt*place);rest=Math.floor(rest/10);place*=10;}
+  return '<p>Break it apart: '+parts.map(function(pt){return '<b>'+pt+' × '+sm+' = '+(pt*sm)+'</b>';}).join(', ')+'. Add them up!</p>';}
+var MATH_LBL={1:['Adding within 10','Adding & taking away within 20','Adding & taking away, bigger numbers'],
+ 2:['2-digit ± 1-digit','2-digit ± 2-digit','×2, ×5, ×10'],3:['×1, ×2, ×5 small facts','×1 to ×5 tables','Missing numbers (4 × ? = 20)'],
+ 4:['×6 to ×9 facts','2-digit × 1-digit','Bigger 2-digit × 1-digit'],5:['3-digit × 1-digit','Teens × teens','2-digit × 2-digit']};
+
+/* ---------- division / sharing (Split the Loot / Split the Treats) ---------- */
+function genDiv(g,L){var d,q,r=0,N;
+  if(g===1){d=L===1?2:L===2?pick([2,3]):pick([2,3,4]);q=rnd(1,5);}
+  else if(g===2){if(L===1){d=pick([2,5,10]);q=rnd(1,5);}else if(L===2){d=rnd(2,5);q=rnd(1,5);}else{d=rnd(2,5);q=rnd(2,10);}}
+  else if(g===3){if(L===1){d=pick([1,2,5,2,5]);q=rnd(1,5);}else if(L===2){d=rnd(2,5);q=rnd(2,10);}
+    else{d=rnd(2,5);var tens=[],ones=[];for(var t=d;t<=9;t+=d)tens.push(t);for(var o=0;o<=9;o+=d)ones.push(o);N=pick(tens)*10+pick(ones);q=N/d;}}
+  else if(g===4){if(L===1){d=rnd(6,9);q=rnd(2,9);}else if(L===2){d=rnd(2,5);q=rnd(2,9);r=rnd(1,d-1);}else{d=rnd(3,9);N=rnd(20,99);q=Math.floor(N/d);r=N%d;}}
+  else{if(L===1){d=rnd(2,9);q=rnd(Math.ceil(100/d),Math.floor(999/d));}else if(L===2){d=rnd(2,9);q=rnd(Math.ceil(100/d),Math.floor(990/d));r=rnd(1,d-1);}else{d=rnd(3,9);N=rnd(100,999);q=Math.floor(N/d);r=N%d;}}
+  N=d*q+r;return {N:N,d:d,q:q,r:r,ans:r?q+' R'+r:String(q),dots:N<=30,key:N+'÷'+d};}
+var DIV_LBL={1:['Share into 2 groups','Share into 2 or 3 groups','Share into 2 to 4 groups'],2:['÷2, ÷5, ÷10','÷2 to ÷5, small','÷2 to ÷5 facts'],
+ 3:['÷1, ÷2, ÷5 small facts','÷2 to ÷5 facts','2-digit ÷ 1-digit (36 ÷ 3)'],4:['÷6 to ÷9 facts','Division with leftovers (R)','2-digit ÷ 1-digit with leftovers'],
+ 5:['3-digit ÷ 1-digit','3-digit ÷ 1-digit with leftovers','Any 3-digit ÷ 1-digit']};
+
+/* ---------- spelling words (Code Breaker / Word Scramble) ---------- */
+var SPELL={
+ 1:[['cat','dog','sun','hat','pig','bed','cup','map','red','big','run','hop','bus','fan'],['fish','ship','duck','frog','jump','hand','milk','stop','bath','chin','sock','swim'],['the','said','was','you','they','have','come','what','are','some','from','give']],
+ 2:[['stop','jump','fast','help','last','clap','step','drum','mask','shop','much','spot','trap','plan','sniff','grab'],['rain','train','snake','bike','smile','home','rope','green','sleep','clean','beach','boat','road','light','night','snow'],['could','would','should','there','where','which','again','every','before','around']],
+ 3:[['chase','sneak','track','bridge','catch','shout','float','crown','storm','sharp','sneaky','clue'],['friend','because','school','people','laugh','write','know','thought','found','listen'],['quiet','secret','question','enough','though','through','caught','answer','minute']],
+ 4:[['careful','kitchen','pencil','rocket','monkey','basket','garden','happen','winter','puzzle'],['believe','different','favorite','surprise','tomorrow','beginning','country','library'],['beautiful','island','guess','straight','knowledge','science','language','weight']],
+ 5:[['adventure','mystery','detective','evidence','suspect','discover','explore','imagine'],['separate','receive','neighbor','piece','weird','height','calendar','definitely'],['necessary','achieve','occasion','recommend','rhythm','conscience','embarrass','privilege']]};
+var SPELL_LBL={1:['Short words (cat, sun)','Words with sh, ch, blends','First sight words (said, they)'],2:['Short-vowel blends (jump, clap)','Long vowels (rain, light)','Tricky words (could, where)'],
+ 3:['Harder blends (bridge, storm)','Sight words (friend, because)','Tough words (enough, through)'],4:['Two-syllable words (pencil, garden)','Longer words (believe, library)','Tricky words (beautiful, island)'],
+ 5:['Big words (mystery, evidence)','Rule breakers (receive, weird)','Hardest words (necessary, rhythm)']};
+function spellPool(g,L){return SPELL[g][L-1];}
+
+/* ---------- word hunt words ---------- */
+var HUNTG={1:['dog','pup','sit','dig','run','mud','bed','paw','wag','hug','nap','fun','sun','hop','pet','toy'],
+ 2:['dog','pup','dig','run','mud','paw','wag','hug','nap','bone','ball','bark','lick','home','tail','jump','play','walk','food','dish','bath'],
+ 3:['bone','ball','bark','lick','home','tail','jump','play','walk','food','puppy','treat','sniff','happy','leash','grass','smile','sleep'],
+ 4:['puppy','treat','sniff','happy','leash','smile','collar','garden','rabbit','kitten','window','paws','bark','bone','fetch'],
+ 5:['blanket','pillow','whistle','puddle','feather','kennel','playful','gentle','journey','mystery','collar','rescue','fetch','garden']};
+var HUNT_LBL=['Small grid','Medium grid','Big grid with diagonals'];
+
+/* ---------- reading: witness statements & clues by grade ---------- */
+var RWIT={
+ jacket:{1:'I saw a {v} coat.',2:'I saw a kid in a {v} jacket run by.',3:'A kid in a bright {v} jacket ran past the lockers.',4:'Someone wearing a {v} jacket hurried past the lockers and disappeared.',5:'I noticed someone in a {v} jacket sprinting through the hallway right before the alarm went off.'},
+ shoes:{1:{boots:'I saw big boots.',sneakers:'I saw sneakers.',sandals:'I saw sandals.'},
+  2:{boots:'I heard big boots stomp down the hall.',sneakers:'I heard sneakers squeak down the hall.',sandals:'I heard sandals flip and flop down the hall.'},
+  3:{boots:'I heard heavy boots stomping down the hallway.',sneakers:'I heard sneakers squeaking on the shiny floor.',sandals:'I heard sandals slapping on the tile floor.'},
+  4:{boots:'Moments later, I heard heavy boots thumping down the empty hallway.',sneakers:'Moments later, I heard sneakers squeaking across the freshly mopped floor.',sandals:'Moments later, I heard sandals slapping against the cold tile floor.'},
+  5:{boots:'Then I distinctly heard the thud of heavy boots echoing down the corridor.',sneakers:'Then I distinctly heard the squeak of sneakers echoing down the corridor.',sandals:'Then I distinctly heard the slap of sandals echoing down the corridor.'}},
+ extra:{1:{glasses:'They had on glasses.',cap:'They had on a cap.',headphones:'They had on headphones.'},
+  2:{glasses:'Their glasses were shining in the light.',cap:'They had a cap pulled down low.',headphones:'They had big headphones on their ears.'},
+  3:{glasses:'The light bounced off their glasses.',cap:'Their cap was pulled down low over their eyes.',headphones:'They had huge headphones covering their ears.'},
+  4:{glasses:'I could see their glasses reflecting the light from the hallway.',cap:'A baseball cap hid most of their face.',headphones:'They were wearing enormous headphones and bobbing their head.'},
+  5:{glasses:'Their glasses glinted beneath the flickering ceiling lights.',cap:'A cap was tugged so low that I could barely see their face.',headphones:'Oversized headphones were clamped over their ears the entire time.'}},
+ pet:{1:{dog:'I saw dog hair.',cat:'I saw cat hair.',bird:'I saw a bird feather.'},
+  2:{dog:'They smelled like a dog.',cat:'They had cat hair on them.',bird:'A bird feather fell off of them.'},
+  3:{dog:'They smelled like a wet dog!',cat:'They had cat hair on their pants.',bird:'A little bird feather fell off of them.'},
+  4:{dog:'Their sweater was covered in fuzzy dog hair, and they smelled like a wet puppy.',cat:'Their dark pants were covered with white cat hair.',bird:'A bright feather from a pet bird drifted off their sleeve.'},
+  5:{dog:'Their clothes were practically coated in dog hair, as if they had just wrestled a golden retriever.',cat:'Their clothes were practically coated in cat hair, as if they had just been cuddling a kitten.',bird:'A brilliant green feather from a pet bird drifted off their sleeve.'}}};
+var RCLUE={
+ jacket:{1:'The thief had a {v} coat.',2:'The thief had on a {v} jacket.',3:'We found a {v} thread stuck on the door.',4:'A tiny {v} thread was caught on the broken latch.',5:'Investigators discovered {v} fibers tangled in the window frame.'},
+ shoes:{1:'We found {s} prints.',2:'We found {s} prints in the mud.',3:'Muddy {s} prints led toward the exit.',4:'A trail of muddy {s} prints led straight to the back door.',5:'Forensic photos reveal a clear {s} print beside the display case.'},
+ extra:{1:{glasses:'The thief had glasses.',cap:'The thief had a cap.',headphones:'The thief had headphones.'},2:'The thief was wearing {s}.',3:'A security camera shows the thief wearing {s}.',4:'The blurry security video shows someone wearing {s}.',5:'Security footage confirms the suspect was wearing {s}.'},
+ pet:{1:{dog:'We found dog hair.',cat:'We found cat hair.',bird:'We found a bird feather.'},2:{dog:'There was dog hair on the floor.',cat:'There was cat hair on the floor.',bird:'We found a bird feather on the floor.'},
+  3:{dog:'Dog hair was found near the scene.',cat:'Cat hair was found near the scene.',bird:'A bird feather was found near the scene.'},
+  4:{dog:'Detectives found dog hair stuck to the empty shelf.',cat:'Detectives found cat hair stuck to the empty shelf.',bird:'Detectives found a bird feather stuck to the empty shelf.'},
+  5:{dog:'Lab tests confirm the hairs left behind came from a dog.',cat:'Lab tests confirm the hairs left behind came from a cat.',bird:'Lab tests confirm the feather left behind came from a pet bird.'}}};
+var RSUB={shoes:{boots:'boot',sneakers:'sneaker',sandals:'sandal'},extra:{glasses:'glasses',cap:'a cap',headphones:'headphones'}};
+function pickTpl(tbl,a,v,g){var t=tbl[a][g];if(typeof t==='object')t=t[v];return fill(t,v,RSUB[a]&&RSUB[a][v]);}
+function readWit(a,v,g){return pickTpl(RWIT,a,v,g);}
+function readClue(a,v,g){return pickTpl(RCLUE,a,v,g);}
+var FLAVORG={1:['I was at the {place}.','It was dark.','I saw it fast.','I had a snack.','I was by the door.'],
+ 2:['I was by the {place} at lunch.','It was dark and I was scared.','I only saw them for a second.','I was eating my snack.'],
+ 3:['I was near the {place} during lunch.','It was dark and I was a little scared.','I only saw them for one second.','I was looking for my lost pencil.'],
+ 4:['I was walking past the {place} right after lunch.','The lights flickered, and I felt a little nervous.','Everything happened so quickly that I almost missed it.'],
+ 5:['I was heading toward the {place} when I noticed something unusual.','The hallway was strangely quiet, which made me suspicious.','At first I thought it was a prank, but then I realized something was missing.']};
+function caseIntro(st,g){if(g===1)return 'Someone took '+st.item+'! Find 4 clues. Then catch the thief!';
+  if(g>=4)return 'Someone stole '+st.item+' from the '+st.place+'. Gather four clues, study the evidence, and catch the thief!';
+  return 'Someone took '+st.item+' from the '+st.place+'! Find 4 clues. Then catch the thief.';}
+/* puppy case by reading band */
+var PWIT={
+ paws:{1:'I saw {v} on his paws.',2:'I saw {v} all over his little paws.',3:'His paws were caked with {v}, like he had been digging for hours.'},
+ sound:{1:{ducks:'I heard a duck go quack.',cows:'I heard a cow go moo.',kids:'I heard kids play and yell.',birds:'I heard a bird go tweet.'},
+  2:{ducks:'Then I heard a duck quack by the water.',cows:'Then I heard a cow moo by the barn.',kids:'Then I heard kids laughing and playing.',birds:'Then I heard birds singing in the trees.'},
+  3:{ducks:'A moment later, I heard ducks quacking loudly near the water.',cows:'A moment later, I heard cows mooing from somewhere nearby.',kids:'A moment later, I heard a crowd of kids cheering and laughing.',birds:'A moment later, I heard birds chirping all around the tall trees.'}},
+ toy:{1:{stick:'He had a big stick.',ball:'He had a red ball.'},2:{stick:'He was carrying a big stick in his mouth.',ball:'He was carrying a red ball in his mouth.'},3:{stick:'He was proudly carrying an enormous stick in his mouth.',ball:'He was proudly carrying a slobbery red ball in his mouth.'}},
+ smell:{1:'He smelled like {v}!',2:'He smelled just like {v}!',3:'Honestly, he smelled exactly like {v}!'}};
+var PCLUE={
+ paws:{1:'Jax has {v} on his paws.',2:'Jax had {v} stuck between his toes.',3:'Tiny paw prints made of {v} lead away from Gigi’s house.'},
+ sound:{1:'Jax ran to the {v}.',2:'Someone saw Jax run toward the {v}.',3:'A neighbor spotted Jax racing toward the {v}.'},
+ toy:{1:'Jax had a {v}.',2:'Jax was seen carrying a {v}.',3:'A neighbor noticed Jax carrying a {v}.'},
+ smell:{1:'Jax smells like {v}.',2:'Jax smelled like {v}.',3:'Gigi’s friend says Jax smelled strongly of {v}.'}};
+var PFLAV={1:['I live by Gigi.','I saw a little pup.','He ran by my house.','He was so fast!','He had a red tag.'],
+ 2:['I live right next door to Gigi.','I saw a little puppy with a red collar.','He ran past my house really fast.'],
+ 3:['I live right next door to Gigi, so I know Jax well.','I was raking leaves when a little puppy zoomed past me.','I tried to call him, but he was having too much fun to listen.']};
+var PINTRO={1:'Oh no! Jax the puppy is lost. Gigi misses him a lot. Find 4 clues. Then help Gigi bring Jax home!',
+ 2:'Oh no! Jax the puppy ran away, and Gigi misses him so much. Find 4 clues, then help Gigi bring Jax home!',
+ 3:'Oh no! Jax the puppy slipped out of the yard, and Gigi is worried sick. Collect four clues, figure out where he went, and help Gigi bring him home!'};
+function lvlText(k){var g=k==='mult'||k==='div'?gr('math'):k==='read'?gr('read'):gr('spell'),L=S.skills[k].lvl;
+  var t=k==='mult'?MATH_LBL[g][L-1]:k==='div'?DIV_LBL[g][L-1]:k==='spell'?SPELL_LBL[g][L-1]:k==='hunt'?HUNT_LBL[L-1]:'Witness statements';
+  return 'Grade '+g+(k==='read'?'':' · step '+L+' of 3')+'<br><span style="color:var(--muted)">'+esc(t)+'</span>';}
 
 /* ================= HUD / fx ================= */
 var shownPts=0,ptsAnim=null;
 function setHUD(on){$('#hud').hidden=!on;}
-$('#homeBtn').onclick=function(){stopAllMic();SFX.tap();renderHome();};
+$('#homeBtn').onclick=function(){var arc=C&&C.kind==='arcade';stopAllMic();clearInterval(ARC_T);ARC_T=null;SFX.tap();if(arc)renderArcade();else renderHome();};
 function syncMute(){$('#muteBtn').textContent=S.muted?'🔇':'🔊';}
 $('#muteBtn').onclick=function(){S.muted=!S.muted;persist();syncMute();SFX.tap();};
 syncMute();
@@ -526,7 +708,7 @@ function result(skill,firstTry,key,el){var sk=S.skills[skill];sk.att++;C.qsDone+
 function checkBadges(){var news=[];BADGES.forEach(function(b){if(S.badges.indexOf(b[0])<0&&b[3]()){S.badges.push(b[0]);news.push(b);}});persist();return news;}
 
 /* ================= HOME ================= */
-function renderHome(){C=null;setHUD(false);try{speechSynthesis.cancel();}catch(e){}
+function renderHome(){stopAllMic();clearInterval(ARC_T);ARC_T=null;C=null;setHUD(false);try{speechSynthesis.cancel();}catch(e){}
   var r=rankOf(S.cases);var next=RANKS.find(function(x){return x[0]>S.cases;});
   var badgeHTML=BADGES.map(function(b){var got=S.badges.indexOf(b[0])>=0;return '<div class="bdg'+(got?' got':'')+'"><i>'+b[2]+'</i>'+(got?esc(b[1]):'???')+'</div>';}).join('');
   var arc=S.archive.slice(-5).reverse().map(function(a){return '<div class="arc"><span>#'+String(a.no).padStart(3,'0')+' '+esc(a.title)+'</span><span>'+(a.kind==='pup'?'found <b>Jax</b> 🐶':'caught <b>'+esc(a.culprit)+'</b>')+'</span></div>';}).join('')||'<p class="line1" style="text-align:left">No cases closed yet. Your first one is waiting.</p>';
@@ -536,6 +718,7 @@ function renderHome(){C=null;setHUD(false);try{speechSynthesis.cancel();}catch(e
    (next?'<div class="line1" style="text-align:inherit">'+(next[0]-S.cases)+' more case'+(next[0]-S.cases===1?'':'s')+' to make '+esc(next[1])+'</div>':'')+
    '</div></section>'+
    '<button class="btn pink big" id="newCase" style="font-size:28px;min-height:84px">📂 Open a new case</button>'+
+   '<button class="arc-entry" id="arcBtn"><span aria-hidden="true">🕹️</span><span><b>Arcade</b><span>Quick mini games</span></span></button>'+
    '<button class="pup-case" id="pupCase"><span class="pc-em" aria-hidden="true">🐶</span><span class="pc-txt"><span class="pc-tag">SPECIAL CASE</span><b>The Missing Puppy</b><span>Help Gigi find Jax!'+((S.pupSaved||0)>0?' · Saved '+S.pupSaved+'×':'')+'</span></span></button>'+
    '<div class="stats"><div class="stat"><b>'+S.cases+'</b><span>cases closed</span></div><div class="stat"><b>'+S.bestStreak+'</b><span>best streak</span></div><div class="stat"><b>'+S.dayStreak+'</b><span>days in a row</span></div><div class="stat"><b>'+S.wordsRead+'</b><span>words read</span></div></div>'+
    '<section class="card"><h2 class="h2">BADGES</h2><div class="badges">'+badgeHTML+'</div></section>'+
@@ -543,6 +726,7 @@ function renderHome(){C=null;setHUD(false);try{speechSynthesis.cancel();}catch(e
    '<div class="row" style="justify-content:center;gap:4px"><button class="link" id="grown">Grown-up report</button><span style="color:var(--muted);font-size:13px">'+VERSION+'</span></div>';
   $('#newCase').onclick=function(){ac();SFX.tap();startCase();};
   $('#pupCase').onclick=function(){ac();SFX.tap();startCase('pup');};
+  $('#arcBtn').onclick=function(){ac();SFX.tap();renderArcade();};
   $('#grown').onclick=renderGrown;
 }
 
@@ -562,11 +746,13 @@ function makeCase(){S.caseNo++;
     break;}
   var stations=order.map(function(type,i){var a=attrs[i],v=cul.t[a];
     var st={type:type,attr:a,done:false};
-    if(type==='read'){st.flavor=pick(FLAVOR).replace('{place}',setting.place);st.wit=TR[a].wit(v);st.clue='Witness: “'+st.wit+'”';}
-    else st.clue=TR[a].clue(v);
+    var g=gr('read');
+    if(type==='read'){st.flavor=pick(FLAVORG[g]).replace('{place}',setting.place);st.wit=readWit(a,v,g);st.clue='Witness: “'+st.wit+'”';}
+    else st.clue=readClue(a,v,g);
     return st;});
   return {no:S.caseNo,setting:setting,stations:stations,suspects:shuffle(sus),culprit:cul,points:0,hints:0,streak:0,qsDone:0,
     learned:{mult:[],div:[],spell:[],read:0,hunt:[]},levelUps:[],clues:[],closed:false};}
+function pupText(tbl,a,v,b){var t=tbl[a][b];if(typeof t==='object')t=t[v];return fill(t,v);}
 function makePupCase(){S.caseNo++;
   var attrs=shuffle(PUP_ATTRS),places,ans;
   for(var t=0;t<600;t++){places=shuffle(PUP_PLACES).slice(0,3);ans=places[0];var others=places.slice(1);
@@ -576,8 +762,9 @@ function makePupCase(){S.caseNo++;
     break;}
   var order=shuffle(['hunt','read','mult','div']);
   var stations=order.map(function(type,i){var a=attrs[i],v=ans.t[a];var st={type:type,attr:a,done:false};
-    if(type==='read'){st.flavor=pick(PUP_FLAVOR);st.wit=PUP_TR[a].wit(v);st.clue='Gigi’s friend: “'+st.wit+'”';}
-    else st.clue=PUP_TR[a].clue(v);
+    var b=band(gr('read'));
+    if(type==='read'){st.flavor=pick(PFLAV[b]);st.wit=pupText(PWIT,a,v,b);st.clue='Gigi’s friend: “'+st.wit+'”';}
+    else st.clue=pupText(PCLUE,a,v,b);
     return st;});
   return {kind:'pup',no:S.caseNo,setting:PUP_SETTING,stations:stations,suspects:shuffle(places),culprit:ans,tr:PUP_TR,attrList:PUP_ATTRS,
     stNames:{mult:{name:'Gate Code',icon:'🔐'},div:{name:'Split the Treats',icon:'🦴'},read:{name:'Gigi’s Friend',icon:'🎙️'},hunt:STATIONS.hunt},
@@ -590,7 +777,7 @@ function caseAttrs(){return (C&&C.attrList)||ATTRS;}
 function chipsHTML(s,flagAttr){var T=caseTR();return caseAttrs().map(function(k){return '<span class="chip'+(flagAttr===k?' bad':'')+'" data-k="'+k+'">'+T[k].chip(s.t[k])+'</span>';}).join('');}
 function suspectsHTML(mini,flag){return C.suspects.map(function(s,i){return '<div class="suspect pop-in'+(mini?' mini':'')+'" data-i="'+i+'" style="animation-delay:'+(i*.12)+'s"><div class="av">'+s.av+'</div><div class="nm">'+esc(s.name)+'</div><div class="chips">'+chipsHTML(s,flag&&flag.i===i?flag.k:null)+'</div></div>';}).join('');}
 
-function renderIntro(){if(C.kind==='pup'){renderPupIntro();return;}var st=C.setting;var intro='Someone took '+st.item+' from the '+st.place+'! Find 4 clues. Then catch the thief.';
+function renderIntro(){if(C.kind==='pup'){renderPupIntro();return;}var st=C.setting;var intro=caseIntro(st,gr('read'));
   stage.innerHTML='<div class="paper center" style="gap:10px"><div class="clue-no">CASE #'+String(C.no).padStart(3,'0')+' · TOP SECRET</div><h1 class="big" style="font-size:clamp(30px,7vw,46px);margin:0">'+esc(st.title)+'</h1><p style="font-size:21px;margin:0;max-width:34ch">'+esc(intro)+'</p><button class="btn alt" id="hearIntro" style="min-height:52px;font-size:18px;color:var(--text)">🔊 Hear it</button></div>'+
    '<h2 class="h2" style="text-align:center;margin:4px 0 0">THE SUSPECTS</h2><div class="suspects">'+suspectsHTML(false)+'</div>'+
    '<button class="btn big" id="take" style="font-size:26px">Take the case</button>';
@@ -598,7 +785,7 @@ function renderIntro(){if(C.kind==='pup'){renderPupIntro();return;}var st=C.sett
   $('#take').onclick=function(){SFX.tap();renderBoard();};
   SFX.unlock();}
 
-function renderPupIntro(){var intro='Oh no! Jax the puppy is lost. Gigi misses him a lot. Find 4 clues. Then help Gigi bring Jax home!';
+function renderPupIntro(){var intro=PINTRO[band(gr('read'))];
   stage.innerHTML='<div class="paper center" style="gap:10px"><div class="clue-no">CASE #'+String(C.no).padStart(3,'0')+' · SPECIAL CASE</div><h1 class="big" style="font-size:clamp(30px,7vw,46px);margin:0">The Missing Puppy</h1>'+
    '<div class="pup-row" aria-hidden="true"><span>👵</span><span class="q">?</span><span>🐶</span></div>'+
    '<p style="font-size:22px;margin:0;max-width:30ch">'+esc(intro)+'</p><button class="btn alt" id="hearIntro" style="min-height:52px;font-size:18px;color:var(--text)">🔊 Hear it</button></div>'+
@@ -628,65 +815,60 @@ function clueReveal(st){var n=C.clues.length;SFX.unlock();confetti(50);
   hookHear($('#ct'));$('#pin').onclick=function(){SFX.tap();renderBoard();};}
 
 /* ================= SAFE CRACKER (× 1–5) ================= */
-function multStation(done){var sk=S.skills.mult,n=0,total=3,seen={};
+function multStation(done){var sk=S.skills.mult,n=0,total=3,seen={},g=gr('math');
   stage.innerHTML=stationHead('mult',total)+'<p class="line1">'+(C.kind==='pup'?'Type the code to open the gate.':'Type the answer to crack the safe.')+'</p><div class="safe" id="safe"><div class="dial" id="dial"></div><div class="lcd"><span id="q"></span><span class="ans" id="ans">&nbsp;</span></div><div class="lights" id="lights"><b></b><b></b><b></b></div></div><div id="hint"></div><div class="keypad" id="kp"></div>';
   var kp=$('#kp');[1,2,3,4,5,6,7,8,9,'⌫',0,'✓'].forEach(function(k){var b=document.createElement('button');b.className='key'+(k==='✓'?' go':'');b.textContent=k;b.setAttribute('aria-label',k==='⌫'?'delete':k==='✓'?'enter':String(k));b.onclick=function(){press(k);};kp.appendChild(b);});
-  var a,b,missing,answer,typed='',tries=0,rot=0;
-  function gen(){var L=sk.lvl,x,y,k=0;do{missing=false;
-      if(L===1){x=pick([1,2,5,2,5,3]);y=rnd(1,5);}else if(L===2){x=rnd(2,5);y=rnd(1,10);}else{x=rnd(2,5);y=rnd(2,10);missing=Math.random()<.5;}
-      k++;}while(seen[x+'x'+y]&&k<20);seen[x+'x'+y]=1;
-    a=x;b=y;if(!missing&&Math.random()<.4){a=y;b=x;}
-    answer=missing?(a===x?y:x):a*b;typed='';tries=0;
-    $('#q').textContent=missing?(a+' × ? = '+(a*b)):(a+' × '+b+' =');$('#ans').innerHTML='&nbsp;';$('#hint').innerHTML='';}
+  var P,typed='',tries=0,rot=0;
+  function gen(){var k=0;do{P=genMath(g,sk.lvl);k++;}while(seen[P.key]&&k<25);seen[P.key]=1;typed='';tries=0;
+    $('#q').textContent=P.q;$('#ans').innerHTML='&nbsp;';$('#hint').innerHTML='';}
   function press(k){SFX.type();rot+=36;$('#dial').style.transform='rotate('+rot+'deg)';
-    if(k==='⌫'){typed=typed.slice(0,-1);}else if(k==='✓'){check();return;}else if(typed.length<3){typed+=k;}
+    if(k==='⌫'){typed=typed.slice(0,-1);}else if(k==='✓'){check();return;}else if(typed.length<5){typed+=k;}
     $('#ans').innerHTML=typed?esc(typed):'&nbsp;';}
-  function factLabel(){var t=Math.min(a,b)<=5&&Math.max(a,b)>5?Math.min(a,b):(a<=b?a:b);return t;}
-  function check(){if(!typed)return;var v=+typed;var tbl=a<=5?a:b,times=a<=5?b:a;var prod=a*b;
-    if(v===answer){SFX.good();n++;pip(n);$$('#lights b')[n-1].classList.add('on');rot+=360;$('#dial').style.transform='rotate('+rot+'deg)';
-      C.learned.mult.push(missing?(a+' × '+answer+' = '+prod):(a+' × '+b+' = '+prod));
-      result('mult',tries===0,a+'×'+b,$('#safe'));
+  function check(){if(!typed)return;var v=+typed;
+    if(v===P.a){SFX.good();n++;pip(n);$$('#lights b')[n-1].classList.add('on');rot+=360;$('#dial').style.transform='rotate('+rot+'deg)';
+      C.learned.mult.push(P.full);result('mult',tries===0,P.key,$('#safe'));
       if(n>=total){setTimeout(function(){$('#q').textContent='OPEN!';$('#ans').innerHTML='🔓';SFX.unlock();setTimeout(done,900);},400);}else setTimeout(gen,650);
       return;}
     tries++;SFX.nudge();var safe=$('#safe');safe.classList.remove('wobble');void safe.offsetWidth;safe.classList.add('wobble');typed='';$('#ans').innerHTML='&nbsp;';
-    if(missing){tbl=a;times=answer;}
-    var skip='';for(var i=1;i<=times;i++)skip+='<span style="animation-delay:'+(i*.12)+'s">'+(tbl*i)+'</span>';
-    if(tries===1){$('#hint').innerHTML='<div class="hintbox"><p>So close! Count by '+tbl+'s, '+times+' times:</p><div class="skip">'+skip+'</div></div>';}
-    else{var dots='<div class="dots" style="grid-template-columns:repeat('+Math.max(tbl,1)+',14px)">';for(var j=0;j<tbl*times;j++)dots+='<i style="animation-delay:'+(j*.02)+'s"></i>';dots+='</div>';
-      $('#hint').innerHTML='<div class="hintbox"><p>The code is <b style="font-size:28px;color:var(--hi)">'+answer+'</b>. Type it in!</p>'+(missing?'':dots)+'</div>';}}
+    if(tries===1)$('#hint').innerHTML='<div class="hintbox">'+mathHint(P)+'</div>';
+    else $('#hint').innerHTML='<div class="hintbox"><p>The code is <b style="font-size:28px;color:var(--hi)">'+P.a+'</b>. Type it in!</p></div>';}
   gen();}
 
 /* ================= SPLIT THE LOOT (÷) ================= */
-function divStation(done){var sk=S.skills.div,n=0,total=3,seen={};var loot=C.setting.loot;
-  stage.innerHTML=stationHead('div',total)+'<p class="line1">'+(C.kind==='pup'?'How many treats go in each bowl?':'Split it fair. How many in each bag?')+'</p><p class="eq" id="eq"></p><p class="line1" id="story" style="color:var(--text)"></p><div class="loot" id="loot"></div><div class="bags" id="bags"></div><div id="hint"></div><div class="choices" id="ch"></div>';
-  var d,q,N,tries=0,big=false;
-  function gen(){var L=sk.lvl,k=0;do{big=false;
-      if(L===1){d=pick([1,2,5,2,5]);q=rnd(1,5);}else if(L===2){d=rnd(2,5);q=rnd(2,10);}
-      else{big=true;d=rnd(2,5);var tens=[],ones=[];for(var t=d;t<=9;t+=d)tens.push(t);for(var o=0;o<=9;o+=d)ones.push(o);var T=pick(tens),O=pick(ones);N=T*10+O;q=N/d;}
-      if(!big)N=d*q;k++;}while(seen[N+'/'+d]&&k<20);seen[N+'/'+d]=1;tries=0;
-    $('#eq').textContent=N+' ÷ '+d;var box=C.setting.box||'bag';$('#story').textContent=N+' '+loot+' into '+d+' '+box+(d>1?'s':'')+'.';
-    var dots='';if(!big)for(var i=0;i<N;i++)dots+='<i></i>';$('#loot').innerHTML=dots;
-    var bags='';for(var j=0;j<d;j++)bags+='<div class="bag"><div class="bdots"></div><b>?</b></div>';$('#bags').innerHTML=bags;$('#hint').innerHTML='';
-    var opts=[q];var cand=shuffle([q+1,q-1,q+2,q-2,d,q+10,q*2]).filter(function(x){return x>0&&x!==q;});
-    cand.forEach(function(x){if(opts.length<4&&opts.indexOf(x)<0)opts.push(x);});opts=shuffle(opts);
-    var ch=$('#ch');ch.innerHTML='';opts.forEach(function(v){var bt=document.createElement('button');bt.className='choice';bt.textContent=v;bt.dataset.v=v;bt.onclick=function(){answer(bt,v);};ch.appendChild(bt);});}
-  function fillBags(cls){var bagEls=$$('#bags .bag');$$('#loot i').forEach(function(x){x.style.opacity=.15;});
-    bagEls.forEach(function(bg,bi){var h='';if(!big)for(var i=0;i<q;i++)h+='<i style="background:var(--hi);animation-delay:'+((i*d+bi)*.04)+'s"></i>';$('.bdots',bg).innerHTML=h;$('b',bg).textContent=cls==='show'?q:'?';});}
-  function answer(bt,v){if(v===q){SFX.good();bt.classList.add('right');fillBags('show');n++;pip(n);C.learned.div.push(N+' ÷ '+d+' = '+q);result('div',tries===0,N+'÷'+d,bt);
+function divStation(done){var sk=S.skills.div,n=0,total=3,seen={},g=gr('math');var loot=C.setting.loot,box=C.setting.box||'bag';
+  stage.innerHTML=stationHead('div',total)+'<p class="line1">'+(C.kind==='pup'?'How many treats go in each bowl?':'Split it fair. How many in each '+box+'?')+'</p><p class="eq" id="eq"></p><p class="line1" id="story" style="color:var(--text)"></p><div class="loot" id="loot"></div><div class="bags" id="bags"></div><div id="hint"></div><div class="choices" id="ch"></div>';
+  var P,tries=0;
+  function opts(){var o=[P.ans],c=[],q=P.q,r=P.r,d=P.d;
+    if(!r){[q+1,q-1,q+2,q-2,d,q+10,q*2].forEach(function(x){if(x>0&&x!==q)c.push(String(x));});}
+    else{[[q,r+1],[q,r-1],[q+1,r],[q-1,r],[q+1,r-1],[q-1,r+1],[q,0]].forEach(function(x){if(x[0]>0&&x[1]>=0&&x[1]<d){var s=x[1]?x[0]+' R'+x[1]:String(x[0]);if(s!==P.ans)c.push(s);}});}
+    shuffle(c).forEach(function(x){if(o.length<4&&o.indexOf(x)<0)o.push(x);});return shuffle(o);}
+  function gen(){var k=0;do{P=genDiv(g,sk.lvl);k++;}while(seen[P.key]&&k<25);seen[P.key]=1;tries=0;
+    $('#eq').textContent=P.N+' ÷ '+P.d;$('#story').textContent=P.N+' '+loot+' into '+P.d+' '+box+(P.d>1?'s':'')+'.';
+    var dots='';if(P.dots)for(var i=0;i<P.N;i++)dots+='<i></i>';$('#loot').innerHTML=dots;
+    var bags='';for(var j=0;j<P.d&&j<10;j++)bags+='<div class="bag"><div class="bdots"></div><b>?</b></div>';
+    if(P.r)bags+='<div class="bag left"><div class="bdots"></div><b>left</b></div>';
+    $('#bags').innerHTML=bags;$('#hint').innerHTML='';
+    var ch=$('#ch');ch.innerHTML='';opts().forEach(function(v){var bt=document.createElement('button');bt.className='choice'+(P.r?' wide':'');bt.textContent=v;bt.dataset.v=v;bt.onclick=function(){answer(bt,v);};ch.appendChild(bt);});}
+  function fillBags(show){var bagEls=$$('#bags .bag:not(.left)');$$('#loot i').forEach(function(x){x.style.opacity=.15;});
+    bagEls.forEach(function(bg,bi){var hh='';if(P.dots)for(var i=0;i<P.q;i++)hh+='<i style="background:var(--hi);animation-delay:'+((i*P.d+bi)*.04)+'s"></i>';$('.bdots',bg).innerHTML=hh;$('b',bg).textContent=show?P.q:'?';});
+    var lf=$('#bags .bag.left');if(lf){var lh='';if(P.dots)for(var j=0;j<P.r;j++)lh+='<i style="background:var(--pin)"></i>';$('.bdots',lf).innerHTML=lh;$('b',lf).textContent=show?P.r+' left':'left';}}
+  function answer(bt,v){if(v===P.ans){SFX.good();bt.classList.add('right');fillBags(true);n++;pip(n);C.learned.div.push(P.N+' ÷ '+P.d+' = '+P.ans);result('div',tries===0,P.key,bt);
       $$('#ch .choice').forEach(function(c){c.disabled=true;});
       if(n>=total)setTimeout(done,1100);else setTimeout(gen,1200);return;}
     tries++;SFX.nudge();bt.classList.add('dim');bt.disabled=true;
-    if(tries===1){if(big){var T=Math.floor(N/10)*10,O=N%10;$('#hint').innerHTML='<div class="hintbox"><p>Split the tens first: <b>'+T+' ÷ '+d+' = '+(T/d)+'</b>.</p><p>Then the ones: <b>'+O+' ÷ '+d+' = '+(O/d)+'</b>. Add them up!</p></div>';}
-      else{fillBags('hint');$('#hint').innerHTML='<div class="hintbox"><p>Deal them out one at a time. Count one bag!</p></div>';}}
-    else{$$('#ch .choice').forEach(function(c){if(+c.dataset.v===q)c.classList.add('glow');});$('#hint').innerHTML='<div class="hintbox"><p>Each bag gets <b>'+q+'</b>. Tap it!</p></div>';}}
+    if(tries===1){
+      if(P.dots){fillBags(false);$('#hint').innerHTML='<div class="hintbox"><p>Deal them out one at a time. Count one '+box+'!'+(P.r?' The extras that don’t fit are the leftovers (R).':'')+'</p></div>';}
+      else if(!P.r&&P.N<100&&Math.floor(P.N/10)*10%P.d===0&&(P.N%10)%P.d===0){var T=Math.floor(P.N/10)*10,O=P.N%10;$('#hint').innerHTML='<div class="hintbox"><p>Split the tens first: <b>'+T+' ÷ '+P.d+' = '+(T/P.d)+'</b>.</p><p>Then the ones: <b>'+O+' ÷ '+P.d+' = '+(O/P.d)+'</b>. Add them up!</p></div>';}
+      else $('#hint').innerHTML='<div class="hintbox"><p>Think: <b>'+P.d+' × what</b> gets close to <b>'+P.N+'</b> without going over?'+(P.r?' Whatever is left over is the R.':'')+'</p></div>';}
+    else{$$('#ch .choice').forEach(function(c){if(c.dataset.v===P.ans)c.classList.add('glow');});$('#hint').innerHTML='<div class="hintbox"><p>Each '+box+' gets <b>'+P.q+'</b>'+(P.r?' with <b>'+P.r+'</b> left over':'')+'. Tap it!</p></div>';}}
   gen();}
 
 /* ================= CODE BREAKER (spelling) ================= */
-function spellStation(done){var sk=S.skills.spell,n=0,total=3;var pool=shuffle(WORDS[sk.lvl]);var used={};
+function spellStation(done){var sk=S.skills.spell,n=0,total=3,g=gr('spell');var used={};
   stage.innerHTML=stationHead('spell',total)+'<p class="line1">Listen. Build the secret password.</p><div class="center"><button class="hear" id="hear" aria-label="Hear the password">🔊</button></div><div class="slots" id="slots"></div><div class="tiles" id="tiles"></div><div id="hint"></div>';
   var word,pos,wrong,wrongRun;
   function speakWord(){say(word+'. '+(WSENT[word]?WSENT[word]+' ':'')+word+'.',{rate:.85});}
-  function gen(){var L=sk.lvl;word=pool.find(function(w){return !used[w];})||pick(WORDS[L]);used[word]=1;pos=0;wrong=0;wrongRun=0;
+  function gen(){var L=sk.lvl,pool=shuffle(spellPool(g,L));word=pool.find(function(w){return !used[w];})||pick(pool);used[word]=1;pos=0;wrong=0;wrongRun=0;
     var s='';for(var i=0;i<word.length;i++)s+='<div class="slot'+(i===0?' cur':'')+'"></div>';$('#slots').innerHTML=s;
     var letters=word.split('');var decoys=L===1?0:L===2?1:2;var pool2='aeioubdmnrst'.split('').filter(function(c){return word.indexOf(c)<0;});
     for(var k=0;k<decoys;k++)letters.push(pick(pool2));letters=shuffle(letters);
@@ -704,8 +886,8 @@ function spellStation(done){var sk=S.skills.spell,n=0,total=3;var pool=shuffle(W
   gen();}
 
 /* ================= WORD HUNT (word search) ================= */
-function buildHunt(L){var size=[6,7,8][L-1],count=[4,5,6][L-1],diag=L>=3;
-  var pool=L===1?HUNT_WORDS[1]:L===2?HUNT_WORDS[1].concat(HUNT_WORDS[2]):HUNT_WORDS[2].concat(HUNT_WORDS[3]);
+function buildHunt(L,g){g=g||gr('spell');var size=[6,7,8][L-1]+(g>=4?1:0),count=[4,5,6][L-1],diag=L>=3;
+  var pool=HUNTG[g].filter(function(w){return w.length<=size;});
   var words=['jax'];if(L>=2)words.push('gigi');
   shuffle(pool).forEach(function(w){if(words.length<count&&w.length<=size&&words.indexOf(w)<0)words.push(w);});
   var dirs=[[0,1],[1,0]];if(diag)dirs.push([1,1]);
@@ -787,8 +969,8 @@ function readStation(st,done){var sk=S.skills.read;var sents=[st.flavor,st.wit],
     for(var x=0;x<si;x++)pip(x+1);
     hookHear($('#stmt'));var spans=$$('#stmt .w');var ctrl=$('#ctrl');
     function paint(p){spans.forEach(function(s,i){if(s.classList.contains('fixed'))return;s.classList.toggle('ok',i<p);s.classList.toggle('now',i===p);});}
-    function finished(){listening=false;stopAllMic();paint(words.length);SFX.good();S.wordsRead+=words.length;C.learned.read+=words.length;
-      result('read',sentMiss===0,null,$('#stmt'));pip(si+1);
+    function finished(byButton){listening=false;stopAllMic();paint(words.length);SFX.good();S.wordsRead+=words.length;C.learned.read+=words.length;
+      result('read',sentMiss===0&&!byButton,null,$('#stmt'));pip(si+1);
       ctrl.innerHTML='<div class="big" style="color:var(--good);font-size:26px">Got it!</div>';
       setTimeout(function(){if(si<1){si++;render();}else done();},1100);}
 
@@ -801,53 +983,65 @@ function readStation(st,done){var sk=S.skills.read;var sents=[st.flavor,st.wit],
           else{tries++;SFX.nudge();b.classList.add('dim');b.disabled=true;var key=normWord(String(v));spans.forEach(function(s){var w=normWord(s.textContent);if(w===key||w.indexOf(key.slice(0,4))===0)s.classList.add('find');});$('#qh').innerHTML='<div class="hintbox"><p>Look at the yellow word!</p></div>';}};$('#qz').appendChild(b);});}
       return;}
 
-    /* --- mic mode --- */
-    var p=0,best=0,listening=false,fixing=false,rec=null,lastProg=Date.now(),heardSince=false,trailAt=0;
-    ctrl.innerHTML='<button class="mic" id="micBtn" aria-label="Start reading">🎙️</button><p class="status" id="status">Tap the mic, then read.</p><button class="link" id="noMic">Mic not working? Read without it</button>';
+    /* --- mic mode ---
+       Listens in short rounds (the way phones hear best) and carries words over between rounds,
+       so nothing is lost when the phone stops and starts listening. */
+    var best=0,anchor=0,committed=[],listening=false,fixing=false,lastProg=Date.now(),lastSound=0,trailAt=0,noise=0,helpShown=false;
+    ctrl.innerHTML='<button class="mic" id="micBtn" aria-label="Start reading">🎙️</button><p class="status" id="status">Tap the mic, then read.</p><div id="assist"></div><button class="link" id="noMic">Mic not working? Read without it</button>';
     $('#noMic').onclick=function(){micBroken=true;stopAll();toast('Okay! Tap mode is on.');render();};
     paint(0);
-    function fatal(err){return ['not-allowed','service-not-allowed','audio-capture','network','language-not-supported'].indexOf(err)>=0;}
+    function fatal(err){return ['not-allowed','service-not-allowed','audio-capture','language-not-supported'].indexOf(err)>=0;}
     function stopAll(){stopAllMic();}
     function micFail(){micBroken=true;stopAll();toast('Mic is off here, so we switched to tap mode.');setTimeout(render,600);}
     function setStatus(t){var s=$('#status');if(s)s.textContent=t;}
     function setGo(on){var mb=$('#micBtn');if(mb)mb.classList.toggle('go',!!on);}
-    /* every result: try each of the recognizer's guesses and keep the one that gets her furthest */
     function unjoin(t){return String(t).replace(/\bhotdog(s?)\b/gi,'hot dog$1');}
+    function tokensOf(t){return unjoin(t).split(/\s+/).map(normWord).filter(function(x){return x&&!FILLER[x];});}
     function showHeard(results){if(!S.micDebug)return;var el=$('#heard');if(!el)return;var t=[];for(var q=0;q<results.length;q++)t.push(results[q][0].transcript);el.textContent='Mic heard: '+t.join(' | ');}
-    function bestRead(results,start){var words=[],i,a,res;
-      for(i=0;i<results.length;i++){res=results[i];var pickW=null,pickP=-1,pickBad=1e9;
-        for(a=0;a<res.length;a++){var cand=unjoin(res[a].transcript).split(/\s+/).map(normWord).filter(function(t){return t&&!FILLER[t];});
-          var r=align(words.concat(cand),W,start);var bad=(r.problem>=0?100:0)+r.trail;
+    /* try each of the phone's guesses and keep whichever gets her furthest */
+    function roundTokens(results){var base=committed.slice(),i,a;
+      for(i=0;i<results.length;i++){var res=results[i],pickW=[],pickP=-1,pickBad=1e9;
+        for(a=0;a<res.length;a++){var cand=tokensOf(res[a].transcript);var r=align(base.concat(cand),W,anchor);var bad=(r.problem>=0?100:0)+r.trail;
           if(r.p>pickP||(r.p===pickP&&bad<pickBad)){pickP=r.p;pickBad=bad;pickW=cand;}}
-        words=words.concat(pickW||[]);}
-      return align(words,W,start);}
-    function startListen(){if(fixing)return;stopAllMic();var start=best;p=best;
+        base=base.concat(pickW);}
+      return base;}
+    function showReadIt(){if(helpShown||!$('#assist'))return;helpShown=true;
+      $('#assist').innerHTML='<button class="btn alt" id="readIt" style="min-height:50px;font-size:18px">✋ I read it!</button>';
+      $('#readIt').onclick=function(){SFX.tap();stopAll();listening=false;spans.forEach(function(s,i){if(i>=best)s.classList.add('fixed');});finished(true);};}
+    function startListen(){if(fixing)return;stopAllMic();listening=true;var rec,roundToks=null;
       try{rec=new SR();}catch(e){micFail();return;}
-      rec.lang='en-US';rec.continuous=true;rec.interimResults=true;rec.maxAlternatives=5;liveRecs.push(rec);listening=true;
+      rec.lang='en-US';rec.continuous=false;rec.interimResults=true;rec.maxAlternatives=5;liveRecs.push(rec);
       var mb=$('#micBtn');if(mb)mb.classList.add('live');
       rec.onaudiostart=function(){if(listening&&!fixing){setGo(true);setStatus('Go! Read out loud.');}};
-      rec.onresult=function(e){showHeard(e.results);var r=bestRead(e.results,start);
-        var last=e.results[e.results.length-1].isFinal;
-        if(r.p>best){best=r.p;lastProg=Date.now();heardSince=false;trailAt=0;paint(best);}else heardSince=true;
-        if(last&&r.problem<0&&r.trail>0&&!trailAt)trailAt=Date.now();
+      rec.onresult=function(e){if(fixing)return;showHeard(e.results);lastSound=Date.now();
+        var toks=roundTokens(e.results);roundToks=toks;var r=align(toks,W,anchor);
+        if(r.p>best){best=r.p;lastProg=Date.now();trailAt=0;paint(best);}
         if(best>=W.length){finished();return;}
-        if(last&&r.problem>=0&&r.problem>=best-1){problem(Math.max(r.problem,best));}};
+        if(e.results[e.results.length-1].isFinal){
+          if(r.problem>=0&&r.problem>=best-1){problem(Math.max(r.problem,best),true);return;}
+          noise=r.trail;if(r.trail>0&&!trailAt)trailAt=Date.now();}};
       rec.onerror=function(ev){if(fatal(ev.error))micFail();};
-      rec.onend=function(){setGo(false);if(!listening||fixing)return;if($('#stmt'))startListen();};
+      rec.onend=function(){setGo(false);
+        if(roundToks){var r=align(roundToks,W,anchor);committed=(r.p>=best?roundToks.slice(r.k):[]).slice(-4);anchor=best;}
+        if(!listening||fixing)return;if($('#stmt'))setTimeout(startListen,40);};
       try{rec.start();}catch(e){micFail();return;}
-      clearInterval(STALL);STALL=setInterval(function(){if(!listening||fixing||!$('#stmt')){return;}
-        var now=Date.now();
-        if((heardSince&&now-lastProg>(relaxed()?6000:4500))||(trailAt&&now-trailAt>(relaxed()?2500:1800))){heardSince=false;trailAt=0;problem(best);}},300);}
-    function problem(i){if(fixing)return;fixing=true;listening=false;stopAll();setGo(false);p=i;paint(i);sentMiss++;var w=words[i].replace(/[“”".,!?]/g,'');
-      sk.missed[w.toLowerCase()]=(sk.missed[w.toLowerCase()]||0)+1;spans[i].classList.add('stuck');SFX.nudge();
-      ctrl.innerHTML='<p style="font-size:20px;margin:0">Let’s read this one again:</p><button class="fixword" id="fw">'+esc(w)+'</button><p class="status" id="status">Get ready…</p>';
+      clearInterval(STALL);STALL=setInterval(function(){if(!listening||fixing||!$('#stmt'))return;var now=Date.now(),rx=relaxed();
+        if(now-lastProg>8000)showReadIt();
+        if(trailAt&&noise>0&&now-trailAt>(rx?2600:1800)){trailAt=0;problem(best,false);return;}
+        if(lastSound>lastProg&&now-lastProg>(rx?7000:5000)){problem(best,false);return;}
+        if(now-lastProg>9000&&lastSound<=lastProg)setStatus('I can’t hear you yet. Hold the phone close and read a little louder.');},300);}
+    /* real=true: she said a different word. real=false: the phone just couldn't catch it, so no penalty. */
+    function problem(i,real){if(fixing)return;while(i<W.length-1&&TINY[W[i]]){i++;}if(i>best){best=i;anchor=i;committed=[];}fixing=true;listening=false;stopAll();setGo(false);paint(i);var w=words[i].replace(/[“”".,!?]/g,'');
+      if(real){sentMiss++;sk.missed[w.toLowerCase()]=(sk.missed[w.toLowerCase()]||0)+1;SFX.nudge();}
+      spans[i].classList.add('stuck');
+      ctrl.innerHTML='<p style="font-size:20px;margin:0">'+(real?'Let’s read this one again:':'Read this word to me:')+'</p><button class="fixword" id="fw">'+esc(w)+'</button><p class="status" id="status">Get ready…</p>';
       $('#fw').onclick=function(){say(w,{rate:.75});};
       var tries=0;
       function listenWord(){var r2;try{r2=new SR();}catch(e){micFail();return;}r2.lang='en-US';r2.continuous=false;r2.interimResults=true;r2.maxAlternatives=5;liveRecs.push(r2);var got=false;
         r2.onaudiostart=function(){if(!got)setStatus('Go! Say it now.');};
         r2.onresult=function(e){var hit=false;showHeard(e.results);for(var k=0;k<e.results.length&&!hit;k++)for(var a=0;a<e.results[k].length&&!hit;a++){
-            var tk=unjoin(e.results[k][a].transcript).split(/\s+/).map(normWord).filter(Boolean);
-            for(var z=0;z<tk.length&&!hit;z++)hit=looseMatch(tk[z],W[i])||(z+1<tk.length&&looseMatch(tk[z]+tk[z+1],W[i]));}
+            var tk=tokensOf(e.results[k][a].transcript);
+            for(var z=0;z<tk.length&&!hit;z++)hit=looseMatch(tk[z],W[i])||(z+1<tk.length&&looseMatch(tk[z]+tk[z+1],W[i]))||(i+1<W.length&&looseMatch(tk[z],W[i]+W[i+1]));}
           if(hit&&!got){got=true;try{r2.abort();}catch(er){}ok(false);}};
         r2.onerror=function(ev){if(fatal(ev.error))micFail();};
         r2.onend=function(){if(got||!fixing)return;tries++;
@@ -855,12 +1049,13 @@ function readStation(st,done){var sk=S.skills.read;var sents=[st.flavor,st.wit],
           else if(tries<3){setStatus('Try once more…');listenWord();}
           else{setStatus('Good try! Let’s keep going.');ok(true);}};
         try{r2.start();}catch(e){micFail();}}
-      function ok(gaveUp){fixing=false;trailAt=0;spans[i].classList.remove('stuck');spans[i].classList.add('fixed');if(!gaveUp)SFX.good();p=i+1;best=p;lastProg=Date.now();heardSince=false;
-        if(p>=W.length){finished();return;}
-        ctrl.innerHTML='<button class="mic live" id="micBtn" aria-label="Listening">🎙️</button><p class="status" id="status">'+(gaveUp?'Let’s keep going!':'Nice! Keep reading from the next word.')+'</p>';
-        $('#micBtn').onclick=pauseOrGo;paint(p);setTimeout(startListen,100);}
+      function ok(gaveUp){fixing=false;trailAt=0;noise=0;spans[i].classList.remove('stuck');spans[i].classList.add('fixed');if(!gaveUp)SFX.good();
+        best=Math.max(best,i+1);anchor=best;committed=[];lastProg=Date.now();lastSound=0;helpShown=false;
+        if(best>=W.length){finished();return;}
+        ctrl.innerHTML='<button class="mic live" id="micBtn" aria-label="Listening">🎙️</button><p class="status" id="status">'+(gaveUp?'Let’s keep going!':'Nice! Keep reading from the next word.')+'</p><div id="assist"></div>';
+        $('#micBtn').onclick=pauseOrGo;paint(best);setTimeout(startListen,100);}
       setTimeout(listenWord,100);}
-    function pauseOrGo(){ac();if(listening){listening=false;stopAll();setGo(false);var mb=$('#micBtn');if(mb)mb.classList.remove('live');setStatus('Paused. Tap the mic to keep going.');}else startListen();}
+    function pauseOrGo(){ac();if(listening){listening=false;stopAll();setGo(false);var mb=$('#micBtn');if(mb)mb.classList.remove('live');setStatus('Paused. Tap the mic to keep going.');}else{lastProg=Date.now();startListen();}}
     $('#micBtn').onclick=pauseOrGo;
   }
   render();}
@@ -886,12 +1081,12 @@ function closeCase(){C.closed=true;C.qsDone=12;setMeter();SFX.stamp();setTimeout
   S.archive.push({no:C.no,title:C.setting.title,culprit:pupCase?'Jax':C.culprit.name,kind:C.kind||'',pts:C.points,date:todayStr()});if(S.archive.length>60)S.archive=S.archive.slice(-60);
   var news=checkBadges();persist();
   var L=C.learned,items=[];
-  if(L.mult.length)items.push('🔐 You cracked times-table codes: <b>'+L.mult.map(esc).join(', ')+'</b>');
+  if(L.mult.length)items.push('🔐 You cracked math codes: <b>'+L.mult.map(esc).join(', ')+'</b>');
   if(L.div.length)items.push((C.kind==='pup'?'🦴 You split treats fair and square: ':'⚖️ You split loot fair and square: ')+'<b>'+L.div.map(esc).join(', ')+'</b>');
   if(L.spell.length)items.push('🔑 You spelled: <b>'+L.spell.map(esc).join(', ')+'</b>');
   if(L.hunt&&L.hunt.length)items.push('🔍 You found these words: <b>'+L.hunt.map(function(w){return esc(w.toUpperCase());}).join(', ')+'</b>');
   if(L.read)items.push('🎙️ You read <b>'+L.read+' words</b> '+(C.kind==='pup'?'from Gigi’s friend':'from witness statements'));
-  C.levelUps.forEach(function(k){items.push('🔓 You leveled up in <b>'+stInfo(k).name+'</b>! Next level: '+esc(LVL[k][S.skills[k].lvl-1]));});
+  C.levelUps.forEach(function(k){items.push('🔓 You leveled up in <b>'+stInfo(k).name+'</b>!');});
   var cul=C.culprit;
   var story=pupCase?
     '<div class="paper center" style="max-width:520px;width:100%;gap:6px"><div style="font-size:60px" class="pup-hug">👵❤️🐶</div><div style="font-weight:800;font-size:24px">You found Jax at '+esc(cul.name)+'!</div><div style="font-size:21px">Gigi gives Jax a big hug. Jax gives Gigi a big lick!</div><button class="btn alt" id="hearEnd" style="min-height:48px;font-size:17px;color:var(--text)">🔊 Hear it</button></div>':
@@ -906,20 +1101,154 @@ function closeCase(){C.closed=true;C.qsDone=12;setMeter();SFX.stamp();setTimeout
   if(pupCase){$('#hearEnd').onclick=function(){say('You found Jax at '+cul.name+'! Gigi gives Jax a big hug. Jax gives Gigi a big lick!');};setTimeout(function(){say('You found Jax! Jax is home with Gigi!');},900);}
   $('#stop').onclick=function(){SFX.tap();renderHome();};$('#again').onclick=function(){SFX.tap();startCase();};}
 
+/* ================= ARCADE (mini games) ================= */
+var ARCADE=[
+ {id:'blaster',name:'Fact Blaster',icon:'⚡',tag:'Math facts against the clock',cat:'Math'},
+ {id:'scramble',name:'Word Scramble',icon:'🔤',tag:'Unscramble the secret words',cat:'Spelling'},
+ {id:'hunt',name:'Word Hunt',icon:'🔍',tag:'Find the hidden words',cat:'Spelling'},
+ {id:'readmatch',name:'Read & Match',icon:'📖',tag:'Read it, then pick the picture',cat:'Reading'},
+ {id:'memory',name:'Memory Match',icon:'🃏',tag:'Flip cards to find pairs',cat:'Memory'}];
+var ARC_T=null;
+function arcadeC(name){C={kind:'arcade',no:0,points:0,hints:0,streak:0,qsDone:0,learned:{mult:[],div:[],spell:[],read:0,hunt:[]},levelUps:[],clues:[],closed:false,stNames:{hunt:{name:'Word Hunt',icon:'🔍'}}};
+  shownPts=0;$('#pts').textContent='0';setHUD(true);$('#hcase').textContent=name.toUpperCase();setFlame();$('#meterFill').style.width='0%';}
+function meterPct(p){$('#meterFill').style.width=Math.max(0,Math.min(100,p))+'%';}
+function stopArcade(){clearInterval(ARC_T);ARC_T=null;}
+function renderArcade(){stopAllMic();stopArcade();C=null;setHUD(false);try{speechSynthesis.cancel();}catch(e){}
+  var A=S.arcade||{};
+  stage.innerHTML='<div class="row" style="justify-content:space-between"><h1 class="big" style="font-size:clamp(30px,8vw,44px);margin:0">Arcade</h1><button class="btn alt" id="back" style="min-height:52px;font-size:18px">← Cases</button></div>'+
+   '<p class="line1" style="text-align:left;margin:0">Quick games. Beat your best score!</p>'+
+   '<div class="arc-grid">'+ARCADE.map(function(g){var b=A[g.id];return '<button class="arc-tile" data-g="'+g.id+'"><span class="at-icon" aria-hidden="true">'+g.icon+'</span><span class="at-cat">'+g.cat.toUpperCase()+'</span><b>'+g.name+'</b><span class="at-tag">'+g.tag+'</span><span class="at-best">'+(b?'🏆 Best: '+b.best:'New!')+'</span></button>';}).join('')+'</div>';
+  $('#back').onclick=function(){SFX.tap();renderHome();};
+  $$('.arc-tile').forEach(function(t){t.onclick=function(){ac();SFX.tap();startArcade(t.dataset.g);};});}
+function startArcade(id){var g=ARCADE.find(function(x){return x.id===id;});arcadeC(g.name);
+  ({blaster:gameBlaster,scramble:gameScramble,hunt:gameHunt,readmatch:gameReadMatch,memory:gameMemory})[id]();}
+function arcadeEnd(id,score,lines,stars){stopArcade();stopAllMic();if(!S.arcade)S.arcade={};var rec=S.arcade[id]||{best:0,plays:0};
+  rec.plays++;var nb=score>rec.best;if(nb)rec.best=score;S.arcade[id]=rec;persist();var news=checkBadges();
+  SFX.win();confetti(nb?140:70);var g=ARCADE.find(function(x){return x.id===id;});
+  stage.innerHTML='<div class="center" style="padding-top:8px"><div class="big" style="font-size:30px">'+g.icon+' '+g.name+'</div>'+
+   '<div class="stars" aria-label="'+stars+' stars">'+[1,2,3].map(function(n){return '<span class="'+(n<=stars?'on':'')+'" style="animation-delay:'+(n*.18)+'s">★</span>';}).join('')+'</div>'+
+   '<div><div class="tally" id="tally">0</div><div class="line1">points'+(nb?' · NEW BEST!':' · best '+rec.best)+'</div></div>'+
+   (news.length?'<div class="badges" style="width:100%">'+news.map(function(b){return '<div class="bdg got pop-in"><i>'+b[2]+'</i>NEW: '+esc(b[1])+'</div>';}).join('')+'</div>':'')+
+   '<div class="learned">'+lines.map(function(t){return '<div>'+t+'</div>';}).join('')+'</div>'+
+   '<div class="row" style="justify-content:center"><button class="btn alt" id="toArc">🕹️ Arcade</button><button class="btn" id="again">↻ Play again</button></div></div>';
+  var t=0;(function up(){t+=Math.ceil((score-t)/10)||1;if(t>score)t=score;var el=$('#tally');if(el)el.textContent=t;if(t<score)requestAnimationFrame(up);})();
+  $('#toArc').onclick=function(){SFX.tap();renderArcade();};$('#again').onclick=function(){SFX.tap();startArcade(id);};}
+function bump(n,el){C.points+=n;addPoints(0,el);var f=document.createElement('div');}
+
+/* ---------- ⚡ Fact Blaster: 60 seconds, tap the right answer ---------- */
+function gameBlaster(){var g=gr('math'),L=S.skills.mult.lvl,sk=S.skills.mult,time=60,left=time,solved=0,combo=0,bestCombo=0,run=0,misses={},P,tries=0,seen={};
+  stage.innerHTML='<div class="st-head"><span class="tag">⚡ Fact Blaster</span><span class="timer" id="tm">60</span></div>'+
+   '<p class="line1">Tap the right answer. Go fast!</p><div class="blast" id="bl"><div class="bl-q" id="bq"></div><div class="bl-combo" id="bc"></div></div><div class="choices three" id="bch"></div>';
+  function choices(){var a=P.a,o=[a],c=[a+1,a-1,a+2,a-2,a+10,a-10,a+P.y,a-P.y].filter(function(x){return x>=0&&x!==a;});
+    shuffle(c).forEach(function(x){if(o.length<3&&o.indexOf(x)<0)o.push(x);});return shuffle(o);}
+  function next(){var k=0;do{P=genMath(g,L);k++;}while(seen[P.key]&&k<25);seen[P.key]=1;tries=0;
+    var q=$('#bq');q.textContent=P.q.replace(' =','');q.classList.remove('pop-in');void q.offsetWidth;q.classList.add('pop-in');
+    var ch=$('#bch');ch.innerHTML='';choices().forEach(function(v){var b=document.createElement('button');b.className='choice';b.textContent=v;b.onclick=function(){pickA(b,v);};ch.appendChild(b);});}
+  function pickA(b,v){if(left<=0)return;sk.att++;
+    if(v===P.a){if(!tries)sk.first++;solved++;combo++;run++;bestCombo=Math.max(bestCombo,combo);SFX.good();b.classList.add('right');
+      var pts=10+Math.min(combo,5)*2;C.points+=pts;floatPts('+'+pts,b);$('#pts').textContent=C.points;C.streak=combo;setFlame();
+      $('#bc').textContent=combo>=3?'COMBO ×'+combo+'!':'';C.learned.mult.push(P.full);
+      if(run>=5&&L<3){L++;run=0;toast('Harder facts! ⚡');}
+      setTimeout(next,220);}
+    else{tries++;combo=0;run=0;C.streak=0;setFlame();SFX.nudge();b.classList.add('dim');b.disabled=true;$('#bc').textContent='';misses[P.full]=1;sk.missed[P.key]=(sk.missed[P.key]||0)+1;}}
+  next();persist();
+  ARC_T=setInterval(function(){left-=.1;meterPct((time-left)/time*100);var tm=$('#tm');if(!tm){stopArcade();return;}tm.textContent=Math.ceil(Math.max(0,left));if(left<=10)tm.classList.add('hurry');
+    if(left<=0){stopArcade();persist();var stars=solved>=20?3:solved>=12?2:1;var miss=Object.keys(misses).slice(0,6);
+      arcadeEnd('blaster',C.points,['⚡ You solved <b>'+solved+' facts</b> in 60 seconds','🔥 Best combo: <b>'+bestCombo+' in a row</b>'].concat(miss.length?['🧠 Practice these: <b>'+miss.map(esc).join(', ')+'</b>']:[]),stars);}},100);}
+function floatPts(t,el){var r=el.getBoundingClientRect();var f=document.createElement('div');f.className='floater';f.textContent=t;f.style.left=(r.left+r.width/2-20)+'px';f.style.top=r.top+'px';document.body.appendChild(f);setTimeout(function(){f.remove();},950);}
+
+/* ---------- 🔤 Word Scramble: 6 words ---------- */
+function gameScramble(){var g=gr('spell'),sk=S.skills.spell,L=sk.lvl,total=6,n=0,used={},words=[],perfect=0;
+  stage.innerHTML='<div class="st-head"><span class="tag">🔤 Word Scramble</span><div class="pips" id="pips">'+'<b></b>'.repeat(total)+'</div></div>'+
+   '<p class="line1">Tap the letters to unscramble the word.</p><div class="center"><button class="hear" id="hear" aria-label="Hear the word">🔊</button></div><div class="slots" id="slots"></div><div class="tiles" id="tiles"></div><div id="hint"></div>';
+  var word,pos,wrong,heard;
+  function next(){var lv=Math.min(3,L+(n>=4?1:0));var pool=shuffle(spellPool(g,lv));word=pool.find(function(w){return !used[w];})||pool[0];used[word]=1;pos=0;wrong=0;heard=false;
+    var s='';for(var i=0;i<word.length;i++)s+='<div class="slot'+(i===0?' cur':'')+'"></div>';$('#slots').innerHTML=s;
+    var letters=word.split(''),k=0;do{letters=shuffle(letters);k++;}while(letters.join('')===word&&k<10&&word.length>1);
+    var t=$('#tiles');t.innerHTML='';letters.forEach(function(c){var b=document.createElement('button');b.className='tile';b.textContent=c;b.onclick=function(){tap(b);};t.appendChild(b);});
+    $('#hint').innerHTML='';}
+  function tap(b){var c=b.textContent;
+    if(c===word[pos]){SFX.type();b.classList.add('used');var sl=$$('#slots .slot');sl[pos].textContent=c;sl[pos].classList.add('filled');sl[pos].classList.remove('cur');pos++;$$('#tiles .tile').forEach(function(x){x.classList.remove('glow');});
+      if(sl[pos])sl[pos].classList.add('cur');
+      if(pos>=word.length){n++;pip(n);var pts=Math.max(5,20-(heard?5:0)-Math.max(0,wrong-1)*3);if(!wrong&&!heard)perfect++;C.points+=pts;$('#pts').textContent=C.points;floatPts('+'+pts,$('#slots'));
+        SFX.good();say(word,{rate:.85});words.push(word);sk.att++;if(wrong<=1)sk.first++;else sk.missed[word]=(sk.missed[word]||0)+1;persist();
+        $('#hint').innerHTML='<div class="hintbox" style="border-color:var(--good);background:rgba(62,230,168,.12)"><p>You got it: <b>'+esc(word)+'</b></p></div>';
+        if(n>=total)setTimeout(function(){arcadeEnd('scramble',C.points,['🔤 You unscrambled: <b>'+words.map(esc).join(', ')+'</b>','⭐ <b>'+perfect+'</b> without any help'],perfect>=5?3:perfect>=3?2:1);},1100);
+        else setTimeout(next,1100);}
+      return;}
+    wrong++;SFX.nudge();b.classList.remove('wobble');void b.offsetWidth;b.classList.add('wobble');
+    if(wrong>=2){var gl=$$('#tiles .tile').find(function(x){return !x.classList.contains('used')&&x.textContent===word[pos];});if(gl)gl.classList.add('glow');$('#hint').innerHTML='<div class="hintbox"><p>Try the glowing letter.</p></div>';}}
+  $('#hear').onclick=function(){heard=true;say(word,{rate:.8});};
+  next();}
+
+/* ---------- 🔍 Word Hunt ---------- */
+function gameHunt(){huntStation(function(){var w=C.learned.hunt;var stars=C.hints===0?3:C.hints<=2?2:1;
+  arcadeEnd('hunt',C.points,['🔍 You found: <b>'+w.map(function(x){return esc(x.toUpperCase());}).join(', ')+'</b>'],stars);});}
+
+/* ---------- 📖 Read & Match ---------- */
+var RM_A={cat:'🐱',dog:'🐶',frog:'🐸',duck:'🦆',pig:'🐷',fox:'🦊',bear:'🐻',cow:'🐮',bee:'🐝',owl:'🦉'};
+var RM_B={bed:'🛏️',car:'🚗',tree:'🌳',box:'📦',hat:'🎩',boat:'⛵',log:'🪵',rock:'🪨',cake:'🎂',chair:'🪑'};
+var RM_T={1:['The {A} is on the {B}.','The {A} is in the {B}.'],2:['The {A} sat on the {B}.','A big {A} ran to the {B}.'],
+ 3:['The {D} ran away, but the {A} hopped onto the {B}.','The {D} stayed home, and the {A} sat on the {B}.'],
+ 4:['While the {D} was sleeping, the {A} quietly climbed onto the {B}.','The {D} wanted the {B}, but the {A} got there first.'],
+ 5:['Although the {D} made a lot of noise, the {A} calmly settled beside the {B} and refused to move.','The {D} searched everywhere, yet only the {A} discovered the hidden {B}.']};
+function gameReadMatch(){var g=gr('read'),total=8,n=0,first=0,words=0;
+  stage.innerHTML='<div class="st-head"><span class="tag">📖 Read & Match</span><div class="pips" id="pips">'+'<b></b>'.repeat(total)+'</div></div>'+
+   '<p class="line1">Read it. Tap the picture that matches.</p><div class="paper"><div class="statement" id="rs"></div></div><div class="choices three pics" id="rc"></div><div id="hint"></div>';
+  function next(){var A=Object.keys(RM_A),B=Object.keys(RM_B);var a=pick(A),d=pick(A.filter(function(x){return x!==a;})),b=pick(B),c=pick(B.filter(function(x){return x!==b;}));
+    var sent=pick(RM_T[g]).replace('{A}',a).replace('{B}',b).replace('{D}',d);words+=sent.split(' ').length;
+    $('#rs').innerHTML=wordsHTML(sent);hookHear($('#rs'));
+    var right=RM_A[a]+' '+RM_B[b];var x=pick(A.filter(function(z){return z!==a&&z!==d;}));
+    var opts=[right,(g>=3?RM_A[d]:RM_A[x])+' '+RM_B[b],RM_A[a]+' '+RM_B[c]];var tries=0;$('#hint').innerHTML='';
+    var rc=$('#rc');rc.innerHTML='';shuffle(opts).forEach(function(o){var bt=document.createElement('button');bt.className='choice';bt.textContent=o;bt.onclick=function(){
+      if(o===right){SFX.good();bt.classList.add('right');n++;pip(n);if(!tries)first++;var pts=tries?5:15;C.points+=pts;$('#pts').textContent=C.points;floatPts('+'+pts,bt);
+        $$('#rc .choice').forEach(function(z){z.disabled=true;});
+        if(n>=total)setTimeout(function(){S.wordsRead+=words;persist();arcadeEnd('readmatch',C.points,['📖 You read <b>'+words+' words</b>','🎯 <b>'+first+' of '+total+'</b> right on the first try'],first>=7?3:first>=5?2:1);},900);
+        else setTimeout(next,900);}
+      else{tries++;SFX.nudge();bt.classList.add('dim');bt.disabled=true;$$('#rs .w').forEach(function(s){var w=normWord(s.textContent);if(w===a||w===b)s.classList.add('find');});
+        $('#hint').innerHTML='<div class="hintbox"><p>Look at the yellow words. Who is it, and where?</p></div>';}};rc.appendChild(bt);});}
+  next();}
+
+/* ---------- 🃏 Memory Match ---------- */
+var MM_WORDS={cat:'🐱',dog:'🐶',sun:'☀️',hat:'🎩',fish:'🐟',duck:'🦆',frog:'🐸',cake:'🎂',tree:'🌳',boat:'⛵',star:'⭐',moon:'🌙',bear:'🐻',apple:'🍎',house:'🏠',train:'🚂',snake:'🐍',robot:'🤖',rocket:'🚀',pencil:'✏️',rabbit:'🐰',penguin:'🐧',dinosaur:'🦕',umbrella:'☂️',octopus:'🐙',volcano:'🌋',telescope:'🔭',butterfly:'🦋'};
+function gameMemory(){stage.innerHTML='<div class="st-head"><span class="tag">🃏 Memory Match</span></div><p class="line1">Pick your cards:</p>'+
+   '<div class="choices" style="max-width:460px"><button class="choice mm-mode" data-m="math" style="font-size:24px">🔢 Math</button><button class="choice mm-mode" data-m="words" style="font-size:24px">🔤 Words</button></div>';
+  $$('.mm-mode').forEach(function(b){b.onclick=function(){SFX.tap();playMemory(b.dataset.m);};});}
+function playMemory(mode){var pairs=[],seen={},g;
+  if(mode==='math'){g=gr('math');var L=Math.min(2,S.skills.mult.lvl),k=0;while(pairs.length<6&&k<300){k++;var P=genMath(g,L);var ans=String(P.a),q=P.q.replace(' =','');if(seen[ans]||seen[q])continue;seen[ans]=seen[q]=1;pairs.push([q,ans]);}}
+  else{g=gr('read');var all=Object.keys(MM_WORDS).filter(function(w){return g<=1?w.length<=4:g<=3?w.length<=6:w.length>=4;});shuffle(all).slice(0,6).forEach(function(w){pairs.push([w,MM_WORDS[w]]);});}
+  var cards=[];pairs.forEach(function(p,i){cards.push({t:p[0],id:i,kind:'a'});cards.push({t:p[1],id:i,kind:'b'});});cards=shuffle(cards);
+  stage.innerHTML='<div class="st-head"><span class="tag">🃏 Memory Match</span><span class="timer" id="mv">0 flips</span></div><p class="line1">Find the pairs!</p>'+
+   '<div class="mm-grid">'+cards.map(function(c,i){return '<button class="mm-card" data-i="'+i+'" aria-label="card"><span class="mm-back">?</span><span class="mm-face'+(mode==='words'&&c.kind==='b'?' emoji':'')+'">'+esc(c.t)+'</span></button>';}).join('')+'</div>';
+  var open=[],found=0,moves=0,lock=false,els=$$('.mm-card');
+  els.forEach(function(el){el.onclick=function(){if(lock)return;var i=+el.dataset.i;if(el.classList.contains('flip'))return;el.classList.add('flip');SFX.type();
+    if(mode==='words'&&cards[i].kind==='a')say(cards[i].t,{rate:.85});
+    open.push(i);if(open.length<2)return;moves++;$('#mv').textContent=moves+' flips';var a=cards[open[0]],b=cards[open[1]];
+    if(a.id===b.id){found++;SFX.good();var pts=Math.max(5,20-Math.max(0,moves-found)*1);C.points+=pts;$('#pts').textContent=C.points;floatPts('+'+pts,el);
+      open.forEach(function(j){els[j].classList.add('done');});open=[];meterPct(found/pairs.length*100);
+      if(found>=pairs.length){var extra=moves-pairs.length;setTimeout(function(){arcadeEnd('memory',C.points,['🃏 You matched all <b>'+pairs.length+' pairs</b> in <b>'+moves+' flips</b>',mode==='math'?'🔢 Math pairs: <b>'+pairs.map(function(p){return esc(p[0]+' = '+p[1]);}).join(', ')+'</b>':'🔤 Words: <b>'+pairs.map(function(p){return esc(p[0]);}).join(', ')+'</b>'],extra<=3?3:extra<=8?2:1);},700);}}
+    else{lock=true;SFX.nudge();setTimeout(function(){open.forEach(function(j){els[j].classList.remove('flip');});open=[];lock=false;},850);}};});}
+
 /* ================= GROWN-UP REPORT ================= */
 function renderGrown(){setHUD(false);
   var rows=['mult','div','spell','hunt','read'].map(function(k){var s=S.skills[k];var pct=s.att?Math.round(s.first/s.att*100)+'%':'–';
     var tough=Object.keys(s.missed).sort(function(a,b){return s.missed[b]-s.missed[a];}).slice(0,6).map(function(x){return esc(x)+' ('+s.missed[x]+')';}).join(', ')||'none yet';
-    var nm={mult:'Times tables 1–5',div:'Division',spell:'Spelling',hunt:'Word Hunt',read:'Reading aloud'}[k];
-    return '<tr><td><b>'+nm+'</b></td><td>'+(k==='read'?'–':s.lvl+' of 3<br><span style="color:var(--muted)">'+esc(LVL[k][s.lvl-1])+'</span>')+'</td><td>'+s.att+'</td><td>'+pct+'</td><td>'+tough+'</td></tr>';}).join('');
+    var nm={mult:'Math facts',div:'Division / sharing',spell:'Spelling',hunt:'Word Hunt',read:'Reading aloud'}[k];
+    return '<tr><td><b>'+nm+'</b></td><td>'+lvlText(k)+'</td><td>'+s.att+'</td><td>'+pct+'</td><td>'+tough+'</td></tr>';}).join('');
   stage.innerHTML='<div class="row" style="justify-content:space-between"><h1 class="big" style="font-size:28px;margin:0">Grown-up report</h1><button class="btn alt" id="back" style="min-height:52px;font-size:18px">← Back</button></div>'+
    '<section class="card"><p style="margin-top:0;color:var(--muted)">“First try” means she got it without a hint. The game aims for about 80%: it levels up after 4 first-try answers in a row and quietly eases off after 2 misses in a row.</p><div class="tablewrap"><table><thead><tr><th>Skill</th><th>Level</th><th>Tries</th><th>First try</th><th>Needed help with (times)</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>'+
+   '<section class="card" style="display:flex;flex-direction:column;gap:12px"><h2 class="h2" style="margin:0">GRADE LEVELS</h2>'+
+   '<p style="margin:0;color:var(--muted);font-size:15px">Only you can change these, and grade numbers never show up on her screens. Each grade has 3 steps that move up and down on their own as she plays.</p>'+
+   [['math','Math','facts, sharing & division'],['spell','Spelling','passwords, word hunt, word games'],['read','Reading','witness statements & clues']].map(function(r){var cur=gr(r[0]);
+     return '<div class="grow"><div><b>'+r[1]+'</b><span>'+r[2]+'</span></div><div class="gbtns" role="group" aria-label="'+r[1]+' grade">'+[1,2,3,4,5].map(function(n){return '<button class="gb'+(n===cur?' on':'')+'" data-k="'+r[0]+'" data-g="'+n+'" aria-pressed="'+(n===cur)+'">'+n+'</button>';}).join('')+'</div></div>';}).join('')+
+   '</section>'+
    '<section class="card" style="display:flex;flex-direction:column;gap:14px"><label class="toggle" for="nm">Detective name <input type="text" id="nm" value="'+esc(S.name)+'" maxlength="20"></label>'+
    '<label class="toggle"><input type="checkbox" id="micT" '+(S.mic?'checked':'')+' style="width:26px;height:26px"> Use the microphone to check reading '+(SR?'':'<span style="color:var(--muted)">(this browser can’t listen; use Chrome)</span>')+'</label>'+
    '<div class="toggle" role="group" aria-label="Mic pickiness"><span>Mic pickiness</span><button class="btn '+(relaxed()?'':'alt')+'" id="mmR" style="min-height:44px;font-size:16px;padding:6px 14px">Relaxed</button><button class="btn '+(relaxed()?'alt':'')+'" id="mmS" style="min-height:44px;font-size:16px;padding:6px 14px">Strict</button></div>'+
    '<label class="toggle"><input type="checkbox" id="dbgT" '+(S.micDebug?'checked':'')+' style="width:26px;height:26px"> Show what the mic hears while she reads</label>'+
    (SR?'<div style="display:flex;flex-direction:column;gap:8px"><div class="row"><button class="btn alt" id="micTest" style="min-height:48px;font-size:17px">🎙️ Mic check</button><span style="color:var(--muted);font-size:15px">Tap, then say a sentence. You’ll see exactly what the phone heard.</span></div><p class="heard" id="micTestOut" style="text-align:left;font-size:16px;color:var(--text)"></p></div>':'')+
    '<p style="margin:0;color:var(--muted);font-size:14px">Relaxed lets her read at a normal speed and forgives words the mic misses. Strict stops her on every skipped or slightly-off word.</p>'+
+   '<p style="margin:0;color:var(--muted);font-size:15px">Arcade: '+(ARCADE.map(function(g){var r=(S.arcade||{})[g.id];return r?g.name+' (played '+r.plays+'×, best '+r.best+')':null;}).filter(Boolean).join(' · ')||'not played yet')+'</p>'+
    '<p style="margin:0;color:var(--muted);font-size:15px">Cases: '+S.cases+' · Total points: '+S.points+' · Best case: '+S.bestCase+' · Words read: '+S.wordsRead+'</p>'+
    '<div id="resetBox"><button class="link" id="reset">Reset all progress</button></div></section>'+
    '<section class="card" style="display:flex;flex-direction:column;gap:12px"><h2 class="h2" style="margin:0">PROGRESS BACKUP</h2>'+
@@ -946,14 +1275,20 @@ function renderGrown(){setHUD(false);
   $('#micT').onchange=function(e){S.mic=e.target.checked;micBroken=false;persist();};
   $('#mmR').onclick=function(){S.micMode='relaxed';persist();renderGrownKeep();};
   $('#dbgT').onchange=function(e){S.micDebug=e.target.checked;persist();};
-  if($('#micTest'))$('#micTest').onclick=function(){var out=$('#micTestOut'),btn=$('#micTest');stopAllMic();var r;try{r=new SR();}catch(er){out.textContent='This browser can’t use the mic.';return;}
-    r.lang='en-US';r.continuous=true;r.interimResults=true;r.maxAlternatives=3;liveRecs.push(r);btn.textContent='🎙️ Listening…';out.textContent='Waiting for sound…';
-    r.onaudiostart=function(){out.textContent='Go! Say something.';};
-    r.onresult=function(e){var t=[];for(var q=0;q<e.results.length;q++){var alts=[];for(var a=0;a<e.results[q].length;a++)alts.push(e.results[q][a].transcript.trim());t.push(alts[0]+(alts.length>1?'  (other guesses: '+alts.slice(1).join(' / ')+')':''));}out.textContent='Heard: '+t.join(' | ');};
-    r.onerror=function(ev){out.textContent='Mic problem: '+ev.error+'. Check that the mic is allowed for this site.';};
-    r.onend=function(){btn.textContent='🎙️ Mic check';};
-    try{r.start();}catch(er){out.textContent='Could not start the mic.';}
-    setTimeout(function(){try{r.stop();}catch(er){}},9000);};
+  $$('.gb').forEach(function(b){b.onclick=function(){var k=b.dataset.k,g=+b.dataset.g;if(!S.grade)S.grade={math:3,spell:2,read:1};if(S.grade[k]===g)return;S.grade[k]=g;
+    ({math:['mult','div'],spell:['spell','hunt'],read:['read']})[k].forEach(function(s){var sk=S.skills[s];sk.lvl=1;sk.run=0;sk.missRun=0;});
+    persist();SFX.tap();renderGrownKeep();toast(({math:'Math',spell:'Spelling',read:'Reading'})[k]+' set to grade '+g);};});
+  if($('#micTest'))$('#micTest').onclick=function(){var out=$('#micTestOut'),btn=$('#micTest'),until=Date.now()+9000,said=[];stopAllMic();
+    btn.textContent='🎙️ Listening…';out.textContent='Waiting for sound…';
+    function round(){var r;try{r=new SR();}catch(er){out.textContent='This browser can’t use the mic.';return;}
+      r.lang='en-US';r.continuous=false;r.interimResults=true;r.maxAlternatives=3;liveRecs.push(r);var cur='';
+      r.onaudiostart=function(){if(!said.length)out.textContent='Go! Say something.';};
+      r.onresult=function(e){var t=[];for(var q=0;q<e.results.length;q++){var alts=[];for(var a=0;a<e.results[q].length;a++)alts.push(e.results[q][a].transcript.trim());t.push(alts[0]+(alts.length>1?'  (other guesses: '+alts.slice(1).join(' / ')+')':''));}
+        cur=t.join(' ');out.textContent='Heard: '+said.concat([cur]).join(' | ');};
+      r.onerror=function(ev){if(ev.error!=='no-speech'&&ev.error!=='aborted')out.textContent='Mic problem: '+ev.error+'. Check that the mic is allowed for this site.';};
+      r.onend=function(){if(cur)said.push(cur);if(Date.now()<until&&$('#micTest'))round();else{btn.textContent='🎙️ Mic check';if(!said.length&&out.textContent.indexOf('problem')<0)out.textContent='I didn’t hear anything. Check that the mic is allowed for this site, then try again.';}};
+      try{r.start();}catch(er){out.textContent='Could not start the mic.';}}
+    round();};
   $('#mmS').onclick=function(){S.micMode='strict';persist();renderGrownKeep();};
   $('#reset').onclick=function(){$('#resetBox').innerHTML='<div class="row"><span>Erase every case, badge and score?</span><button class="btn pink" id="yes" style="min-height:48px;font-size:17px">Yes, erase</button><button class="btn alt" id="no" style="min-height:48px;font-size:17px">Keep it</button></div>';
     $('#yes').onclick=function(){var keep=S.name;S=defaults();S.name=keep;persist();renderGrown();};$('#no').onclick=renderGrown;};}
@@ -969,7 +1304,7 @@ function readBackup(code){var c=String(code||'').replace(/\s+/g,'');var m=/^CF1-
   try{b=b.replace(/-/g,'+').replace(/_/g,'/');while(b.length%4)b+='=';var o=JSON.parse(decodeURIComponent(escape(atob(b))));
     if(!o||typeof o!=='object'||!o.skills||typeof o.cases!=='number')return null;delete o.v;return o;}catch(e){return null;}}
 
-window.__test={buildHunt:buildHunt,makePupCase:makePupCase,openStation:function(kind,type){startCase(kind);runStation(C.stations.findIndex(function(s){return s.type===type;}));},align:align,normWord:normWord,match:match,makeCase:makeCase,TR:TR,makeBackup:makeBackup,readBackup:readBackup,getS:function(){return S;},openWitness:function(){startCase();runStation(C.stations.findIndex(function(s){return s.type==='read';}));},caseC:function(){return C;}};
+window.__test={MM_WORDS:MM_WORDS,RM_A:RM_A,RM_B:RM_B,startArcade:startArcade,renderArcade:renderArcade,genMath:genMath,genDiv:genDiv,mathHint:mathHint,spellPool:spellPool,readWit:readWit,readClue:readClue,pupText:pupText,PWIT:PWIT,PCLUE:PCLUE,TRx:TR,PUPx:PUP_TR,buildHunt:buildHunt,makePupCase:makePupCase,openStation:function(kind,type){startCase(kind);runStation(C.stations.findIndex(function(s){return s.type===type;}));},align:align,normWord:normWord,match:match,makeCase:makeCase,TR:TR,makeBackup:makeBackup,readBackup:readBackup,getS:function(){return S;},openWitness:function(){startCase();runStation(C.stations.findIndex(function(s){return s.type==='read';}));},caseC:function(){return C;}};
 renderHome();
 })();
 </script>
