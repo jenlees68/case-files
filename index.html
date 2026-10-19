@@ -319,6 +319,61 @@ button:focus-visible{outline:3px solid var(--hi);outline-offset:3px}
 .cat-row .ce{text-align:center;font-size:22px;padding:4px}
 .cd{min-height:44px;border-radius:10px;background:var(--board2);border:2px solid var(--line);font-size:18px}
 input[type=number],input[type=password]{font:inherit;font-size:18px;background:var(--board2);color:var(--text);border:2px solid var(--line);border-radius:12px;padding:10px 12px;min-height:48px}
+/* home */
+.h-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.h-id{display:flex;align-items:center;gap:12px;min-width:0}
+.h-badge{flex:none;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-size:30px;background:conic-gradient(var(--hi),var(--nudge),var(--hi));box-shadow:0 0 0 4px var(--board2),0 0 0 6px var(--hi)}
+.h-who{display:flex;flex-direction:column;min-width:0}
+.h-rank{font-family:var(--f-type);color:var(--pin);font-size:14px;letter-spacing:.14em;text-transform:uppercase}
+.h-who b{font-family:var(--f-display);font-weight:400;font-size:clamp(22px,6.4vw,32px);line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.h-pts{flex:none;position:relative;display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,#ffe14d,#ffb547);color:#2a1d00;border-radius:99px;padding:8px 16px 8px 12px;min-height:48px;box-shadow:0 4px 0 #b8860b}
+.h-pts span{font-size:22px}
+.h-pts b{font-family:var(--f-display);font-weight:400;font-size:22px;font-variant-numeric:tabular-nums}
+.h-pts:active{transform:translateY(3px);box-shadow:0 1px 0 #b8860b}
+.h-dot{position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:var(--pin);border:3px solid var(--bg)}
+.h-rankbar{display:flex;align-items:center;gap:10px;margin-top:-4px}
+.h-rankbar .bar{flex:1}
+.h-rankbar span{color:var(--muted);font-size:13px;white-space:nowrap}
+.h-case{position:relative;display:flex;align-items:center;gap:14px;text-align:left;background:var(--paper);color:var(--paper-ink);border-radius:6px 18px 18px 18px;padding:26px 18px 20px;margin-top:14px;box-shadow:0 8px 0 var(--paper2),0 16px 30px rgba(0,0,0,.35);transition:transform .1s}
+.h-case:active{transform:translateY(4px);box-shadow:0 3px 0 var(--paper2)}
+.hc-tab{position:absolute;top:-16px;left:0;background:var(--paper);color:#b3123f;font-family:var(--f-type);font-size:13px;letter-spacing:.14em;padding:5px 14px 4px;border-radius:8px 8px 0 0}
+.hc-body{display:flex;flex-direction:column;gap:4px;flex:1;min-width:0}
+.hc-body b{font-family:var(--f-display);font-weight:400;font-size:clamp(26px,7.4vw,36px);line-height:1}
+.hc-body span{font-size:16px;color:#5b4f33}
+.hc-go{flex:none;width:56px;height:56px;border-radius:50%;background:var(--pin);color:#fff;display:grid;place-items:center;font-size:40px;line-height:1;padding-bottom:4px;box-shadow:0 4px 0 #a8204a;animation:nudgeR 1.8s ease-in-out infinite}
+@keyframes nudgeR{50%{transform:translateX(4px)}}
+.h-tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.h-tile{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;border-radius:18px;padding:14px;min-height:120px;min-width:0;transition:transform .1s}
+.h-tile:active{transform:translateY(3px)}
+.ht-e{font-size:38px;line-height:1.1;margin-bottom:4px}
+.h-tile b{font-family:var(--f-display);font-weight:400;font-size:19px;line-height:1.1}
+.h-tile span:last-child{font-size:14px;opacity:.85}
+.t-pup{background:linear-gradient(160deg,#2f6b5a,#1d4a43);border:2px solid #49a08a;box-shadow:0 5px 0 #123029}
+.t-arc{background:linear-gradient(160deg,#4a3591,#2a2a72);border:2px solid #7a6ad8;box-shadow:0 5px 0 #1a1748}
+.h-goal{display:flex;align-items:center;gap:12px;text-align:left;background:var(--board);border:2px solid var(--line);border-radius:18px;padding:12px 16px;min-height:72px}
+.h-goal:active{transform:translateY(2px)}
+.hg-e{font-size:36px;flex:none}
+.hg-mid{display:flex;flex-direction:column;gap:5px;flex:1;min-width:0}
+.hg-k{font-family:var(--f-type);color:var(--hi);font-size:12px;letter-spacing:.14em}
+.hg-mid b{font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hg-pct{font-family:var(--f-display);color:var(--hi);font-size:20px;flex:none}
+.h-note{margin:-6px 0 0;color:var(--nudge);font-weight:600;font-size:15px;text-align:center}
+.h-stats{display:grid;grid-template-columns:repeat(4,1fr);background:var(--board);border:2px solid var(--line);border-radius:18px;padding:12px 4px}
+.h-stats div{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;min-width:0;border-right:1px solid var(--line);padding:0 4px}
+.h-stats div:last-child{border-right:0}
+.h-stats b{font-family:var(--f-display);font-weight:400;font-size:24px;color:var(--hi);font-variant-numeric:tabular-nums}
+.h-stats span{font-size:12px;color:var(--muted);line-height:1.2}
+.h-sec{display:flex;flex-direction:column;gap:8px}
+.h-sechead{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--f-display);font-size:15px;color:var(--muted);letter-spacing:.04em}
+.h-sechead span:last-child{font-family:var(--f-body);font-size:13px}
+.h-badges{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.hb{flex:none;width:58px;height:58px;border-radius:50%;background:var(--board2);border:2px dashed var(--line);font-size:28px;filter:grayscale(1);opacity:.45;scroll-snap-align:start}
+.hb.got{filter:none;opacity:1;border:2px solid var(--hi);box-shadow:0 0 12px rgba(255,225,77,.25)}
+.h-rc{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;background:var(--paper);color:var(--paper-ink);border-radius:6px;padding:10px 12px;font-size:15px}
+.rc-no{font-family:var(--f-type);color:#b3123f}
+.rc-t{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.rc-r{font-family:var(--f-type);font-size:13px;white-space:nowrap}
+.h-foot{display:flex;justify-content:center;align-items:center;gap:6px;color:var(--muted);font-size:13px;padding-top:4px}
 /* clue reveal + end */
 .reveal .paper{max-width:520px;width:100%;transform:rotate(-1.5deg);animation:slidein .6s cubic-bezier(.3,1.4,.5,1) both}
 @keyframes slidein{from{transform:translateY(60px) rotate(8deg);opacity:0}}
@@ -384,7 +439,7 @@ input[type=text]{font:inherit;font-size:18px;background:var(--board2);color:var(
 (function(){
 'use strict';
 /* ================= storage ================= */
-var VERSION='v2.2';
+var VERSION='v2.3';
 var KEY='caseFilesDetective.v1';
 function defSkill(){return {lvl:1,att:0,first:0,run:0,missRun:0,missed:{}};}
 function defaults(){return {name:'',cases:0,points:0,bestCase:0,badges:[],archive:[],
@@ -775,26 +830,36 @@ function checkBadges(){var news=[];BADGES.forEach(function(b){if(S.badges.indexO
 
 /* ================= HOME ================= */
 function renderHome(){stopAllMic();clearInterval(ARC_T);ARC_T=null;C=null;GROWN_OK=false;ensureWallet();setHUD(false);try{speechSynthesis.cancel();}catch(e){}
-  var r=rankOf(S.cases);var next=RANKS.find(function(x){return x[0]>S.cases;});
-  var badgeHTML=BADGES.map(function(b){var got=S.badges.indexOf(b[0])>=0;return '<div class="bdg'+(got?' got':'')+'"><i>'+b[2]+'</i>'+(got?esc(b[1]):'???')+'</div>';}).join('');
-  var arc=S.archive.slice(-5).reverse().map(function(a){return '<div class="arc"><span>#'+String(a.no).padStart(3,'0')+' '+esc(a.title)+'</span><span>'+(a.kind==='pup'?'found <b>Jax</b> 🐶':'caught <b>'+esc(a.culprit)+'</b>')+'</span></div>';}).join('')||'<p class="line1" style="text-align:left">No cases closed yet. Your first one is waiting.</p>';
+  var r=rankOf(S.cases),next=RANKS.find(function(x){return x[0]>S.cases;}),prevAt=r[0];
+  var rankPct=next?Math.round((S.cases-prevAt)/(next[0]-prevAt)*100):100;
+  var goal=S.rewards.find(function(x){return x.id===S.goal;}),avail=available(),pend=S.requests.filter(function(q){return q.st==='pending';}).length;
+  var got=BADGES.filter(function(b){return S.badges.indexOf(b[0])>=0;}),locked=BADGES.filter(function(b){return S.badges.indexOf(b[0])<0;});
+  var badgeHTML=got.map(function(b){return '<button class="hb got" data-b="'+esc(b[1])+'" aria-label="'+esc(b[1])+'">'+b[2]+'</button>';}).join('')+
+    locked.map(function(b){return '<button class="hb" data-b="Locked badge. Keep playing!" aria-label="Locked badge">'+b[2]+'</button>';}).join('');
+  var recent=S.archive.slice(-3).reverse().map(function(a){return '<div class="h-rc"><span class="rc-no">#'+String(a.no).padStart(3,'0')+'</span><span class="rc-t">'+esc(a.title)+'</span><span class="rc-r">'+(a.kind==='pup'?'found Jax 🐶':'caught '+esc(a.culprit))+'</span></div>';}).join('');
   stage.innerHTML=
-   '<section class="hero card"><div class="badge-big"><span>'+r[2]+'</span></div><div>'+
-   '<div class="rank">'+esc(r[1])+'</div><h1 class="big title">Detective'+(S.name?' '+esc(S.name):'')+'</h1>'+
-   (next?'<div class="line1" style="text-align:inherit">'+(next[0]-S.cases)+' more case'+(next[0]-S.cases===1?'':'s')+' to make '+esc(next[1])+'</div>':'')+
-   '</div></section>'+
-   '<button class="rw-entry" id="rwBtn"><span class="rwe-star" aria-hidden="true">⭐</span><span class="rwe-txt"><b>'+fmt(S.wallet.bal)+'</b><span>reward points</span></span><span class="rwe-go">Rewards ›</span>'+(S.requests.some(function(q){return q.st==='pending';})?'<span class="rwe-dot" aria-label="request waiting"></span>':'')+'</button>'+
-   '<button class="btn pink big" id="newCase" style="font-size:28px;min-height:84px">📂 Open a new case</button>'+
-   '<button class="arc-entry" id="arcBtn"><span aria-hidden="true">🕹️</span><span><b>Arcade</b><span>Quick mini games</span></span></button>'+
-   '<button class="pup-case" id="pupCase"><span class="pc-em" aria-hidden="true">🐶</span><span class="pc-txt"><span class="pc-tag">SPECIAL CASE</span><b>The Missing Puppy</b><span>Help Gigi find Jax!'+((S.pupSaved||0)>0?' · Saved '+S.pupSaved+'×':'')+'</span></span></button>'+
-   '<div class="stats"><div class="stat"><b>'+S.cases+'</b><span>cases closed</span></div><div class="stat"><b>'+S.bestStreak+'</b><span>best streak</span></div><div class="stat"><b>'+S.dayStreak+'</b><span>days in a row</span></div><div class="stat"><b>'+S.wordsRead+'</b><span>words read</span></div></div>'+
-   '<section class="card"><h2 class="h2">BADGES</h2><div class="badges">'+badgeHTML+'</div></section>'+
-   '<section class="card"><h2 class="h2">CLOSED CASES</h2><div class="archive">'+arc+'</div></section>'+
-   '<div class="row" style="justify-content:center;gap:4px"><button class="link" id="grown">🔒 Grown-ups</button><span style="color:var(--muted);font-size:13px">'+VERSION+'</span></div>';
+   '<header class="h-top"><div class="h-id"><div class="h-badge" aria-hidden="true">'+r[2]+'</div><div class="h-who"><span class="h-rank">'+esc(r[1])+'</span><b>'+(S.name?esc(S.name):'Detective')+'</b></div></div>'+
+   '<button class="h-pts" id="rwBtn" aria-label="'+fmt(S.wallet.bal)+' reward points. Open rewards"><span aria-hidden="true">⭐</span><b>'+fmt(S.wallet.bal)+'</b>'+(pend?'<i class="h-dot"></i>':'')+'</button></header>'+
+   '<div class="h-rankbar"><div class="bar sm"><i style="width:'+rankPct+'%"></i></div><span>'+(next?(next[0]-S.cases)+' more case'+(next[0]-S.cases===1?'':'s')+' to '+esc(next[1]):'Top rank!')+'</span></div>'+
+   '<button class="h-case" id="newCase"><span class="hc-tab">CASE #'+String((S.caseNo||0)+1).padStart(3,'0')+'</span><span class="hc-body"><b>Open a new case</b><span>Find 4 clues. Catch the thief.</span></span><span class="hc-go" aria-hidden="true">›</span></button>'+
+   '<div class="h-tiles">'+
+    '<button class="h-tile t-pup" id="pupCase"><span class="ht-e" aria-hidden="true">🐶</span><b>Missing Puppy</b><span>Help Gigi find Jax</span></button>'+
+    '<button class="h-tile t-arc" id="arcBtn"><span class="ht-e" aria-hidden="true">🕹️</span><b>Arcade</b><span>5 quick games</span></button>'+
+   '</div>'+
+   '<button class="h-goal" id="goalBtn">'+(goal?
+     '<span class="hg-e" aria-hidden="true">'+goal.e+'</span><span class="hg-mid"><span class="hg-k">SAVING FOR</span><b>'+esc(goal.n)+'</b><span class="bar sm"><i style="width:'+Math.min(100,avail/goal.p*100)+'%"></i></span></span><span class="hg-pct">'+(avail>=goal.p?'Ready!':Math.floor(avail/goal.p*100)+'%')+'</span>':
+     '<span class="hg-e" aria-hidden="true">🎁</span><span class="hg-mid"><span class="hg-k">REWARDS</span><b>Pick something to save for</b></span><span class="hg-pct">›</span>')+
+   '</button>'+(pend?'<p class="h-note">📨 '+pend+' reward'+(pend>1?'s':'')+' waiting for a grown-up to approve</p>':'')+
+   '<section class="h-stats"><div><b>'+S.cases+'</b><span>📁 cases</span></div><div><b>'+S.bestStreak+'</b><span>🔥 best streak</span></div><div><b>'+S.dayStreak+'</b><span>📅 days in a row</span></div><div><b>'+fmt(S.wordsRead)+'</b><span>📖 words read</span></div></section>'+
+   '<section class="h-sec"><div class="h-sechead"><span>BADGES</span><span>'+got.length+' of '+BADGES.length+'</span></div><div class="h-badges">'+badgeHTML+'</div></section>'+
+   (recent?'<section class="h-sec"><div class="h-sechead"><span>RECENT CASES</span><span>'+S.cases+' solved</span></div>'+recent+'</section>':'')+
+   '<div class="h-foot"><button class="link" id="grown">🔒 Grown-ups</button><span>'+VERSION+'</span></div>';
   $('#newCase').onclick=function(){ac();SFX.tap();startCase();};
   $('#pupCase').onclick=function(){ac();SFX.tap();startCase('pup');};
   $('#arcBtn').onclick=function(){ac();SFX.tap();renderArcade();};
   $('#rwBtn').onclick=function(){ac();SFX.tap();renderRewards('shop');};
+  $('#goalBtn').onclick=function(){ac();SFX.tap();renderRewards('shop');};
+  $$('.hb').forEach(function(b){b.onclick=function(){SFX.tap();toast(b.dataset.b);};});
   $('#grown').onclick=renderGrown;
 }
 
