@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#F3F5F8">
+<title>Case Files · Progress</title>
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F3F5F8;--card:#FFFFFF;--ink:#172033;--ink2:#3A4456;--muted:#566173;--line:#E3E7ED;--teal:#127A7A;--teal-d:#0E5F5F;--teal-l:#DDF1EE;--teal-p:#9BC9C4;--amber:#E39B17;--amber-l:#FCEBC4;--amber-d:#7A4F00;--shaky:#F2B33D;--empty:#DCE1E8;--navy:#172033;color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'Manrope',system-ui,sans-serif;-webkit-text-size-adjust:100%}
+a{color:var(--teal-d)}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:480px;margin:0 auto;padding:20px 16px 48px;display:flex;flex-direction:column;gap:18px}
+.eyebrow{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+h1{margin:4px 0 0;font-family:'Space Grotesk',sans-serif;font-size:28px;line-height:1.1}
+h2{margin:0;font-family:'Space Grotesk',sans-serif;font-size:18px}
+.sub{font-size:14px;color:var(--muted);margin-top:6px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;padding:6px 10px;border-radius:999px;white-space:nowrap}
+.chip.ok{background:var(--teal-l);color:var(--teal-d)}.chip.ok i{width:8px;height:8px;border-radius:50%;background:var(--teal)}
+.chip.warn{background:var(--amber-l);color:var(--amber-d)}
+.chip.grey{background:var(--line);color:var(--ink2)}
+.seg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;background:var(--line);padding:4px;border-radius:12px}
+.seg button{min-height:44px;border:0;border-radius:9px;background:transparent;color:var(--ink2);font-weight:700;font-size:14px}
+.seg button[aria-pressed=true]{background:#fff;color:var(--ink);font-weight:800;box-shadow:0 1px 2px rgba(23,32,51,.12)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.card{background:var(--card);border-radius:16px;padding:16px;box-shadow:0 1px 2px rgba(23,32,51,.06)}
+.tile{background:var(--card);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:4px;box-shadow:0 1px 2px rgba(23,32,51,.06);min-width:0}
+.tile .l{font-size:12px;font-weight:700;color:var(--muted)}
+.tile .v{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700}
+.tile .s{font-size:12px;color:var(--muted)}
+.tile .s.good{color:var(--teal-d);font-weight:700}
+.hrow{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.hrow span{font-size:12px;color:var(--muted)}
+.bars{display:grid;gap:8px;margin-top:14px;align-items:end;height:120px}
+.bar{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;height:100%}
+.bar span{font-size:11px;font-weight:700;color:var(--ink2)}
+.bar div{width:100%;max-width:30px;border-radius:6px}
+.blabels{display:grid;gap:8px;margin-top:6px}
+.blabels span{text-align:center;font-size:12px;font-weight:700;color:var(--muted)}
+.note{margin-top:12px;font-size:13px;color:var(--ink2)}
+.skills{display:flex;flex-direction:column;gap:10px}
+.skill{display:flex;flex-direction:column;gap:10px;background:var(--card);border-radius:14px;padding:14px;box-shadow:0 1px 2px rgba(23,32,51,.06);text-decoration:none;color:var(--ink)}
+.skill:hover{box-shadow:0 2px 8px rgba(23,32,51,.12)}
+.skill .n{font-weight:800;font-size:16px}
+.skill .lv{font-size:12px;color:var(--muted);margin-top:2px}
+.meter{display:flex;align-items:center;gap:10px}
+.track{flex:1;height:10px;background:var(--line);border-radius:999px;overflow:hidden}
+.track div{height:100%;background:var(--teal);border-radius:999px}
+.pct{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;width:44px;text-align:right}
+.dark{background:var(--navy);color:#fff;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.dark .k{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--shaky)}
+.dark .t{font-weight:800;font-size:16px}
+.dark .b{font-size:14px;color:#C9D0DB;line-height:1.45}
+.list .it{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.list .it:first-child{border-top:0}
+.it .a{font-weight:800;font-size:15px}
+.it .w{font-size:12px;color:var(--muted)}
+.it .r{text-align:right;flex-shrink:0;font-size:13px;font-weight:700;color:var(--ink2)}
+.it .r.pts{color:var(--teal-d);font-weight:800;font-size:14px}
+.win{display:flex;gap:12px;align-items:center;padding:6px 0}
+.win .ic{width:36px;height:36px;border-radius:10px;background:var(--amber-l);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.empty{font-size:14px;color:var(--muted);margin:6px 0 0}
+.wallet{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:22px}
+.goal{display:flex;justify-content:space-between;font-size:13px;font-weight:700;gap:8px}
+.goal span:last-child{color:var(--muted);white-space:nowrap}
+.track.amb div{background:var(--amber)}
+.ask{background:var(--bg);border-radius:12px;padding:12px;font-size:14px;line-height:1.45}
+.foot{font-size:12px;color:var(--muted);text-align:center}
+.btn{min-height:48px;border:0;border-radius:12px;background:var(--teal);color:#fff;font-weight:800;font-size:16px;padding:10px 18px}
+.btn:hover{background:var(--teal-d)}
+.btn.alt{background:var(--line);color:var(--ink)}
+.btn.alt:hover{background:#D3D9E1}
+.linkbtn{background:none;border:0;color:var(--teal-d);font-weight:700;font-size:14px;padding:10px 0;min-height:44px;text-decoration:underline}
+input[type=text]{font:inherit;font-size:17px;border:2px solid var(--line);border-radius:12px;padding:10px 12px;min-height:48px;width:100%;background:#fff;color:var(--ink)}
+input[type=text]:focus,button:focus-visible,a:focus-visible{outline:3px solid var(--teal-p);outline-offset:2px}
+label{font-weight:700;font-size:14px;display:flex;flex-direction:column;gap:6px}
+.code{font-family:'Space Grotesk',sans-serif;font-size:40px;font-weight:700;letter-spacing:.18em;text-align:center;background:var(--bg);border-radius:14px;padding:14px 8px}
+.steps{margin:0;padding-left:20px;font-size:15px;line-height:1.55;color:var(--ink2)}
+.keybox{font-family:ui-monospace,Menlo,monospace;font-size:13px;word-break:break-all;background:var(--bg);border-radius:10px;padding:10px}
+.back{display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:15px;min-height:44px;text-decoration:none;align-self:flex-start}
+.fmap{display:flex;flex-direction:column;gap:4px;margin-top:14px}
+.frow{display:grid;grid-template-columns:26px repeat(10,minmax(0,1fr));gap:4px}
+.frow .rl{font-size:12px;font-weight:800;color:var(--ink2);display:flex;align-items:center}
+.frow .cl{text-align:center;font-size:11px;font-weight:700;color:var(--muted)}
+.cell{height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+.c-k{background:var(--teal);color:#fff}.c-s{background:var(--shaky);color:var(--ink)}.c-n{background:var(--empty);color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;font-size:12px;font-weight:700;color:var(--ink2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:14px;height:14px;border-radius:4px;display:inline-block}
+.err{color:#9A3412;font-weight:700;font-size:14px}
+.stack{display:flex;flex-direction:column;gap:12px}
+details summary{cursor:pointer;font-weight:800;min-height:44px;display:flex;align-items:center}
+.spin{width:28px;height:28px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--teal);animation:sp 1s linear infinite;margin:40px auto}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<main class="wrap" id="app" aria-live="polite"><div class="spin" role="status" aria-label="Loading"></div></main>
+<script>
+(function(){
+'use strict';
+var SB_URL='https://nkbivmvsgvhnsarvsnmt.supabase.co',SB_KEY='sb_publishable_aHn1997H6MOfImvKYXqnAA_d8_0CqVp',PK='caseFilesParent.key';
+var app=document.getElementById('app');
+var view={range:'week',skill:null},DATA=null,lastErr='',pollT=null;
+var SKILLS=[['mult','Math facts','math'],['div','Division','math'],['spell','Spelling','spell'],['hunt','Word Hunt','spell'],['read','Reading aloud','read']];
+var SK_NAME={};SKILLS.forEach(function(s){SK_NAME[s[0]]=s[1];});
+
+function getKey(){try{return localStorage.getItem(PK)||'';}catch(e){return '';}}
+function setKey(k){try{if(k)localStorage.setItem(PK,k);else localStorage.removeItem(PK);}catch(e){}}
+(function(){var m=/[#&]key=([a-f0-9]{48})/.exec(location.hash);if(m){setKey(m[1]);history.replaceState(null,'',location.pathname);}})();
+
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function fmt(n){return (Math.round(n||0)).toLocaleString('en-US');}
+function rpc(fn,args){return fetch(SB_URL+'/rest/v1/rpc/'+fn,{method:'POST',headers:{'apikey':SB_KEY,'Content-Type':'application/json'},body:JSON.stringify(args)})
+  .then(function(r){return r.json().catch(function(){return null;}).then(function(j){if(!r.ok)throw new Error((j&&j.message)||('HTTP '+r.status));return j;});});}
+function iso(d){function p(n){return (n<10?'0':'')+n;}return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
+function addDays(d,n){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate());x.setDate(x.getDate()+n);return x;}
+function weekStart(d){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate());var w=(x.getDay()+6)%7;return addDays(x,-w);}
+function ago(ts){if(!ts)return 'never';var m=Math.round((Date.now()-new Date(ts).getTime())/60000);if(m<1)return 'just now';if(m<60)return m+' min ago';if(m<1440)return Math.round(m/60)+' hr ago';var d=Math.round(m/1440);return d===1?'yesterday':d+' days ago';}
+function when(t){var d=new Date(t),now=new Date(),day=iso(d),tm=d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  if(day===iso(now))return 'Today, '+tm;if(day===iso(addDays(now,-1)))return 'Yesterday, '+tm;
+  return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})+', '+tm;}
+function mins(sec){var m=Math.round((sec||0)/60);if(m<60)return m+'m';return Math.floor(m/60)+'h '+(m%60)+'m';}
+function itemText(k,key){if(k==='mult'||k==='div')return String(key).replace(/([×÷+\-])/g,' $1 ');return '“'+key+'”';}
+
+/* ---------- data helpers ---------- */
+function sums(kid){return (kid.days||[]).filter(function(d){return d.summary&&d.summary.skills;});}
+function endOn(kid,dayStr){var a=sums(kid),r=null;a.forEach(function(d){if(d.day<=dayStr)r=d.summary;});return r;}
+function baseFor(kid,startStr){var a=sums(kid),r=null;a.forEach(function(d){if(d.day<startStr)r=d.summary;});return r||(a[0]?a[0].summary:null);}
+function rangeOf(r){var now=new Date();if(r==='month')return {start:new Date(now.getFullYear(),now.getMonth(),1),end:now,label:'this month'};return {start:weekStart(now),end:now,label:'this week'};}
+function diffSkill(a,b,k){var e=a&&a.skills[k],s=b&&b.skills[k];if(!e)return {att:0,first:0};
+  if(a===b)return {att:0,first:0};return {att:Math.max(0,e.att-(s?s.att:0)),first:Math.max(0,e.first-(s?s.first:0)),lvlNow:e.lvl,lvlThen:s?s.lvl:e.lvl};}
+function stateOf(kid){return kid.state||{};}
+
+function compute(kid){var st=stateOf(kid),R=rangeOf(view.range),sStr=iso(R.start),eStr=iso(R.end);
+  var end=endOn(kid,eStr),base=baseFor(kid,sStr);
+  var play=st.play||{},days=0,secs=0,nDays=Math.round((R.end-R.start)/86400000)+1;
+  for(var i=0;i<nDays;i++){var k=iso(addDays(R.start,i));var v=play[k]||0;secs+=v;if(v>=60)days++;}
+  var tot={att:0,first:0},skills={};
+  SKILLS.forEach(function(s){var d=diffSkill(end,base,s[0]);skills[s[0]]=d;tot.att+=d.att;tot.first+=d.first;});
+  var log=((st.wallet||{}).log||[]),t0=R.start.getTime(),pts=0;
+  log.forEach(function(e){if(e.t>=t0&&(e.k==='earn'&&e.src!=='start'||e.k==='adjust'&&e.p>0))pts+=e.p;});
+  var cases=0,arc=0;if(end&&end!==base){cases=Math.max(0,(end.cases||0)-((base&&base.cases)||0));
+    Object.keys(end.arcade||{}).forEach(function(g){arc+=Math.max(0,(end.arcade[g].plays||0)-(((base&&base.arcade||{})[g]||{}).plays||0));});}
+  return {R:R,end:end,base:base,secs:secs,days:days,nDays:nDays,tot:tot,skills:skills,pts:pts,cases:cases,arc:arc};}
+
+function streak(st){var play=st.play||{},d=new Date(),n=0;if(!(play[iso(d)]>=60))d=addDays(d,-1);
+  while(play[iso(d)]>=60){n++;d=addDays(d,-1);}return n;}
+
+/* ---------- render: shell ---------- */
+function render(){clearTimeout(pollT);
+  if(!getKey())return renderSetup();
+  if(!DATA){app.innerHTML='<div class="spin" role="status" aria-label="Loading"></div>';return load();}
+  var kid=DATA.kids[0];
+  if(!kid){app.innerHTML='<p class="err">No kids on this page yet.</p>';return;}
+  if(!kid.linked||!kid.state)return renderPair(kid);
+  if(view.skill)return renderSkill(kid,view.skill);
+  return renderMain(kid);}
+
+function load(){var k=getKey();
+  return rpc('cf_dashboard',{p_parent:k}).then(function(j){DATA=j;lastErr='';render();schedule();},
+    function(e){if(/not allowed/i.test(e.message)){setKey('');DATA=null;lastErr='That page key didn’t work.';render();return;}
+      lastErr='Couldn’t load right now. Check your connection.';if(DATA)render();else app.innerHTML='<p class="err">'+esc(lastErr)+'</p><button class="btn" id="retry">Try again</button>',document.getElementById('retry').onclick=function(){app.innerHTML='<div class="spin"></div>';load();};schedule();});}
+function schedule(){clearTimeout(pollT);var linked=DATA&&DATA.kids[0]&&DATA.kids[0].linked&&DATA.kids[0].state;pollT=setTimeout(function(){if(document.visibilityState==='visible')load();else schedule();},linked?60000:6000);}
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible'&&getKey())load();});
+window.addEventListener('hashchange',function(){var m=/^#skill=(\w+)/.exec(location.hash);view.skill=m&&SK_NAME[m[1]]?m[1]:null;render();window.scrollTo(0,0);});
+(function(){var m=/^#skill=(\w+)/.exec(location.hash);if(m&&SK_NAME[m[1]])view.skill=m[1];})();
+
+/* ---------- setup ---------- */
+function renderSetup(){app.innerHTML=
+  '<div><div class="eyebrow">Case Files · Grown-up view</div><h1>Set up your progress page</h1><div class="sub">One time, about a minute. After this, her progress shows up here on its own.</div></div>'+
+  (lastErr?'<p class="err">'+esc(lastErr)+'</p>':'')+
+  '<section class="card stack"><label for="kn">Kid’s name (only you see this)<input type="text" id="kn" value="Savannah" maxlength="30" autocomplete="off"></label>'+
+  '<button class="btn" id="go">Set up</button><p class="err" id="setErr" role="alert"></p></section>'+
+  '<details class="card"><summary>Already set up on another phone or computer?</summary><div class="stack"><p class="sub" style="margin:0">Paste your page key. You’ll find it at the bottom of the progress page on your other device.</p>'+
+  '<input type="text" id="pk" placeholder="Page key" autocomplete="off" spellcheck="false"><button class="btn alt" id="usePk">Open my page</button></div></details>';
+  document.getElementById('go').onclick=function(){var n=document.getElementById('kn').value.trim();var b=this;if(!n){document.getElementById('setErr').textContent='Type a name first.';return;}
+    b.disabled=true;b.textContent='Setting up…';
+    rpc('cf_create_family',{p_kid:n}).then(function(j){setKey(j.parent_key);DATA=null;load();},function(){b.disabled=false;b.textContent='Set up';document.getElementById('setErr').textContent='Couldn’t reach the server. Check your connection and try again.';});};
+  document.getElementById('usePk').onclick=function(){var v=document.getElementById('pk').value.trim().toLowerCase();if(!/^[a-f0-9]{48}$/.test(v)){lastErr='That doesn’t look like a page key. It’s 48 letters and numbers.';renderSetup();return;}setKey(v);DATA=null;lastErr='';render();};}
+
+/* ---------- pairing ---------- */
+function renderPair(kid){var code=kid.pair_code;
+  app.innerHTML='<div><div class="eyebrow">Case Files · Grown-up view</div><h1>Link '+esc(kid.nickname)+'’s phone</h1>'+
+  '<div class="sub">'+(kid.linked?'Linked! Waiting for her phone to send its first update…':'Type this code into the game on her phone.')+'</div></div>'+
+  (code?'<section class="card stack"><div class="code" aria-label="Link code">'+esc(code.split('').join(' '))+'</div>'+
+    '<ol class="steps"><li>On her phone, open <b>Case Files</b>.</li><li>Go to the grown-up area and enter your PIN.</li><li>In <b>Report &amp; settings</b>, find <b>Progress page</b>.</li><li>Type the code and tap <b>Link</b>.</li></ol>'+
+    '<p class="sub" style="margin:0">The code works for 30 minutes. This page updates by itself once she’s linked.</p></section>'
+   :'<section class="card stack"><p style="margin:0">'+(kid.linked?'If nothing shows up in a minute, open the game on her phone and tap <b>Send progress now</b> in the Progress page box.':'Your code ran out. Make a new one.')+'</p>'+
+    '<button class="btn'+(kid.linked?' alt':'')+'" id="newCode">Make a new code</button></section>')+
+  keyCard()+'';
+  var nc=document.getElementById('newCode');if(nc)nc.onclick=function(){newCode(kid);};wireKeyCard();schedule();}
+function newCode(kid){rpc('cf_new_pair_code',{p_parent:getKey(),p_kid:kid.id}).then(function(j){kid.pair_code=j.pair_code;kid.linked=false;kid.state=null;renderPair(kid);},function(){alert('Couldn’t make a code right now. Try again in a moment.');});}
+
+function keyCard(){return '<details class="card"><summary>Your page key</summary><div class="stack">'+
+  '<p class="sub" style="margin:0">This key opens your progress page. Save it somewhere safe (a note to yourself works). Anyone with it can see her progress, so don’t share it.</p>'+
+  '<div class="keybox" id="kb">'+esc(getKey())+'</div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn alt" id="cpk">Copy key</button><button class="btn alt" id="cpl">Copy link for another device</button></div><p class="sub" id="cpm" role="status" style="margin:0"></p>'+
+  '<button class="linkbtn" id="out" style="align-self:flex-start">Forget this page on this device</button></div></details>';}
+function wireKeyCard(){function copy(t,msg){var m=document.getElementById('cpm');function ok(){m.textContent=msg;}
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,function(){m.textContent='Select the key above and copy it.';});else m.textContent='Select the key above and copy it.';}
+  var a=document.getElementById('cpk');if(!a)return;
+  a.onclick=function(){copy(getKey(),'Copied. Paste it into a note to yourself.');};
+  document.getElementById('cpl').onclick=function(){copy(location.origin+location.pathname+'#key='+getKey(),'Copied. Open that link on your other device.');};
+  document.getElementById('out').onclick=function(){if(confirm('Forget the page key on this device? Her progress stays saved. You’ll need the key to open it here again.')){setKey('');DATA=null;render();}};}
+
+/* ---------- main overview ---------- */
+function renderMain(kid){var st=stateOf(kid),c=compute(kid),stale=kid.last_sync&&(Date.now()-new Date(kid.last_sync).getTime()>36*3600000);
+  var pct=c.tot.att?Math.round(c.tot.first/c.tot.att*100)+'%':'–';
+  var h='<div class="top"><div><div class="eyebrow">Case Files · Grown-up view</div><h1>'+esc(kid.nickname)+'’s progress</h1><div class="sub">Updated '+esc(ago(kid.last_sync))+'</div></div>'+
+    '<span class="chip '+(stale?'warn':'ok')+'">'+(stale?'Not synced lately':'<i></i>Synced')+'</span></div>'+
+    (lastErr?'<p class="err">'+esc(lastErr)+'</p>':'')+
+    '<div class="seg" role="group" aria-label="Time range"><button data-r="week" aria-pressed="'+(view.range==='week')+'">This week</button><button data-r="month" aria-pressed="'+(view.range==='month')+'">This month</button></div>'+
+    '<div class="grid2">'+
+    tile('Time played',mins(c.secs),c.days+' of '+c.nDays+' days')+
+    tile('Right first try',pct,c.tot.att?'Sweet spot is about 80%':'No answers yet '+c.R.label)+
+    tile('Points earned',fmt(c.pts),'Reward points')+
+    tile('Rounds finished',String(c.cases+c.arc),c.cases+' case'+(c.cases===1?'':'s')+' · '+c.arc+' arcade')+'</div>';
+  // minutes this week
+  var ws=weekStart(new Date()),play=st.play||{},max=1,today=iso(new Date()),dl=['M','T','W','T','F','S','S'],bars='',labs='';
+  for(var i=0;i<7;i++){max=Math.max(max,play[iso(addDays(ws,i))]||0);}
+  for(i=0;i<7;i++){var d=iso(addDays(ws,i)),s=play[d]||0,m=Math.round(s/60),hgt=s<60?4:Math.max(8,Math.round(s/max*84)),fut=d>today;
+    bars+='<div class="bar"><span>'+(fut?'':s<60?'–':m)+'</span><div style="height:'+hgt+'px;background:'+(s<60?'var(--empty)':d===today?'var(--amber)':'var(--teal)')+'"></div></div>';
+    labs+='<span'+(d===today?' style="color:var(--ink)"':'')+'>'+dl[i]+'</span>';}
+  var stk=streak(st);
+  h+='<section class="card"><div class="hrow"><h2>Minutes played</h2><span>This week, Mon–Sun</span></div>'+
+    '<div class="bars" style="grid-template-columns:repeat(7,minmax(0,1fr))" aria-hidden="true">'+bars+'</div><div class="blabels" style="grid-template-columns:repeat(7,minmax(0,1fr))" aria-hidden="true">'+labs+'</div>'+
+    '<div class="note">'+(stk>=2?'Playing streak: '+stk+' days in a row':'Counts time she’s actively playing')+'</div></section>';
+  // skills
+  h+='<section class="skills" aria-label="Skills"><div class="hrow"><h2>Skills</h2><span>Right on first try, '+esc(c.R.label)+'</span></div>';
+  var ready=null;
+  SKILLS.forEach(function(s){var k=s[0],d=c.skills[k],sk=(st.skills||{})[k]||{},all=sk.att?Math.round(sk.first/sk.att*100):null;
+    var p=d.att?Math.round(d.first/d.att*100):null,lvtxt=(st.names&&st.names.levels&&st.names.levels[k])||'';
+    var chip=!d.att?['grey','Not played']:d.lvlNow>d.lvlThen?['ok','Moving up']:d.lvlNow<d.lvlThen?['warn','Eased back']:['grey','Steady'];
+    if(k!=='read'&&sk.lvl===3&&d.att>=12&&p>=85&&!ready)ready={k:k,p:p,area:s[2]};
+    h+='<a class="skill" href="#skill='+k+'"><div class="top" style="align-items:center"><div><div class="n">'+s[1]+'</div><div class="lv">'+esc(lvtxt)+'</div></div><span class="chip '+chip[0]+'">'+chip[1]+'</span></div>'+
+      '<div class="meter"><div class="track"><div style="width:'+(p==null?0:p)+'%"></div></div><span class="pct">'+(p==null?'–':p+'%')+'</span></div>'+
+      (p==null&&all!=null?'<div class="lv" style="margin-top:-4px">All time: '+all+'% on '+fmt(sk.att)+' tries</div>':'')+'</a>';});
+  h+='</section>';
+  if(ready){var area={math:'Math',spell:'Spelling'}[ready.area];
+    h+='<section class="dark"><div class="k">Ready for harder</div><div class="t">'+SK_NAME[ready.k]+' is at its top step</div><div class="b">She got '+ready.p+'% right on the first try '+esc(c.R.label)+'. You can move '+area+' up one grade in the game’s grown-up area.</div></section>';}
+  // tricky spots
+  var tr=[];if(c.end&&c.end!==c.base)SKILLS.forEach(function(s){var e=(c.end.skills[s[0]]||{}).missed||{},b=((c.base&&c.base.skills[s[0]])||{}).missed||{};
+    Object.keys(e).forEach(function(x){var n=e[x]-(b[x]||0);if(n>=2)tr.push({k:s[0],x:x,n:n});});});
+  tr.sort(function(a,b){return b.n-a.n;});
+  h+='<section class="card"><h2>Tricky spots</h2><div class="sub" style="margin:2px 0 8px">Missed more than once '+esc(c.R.label)+'</div><div class="list">'+
+    (tr.length?tr.slice(0,5).map(function(t){return '<div class="it"><div><div class="a" style="font-size:16px">'+esc(itemText(t.k,t.x))+'</div><div class="w">'+SK_NAME[t.k]+'</div></div><span class="r">'+(t.k==='read'?'Needed help ':'Missed ')+t.n+'×</span></div>';}).join('')
+     :'<p class="empty">Nothing she keeps getting stuck on. Nice.</p>')+'</div></section>';
+  // wins
+  var wins=[],names=st.names||{badges:{},arcade:{}};
+  if(c.end&&c.end!==c.base){var bb=(c.base&&c.base.badges)||[];(c.end.badges||[]).forEach(function(b){if(bb.indexOf(b)<0)wins.push(['Badge unlocked: '+(names.badges[b]||b),'']);});
+    Object.keys(c.end.arcade||{}).forEach(function(g){var now=c.end.arcade[g].best||0,was=(((c.base&&c.base.arcade)||{})[g]||{}).best||0;if(was&&now>was)wins.push(['New best in '+(names.arcade[g]||g),now+' points (was '+was+')']);});
+    SKILLS.forEach(function(s){var d=c.skills[s[0]];if(d.att&&d.lvlNow>d.lvlThen)wins.push(['Moved up a step in '+s[1],'The game made it a little harder']);});}
+  if(stk>=3)wins.push([stk+'-day playing streak','Keep it going']);
+  h+='<section class="card"><h2>Wins '+esc(c.R.label)+'</h2>'+(wins.length?wins.slice(0,6).map(function(w){return '<div class="win"><div class="ic"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A5A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM17 6h3v2a3 3 0 0 1-3 3M7 6H4v2a3 3 0 0 0 3 3"></path></svg></div><div><div class="a" style="font-weight:800;font-size:15px">'+esc(w[0])+'</div>'+(w[1]?'<div class="w" style="font-size:12px;color:var(--muted)">'+esc(w[1])+'</div>':'')+'</div></div>';}).join(''):'<p class="empty">Badges, new bests and level-ups will show up here.</p>')+'</section>';
+  // recent sessions
+  var rec=((st.wallet||{}).log||[]).filter(function(e){return e.k==='earn'&&e.src!=='start';}).slice(-6).reverse();
+  h+='<section class="card"><h2>Recent sessions</h2><div class="list" style="margin-top:6px">'+(rec.length?rec.map(function(e){return '<div class="it"><div><div class="a">'+esc(e.l||names.arcade[e.src]||'Game')+'</div><div class="w">'+esc(when(e.t))+'</div></div><span class="r pts">+'+fmt(e.p)+'</span></div>';}).join(''):'<p class="empty">No games yet.</p>')+'</div></section>';
+  // rewards
+  var W=st.wallet||{bal:0},goal=(st.rewards||[]).find(function(r){return r.id===st.goal;}),pend=(st.requests||[]).filter(function(q){return q.st==='pending';});
+  h+='<section class="card stack"><div class="hrow"><h2>Reward points</h2><span class="wallet">'+fmt(W.bal)+'</span></div>'+
+    (goal?'<div><div class="goal"><span>Saving for: '+esc(goal.n)+'</span><span>'+fmt(W.bal)+' / '+fmt(goal.p)+'</span></div><div class="track amb" style="margin-top:6px"><div style="width:'+Math.min(100,Math.round(W.bal/goal.p*100))+'%"></div></div></div>':'<p class="empty" style="margin:0">She hasn’t picked a goal yet.</p>')+
+    (pend.length?'<div class="ask"><b>Waiting for you in the game</b><br>She asked for '+pend.map(function(q){return esc(q.n)+' ('+fmt(q.p)+' points)';}).join(', ')+'. Approve it on her phone with your PIN.</div>':'')+'</section>';
+  h+=keyCard()+'<details class="card"><summary>Link a different phone</summary><div class="stack"><p class="sub" style="margin:0">Got her a new phone? Make a code and type it into the game on the new one. The old phone stops sending.</p><button class="btn alt" id="newCode">Make a new code</button></div></details>'+
+    '<div class="foot">Updates whenever her phone is online.</div>';
+  app.innerHTML=h;
+  Array.prototype.forEach.call(app.querySelectorAll('.seg button'),function(b){b.onclick=function(){view.range=b.dataset.r;render();};});
+  document.getElementById('newCode').onclick=function(){if(confirm('Make a new link code? Her current phone will stop sending once the new phone is linked.'))newCode(kid);};
+  wireKeyCard();schedule();}
+function tile(l,v,s,good){return '<div class="tile"><div class="l">'+esc(l)+'</div><div class="v">'+esc(v)+'</div><div class="s'+(good?' good':'')+'">'+esc(s)+'</div></div>';}
+
+/* ---------- skill detail ---------- */
+function renderSkill(kid,k){var st=stateOf(kid),sk=(st.skills||{})[k]||{att:0,first:0,missed:{},seen:{}},now=new Date();
+  var wk=[];for(var i=3;i>=0;i--){var s=addDays(weekStart(now),-7*i),e=i===0?now:addDays(s,6);var end=endOn(kid,iso(e)),base=baseFor(kid,iso(s));
+    var d=end&&base&&end!==base?diffSkill(end,base,k):{att:0,first:0};wk.push({lab:i===0?'This wk':s.toLocaleDateString('en-US',{month:'short',day:'numeric'}),att:d.att,p:d.att?Math.round(d.first/d.att*100):null});}
+  var cur=wk[3],first=wk.filter(function(w){return w.p!=null;})[0];
+  var all=sk.att?Math.round(sk.first/sk.att*100):null;
+  var h='<a class="back" href="#"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg>Progress</a>'+
+    '<div><h1>'+SK_NAME[k]+'</h1><div class="sub">'+esc((st.names&&st.names.levels&&st.names.levels[k])||'')+'</div></div>'+
+    '<div class="grid2">'+tile('Right first try',cur.p!=null?cur.p+'%':'–',cur.p!=null&&first&&first!==cur?'Was '+first.p+'% the week of '+first.lab:(all!=null?'All time: '+all+'%':'Not played yet'),cur.p!=null&&first&&first!==cur&&cur.p>first.p)+
+    tile('Tries this week',fmt(cur.att),fmt(sk.att)+' all time')+'</div>';
+  var bars='',labs='';wk.forEach(function(w,j){bars+='<div class="bar"><span style="font-family:Space Grotesk,sans-serif;font-size:14px">'+(w.p==null?'–':w.p+'%')+'</span><div style="max-width:44px;height:'+(w.p==null?4:Math.max(8,Math.round(w.p/100*100)))+'px;border-radius:8px;background:'+(w.p==null?'var(--empty)':j===3?'var(--teal)':'var(--teal-p)')+'"></div></div>';labs+='<span>'+esc(w.lab)+'</span>';});
+  h+='<section class="card"><h2>Last 4 weeks</h2><div class="sub" style="margin-top:2px">Right on first try, per week</div><div class="bars" style="grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;height:150px" aria-hidden="true">'+bars+'</div><div class="blabels" style="grid-template-columns:repeat(4,minmax(0,1fr));gap:14px" aria-hidden="true">'+labs+'</div></section>';
+  // fact map for multiplication
+  var shaky=[];
+  if(k==='mult'){var seen={},miss={},maxR=0;
+    function add(map,key,n){var m=/^(\d+)×(\d+)$/.exec(key);if(!m)return;var a=+m[1],b=+m[2],lo=Math.min(a,b),hi=Math.max(a,b);if(hi>10)return;var f=lo+'×'+hi;map[f]=(map[f]||0)+n;if(map===seen||n)maxR=Math.max(maxR,lo);}
+    Object.keys(sk.seen||{}).forEach(function(x){add(seen,x,sk.seen[x]);});Object.keys(sk.missed||{}).forEach(function(x){add(miss,x,sk.missed[x]);});
+    if(maxR){maxR=Math.max(maxR,5);var rows='<div class="frow"><span></span>';for(var c=1;c<=10;c++)rows+='<span class="cl">'+c+'</span>';rows+='</div>';
+      for(var r=1;r<=maxR;r++){rows+='<div class="frow"><span class="rl">×'+r+'</span>';for(c=1;c<=10;c++){var f=Math.min(r,c)+'×'+Math.max(r,c),sn=seen[f]||0,ms=miss[f]||0;
+        var cls=ms>=2&&(!sn||ms/sn>=.3)?'c-s':sn?'c-k':'c-n';if(cls==='c-s'&&shaky.indexOf(f)<0)shaky.push(f);rows+='<div class="cell '+cls+'" title="'+r+' × '+c+'">'+(r*c)+'</div>';}rows+='</div>';}
+      h+='<section class="card"><h2>Fact map</h2><div class="sub" style="margin-top:2px">Every fact she’s practiced. Fills in as she plays.</div><div class="fmap" role="img" aria-label="Times table grid showing which facts she knows, which are shaky, and which she has not seen">'+rows+'</div>'+
+        '<div class="legend"><span><i style="background:var(--teal)"></i>Knows it</span><span><i style="background:var(--shaky)"></i>Still shaky</span><span><i style="background:var(--empty)"></i>Not seen yet</span></div></section>';}}
+  var mm=Object.keys(sk.missed||{}).sort(function(a,b){return sk.missed[b]-sk.missed[a];}).filter(function(x){return sk.missed[x]>=2;}).slice(0,8);
+  h+='<section class="card"><h2>Most missed, all time</h2><div class="list" style="margin-top:6px">'+(mm.length?mm.map(function(x){return '<div class="it"><div class="a" style="font-size:16px">'+esc(itemText(k,x))+'</div><span class="r">'+sk.missed[x]+'×</span></div>';}).join(''):'<p class="empty">Nothing she keeps missing.</p>')+'</div></section>';
+  var tips=k==='mult'&&shaky.length?['Quick idea','Her shakiest facts are '+shaky.slice(0,3).map(function(f){return f.replace('×',' × ');}).join(', ')+'. Try a couple out loud in the car. No app needed.']
+    :mm.length?['Quick idea','Her most-missed '+(k==='mult'||k==='div'?'problem is ':'word is ')+itemText(k,mm[0])+'. Bringing it up once or twice in everyday talk helps it stick.']:null;
+  if(tips)h+='<section class="dark"><div class="k">'+tips[0]+'</div><div class="b">'+esc(tips[1])+'</div></section>';
+  app.innerHTML=h;schedule();}
+
+render();
+})();
+</script>
+</body>
+</html>

@@ -439,7 +439,7 @@ input[type=text]{font:inherit;font-size:18px;background:var(--board2);color:var(
 (function(){
 'use strict';
 /* ================= storage ================= */
-var VERSION='v2.3';
+var VERSION='v2.4';
 var KEY='caseFilesDetective.v1';
 function defSkill(){return {lvl:1,att:0,first:0,run:0,missRun:0,missed:{}};}
 function defaults(){return {name:'',cases:0,points:0,bestCase:0,badges:[],archive:[],
@@ -447,7 +447,7 @@ function defaults(){return {name:'',cases:0,points:0,bestCase:0,badges:[],archiv
   wordsRead:0,bestStreak:0,dayStreak:0,lastDay:'',muted:false,mic:true,micMode:'relaxed',caseNo:0};}
 var S=defaults();
 try{var raw=localStorage.getItem(KEY);if(raw){var o=JSON.parse(raw);var d=defaults();S=Object.assign(d,o);S.skills=Object.assign(defaults().skills,o.skills||{});}}catch(e){}
-function persist(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}if(typeof syncSoon==='function')syncSoon();}
 
 /* ================= helpers ================= */
 function rnd(a,b){return a+Math.floor(Math.random()*(b-a+1));}
@@ -816,7 +816,7 @@ function fxLoop(){fxc.clearRect(0,0,fx.width,fx.height);parts=parts.filter(funct
 
 /* ================= scoring / adaptivity ================= */
 var C=null;
-function result(skill,firstTry,key,el){var sk=S.skills[skill];sk.att++;C.qsDone++;
+function result(skill,firstTry,key,el){var sk=S.skills[skill];sk.att++;C.qsDone++;if(key)seenFact(sk,key);
   if(firstTry){sk.first++;sk.run++;sk.missRun=0;C.streak++;addPoints(10,el);
     if(sk.run>=4&&sk.lvl<3&&skill!=='read'){sk.lvl++;sk.run=0;C.levelUps.push(skill);setTimeout(function(){toast('Level up! Harder '+({spell:'passwords',hunt:'word hunts'}[skill]||'codes')+' unlocked 🔓');},500);}
     if(C.streak%3===0){setTimeout(function(){addPoints(15);SFX.streak();toast('🔥 '+C.streak+' in a row! +15');},350);}
@@ -1279,7 +1279,7 @@ function gameBlaster(){var g=gr('math'),L=S.skills.mult.lvl,sk=S.skills.mult,tim
   function next(){var k=0;do{P=genMath(g,L);k++;}while(seen[P.key]&&k<25);seen[P.key]=1;tries=0;
     var q=$('#bq');q.textContent=P.q.replace(' =','');q.classList.remove('pop-in');void q.offsetWidth;q.classList.add('pop-in');
     var ch=$('#bch');ch.innerHTML='';choices().forEach(function(v){var b=document.createElement('button');b.className='choice';b.textContent=v;b.onclick=function(){pickA(b,v);};ch.appendChild(b);});}
-  function pickA(b,v){if(left<=0)return;sk.att++;
+  function pickA(b,v){if(left<=0)return;sk.att++;if(!tries)seenFact(sk,P.key);
     if(v===P.a){if(!tries)sk.first++;solved++;combo++;run++;bestCombo=Math.max(bestCombo,combo);SFX.good();b.classList.add('right');
       var pts=10+Math.min(combo,5)*2;C.points+=pts;floatPts('+'+pts,b);$('#pts').textContent=C.points;C.streak=combo;setFlame();
       $('#bc').textContent=combo>=3?'COMBO ×'+combo+'!':'';C.learned.mult.push(P.full);
@@ -1528,7 +1528,7 @@ function renderGrown(){setHUD(false);ensureWallet();if(!GROWN_OK){renderPin(rend
    '<p style="margin:0;color:var(--muted);font-size:15px">Only you can change these, and grade numbers never show up on her screens. Each grade has 3 steps that move up and down on their own as she plays.</p>'+
    [['math','Math','facts, sharing & division'],['spell','Spelling','passwords, word hunt, word games'],['read','Reading','witness statements & clues']].map(function(r){var cur=gr(r[0]);
      return '<div class="grow"><div><b>'+r[1]+'</b><span>'+r[2]+'</span></div><div class="gbtns" role="group" aria-label="'+r[1]+' grade">'+[1,2,3,4,5].map(function(n){return '<button class="gb'+(n===cur?' on':'')+'" data-k="'+r[0]+'" data-g="'+n+'" aria-pressed="'+(n===cur)+'">'+n+'</button>';}).join('')+'</div></div>';}).join('')+
-   '</section>'+
+   '</section>'+syncCardHTML()+
    '<section class="card" style="display:flex;flex-direction:column;gap:14px"><label class="toggle" for="nm">Detective name <input type="text" id="nm" value="'+esc(S.name)+'" maxlength="20"></label>'+
    '<label class="toggle"><input type="checkbox" id="micT" '+(S.mic?'checked':'')+' style="width:26px;height:26px"> Use the microphone to check reading '+(SR?'':'<span style="color:var(--muted)">(this browser can’t listen; use Chrome)</span>')+'</label>'+
    '<div class="toggle" role="group" aria-label="Mic pickiness"><span>Mic pickiness</span><button class="btn '+(relaxed()?'':'alt')+'" id="mmR" style="min-height:44px;font-size:16px;padding:6px 14px">Relaxed</button><button class="btn '+(relaxed()?'alt':'')+'" id="mmS" style="min-height:44px;font-size:16px;padding:6px 14px">Strict</button></div>'+
@@ -1558,6 +1558,7 @@ function renderGrown(){setHUD(false);ensureWallet();if(!GROWN_OK){renderPin(rend
     $('#bkYes').onclick=function(){var d=defaults();S=Object.assign(d,o);S.skills=Object.assign(defaults().skills,o.skills||{});persist();syncMute();renderGrown();toast('Progress restored! '+S.cases+' cases are back.');};
     $('#bkNo').onclick=renderGrown;};
   function renderGrownKeep(){var v=$('#bkIn').value;renderGrown();$('#bkIn').value=v;}
+  wireSyncCard(renderGrownKeep);
   $('#nm').oninput=function(e){S.name=e.target.value.trim();persist();};
   $('#micT').onchange=function(e){S.mic=e.target.checked;micBroken=false;persist();};
   $('#mmR').onclick=function(){S.micMode='relaxed';persist();renderGrownKeep();};
@@ -1591,7 +1592,65 @@ function readBackup(code){var c=String(code||'').replace(/\s+/g,'');var m=/^CF1-
   try{b=b.replace(/-/g,'+').replace(/_/g,'/');while(b.length%4)b+='=';var o=JSON.parse(decodeURIComponent(escape(atob(b))));
     if(!o||typeof o!=='object'||!o.skills||typeof o.cases!=='number')return null;delete o.v;return o;}catch(e){return null;}}
 
-window.__test={renderRewards:renderRewards,earn:earn,ensureWallet:ensureWallet,pinHash:pinHash,MM_WORDS:MM_WORDS,RM_A:RM_A,RM_B:RM_B,startArcade:startArcade,renderArcade:renderArcade,genMath:genMath,genDiv:genDiv,mathHint:mathHint,spellPool:spellPool,readWit:readWit,readClue:readClue,pupText:pupText,PWIT:PWIT,PCLUE:PCLUE,TRx:TR,PUPx:PUP_TR,buildHunt:buildHunt,makePupCase:makePupCase,openStation:function(kind,type){startCase(kind);runStation(C.stations.findIndex(function(s){return s.type===type;}));},align:align,normWord:normWord,match:match,makeCase:makeCase,TR:TR,makeBackup:makeBackup,readBackup:readBackup,getS:function(){return S;},openWitness:function(){startCase();runStation(C.stations.findIndex(function(s){return s.type==='read';}));},caseC:function(){return C;}};
+/* ================= progress sync (v2.4) ================= */
+/* Sends a copy of her progress to Jen's progress page. Works only after a grown-up links the phone with a code. */
+var SB_URL='https://nkbivmvsgvhnsarvsnmt.supabase.co',SB_KEY='sb_publishable_aHn1997H6MOfImvKYXqnAA_d8_0CqVp',SYNC_KEY='caseFilesDetective.sync';
+var SY=(function(){try{return JSON.parse(localStorage.getItem(SYNC_KEY))||{};}catch(e){return {};}})();
+function saveSY(){try{localStorage.setItem(SYNC_KEY,JSON.stringify(SY));}catch(e){}}
+function isoDay(d){d=d||new Date();function p(n){return (n<10?'0':'')+n;}return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
+function seenFact(sk,key){if(!sk.seen)sk.seen={};sk.seen[key]=(sk.seen[key]||0)+1;}
+function rpc(fn,args,keep){return fetch(SB_URL+'/rest/v1/rpc/'+fn,{method:'POST',keepalive:!!keep,headers:{'apikey':SB_KEY,'Content-Type':'application/json'},body:JSON.stringify(args)})
+  .then(function(r){return r.json().catch(function(){return null;}).then(function(j){if(!r.ok)throw new Error((j&&(j.message||j.hint))||('HTTP '+r.status));return j;});});}
+function topN(m,n){var o={};Object.keys(m||{}).sort(function(a,b){return m[b]-m[a];}).slice(0,n).forEach(function(k){o[k]=m[k];});return o;}
+function syncSummary(day){ensureWallet();var sk={};Object.keys(S.skills).forEach(function(k){var s=S.skills[k];sk[k]={lvl:s.lvl,att:s.att,first:s.first,missed:topN(s.missed,40)};});
+  return {v:VERSION,playSec:(S.play||{})[day]||0,skills:sk,grade:S.grade,cases:S.cases,points:S.points,wordsRead:S.wordsRead,bestStreak:S.bestStreak,dayStreak:S.dayStreak,
+    badges:(S.badges||[]).slice(),arcade:JSON.parse(JSON.stringify(S.arcade||{})),wallet:{bal:S.wallet.bal,earned:S.wallet.earned,spent:S.wallet.spent}};}
+function plainText(h){var d=document.createElement('div');d.innerHTML=h;return d.textContent;}
+function syncState(){ensureWallet();var o=JSON.parse(JSON.stringify(S));delete o.pinH;o.v=VERSION;o.sentAt=Date.now();
+  o.names={badges:{},arcade:{},levels:{}};BADGES.forEach(function(b){o.names.badges[b[0]]=b[1];});ARCADE.forEach(function(g){o.names.arcade[g.id]=g.name;});
+  ['mult','div','spell','hunt','read'].forEach(function(k){try{o.names.levels[k]=plainText(lvlText(k).replace('<br>',' · '));}catch(e){}});
+  return o;}
+var syncT=null,syncBusy=false,syncDirty=false;
+function syncSoon(ms){if(!SY.key)return;syncDirty=true;clearTimeout(syncT);syncT=setTimeout(syncNow,ms==null?15000:ms);}
+function syncNow(keep){if(!SY.key||syncBusy||navigator.onLine===false)return Promise.resolve(false);
+  clearTimeout(syncT);syncBusy=true;syncDirty=false;var day=isoDay();
+  var body={p_device:SY.key,p_state:syncState(),p_summary:syncSummary(day),p_day:day};
+  var small=JSON.stringify(body).length<60000;
+  return rpc('cf_sync',body,keep===true&&small).then(function(){SY.last=Date.now();SY.err='';saveSY();syncBusy=false;return true;},
+    function(e){syncBusy=false;syncDirty=true;SY.err=String(e&&e.message||e);if(/unknown device/i.test(SY.err)){SY={lost:true};}saveSY();return false;});}
+function syncStatusText(){if(SY.err)return 'The last send didn’t go through. It will try again when the phone is online.';
+  if(!SY.last)return 'Nothing sent yet.';var m=Math.round((Date.now()-SY.last)/60000);
+  return 'Last sent '+(m<1?'just now':m<60?m+' min ago':m<1440?Math.round(m/60)+' hr ago':new Date(SY.last).toLocaleDateString())+'.';}
+function syncCardHTML(){var head='<section class="card" style="display:flex;flex-direction:column;gap:12px"><h2 class="h2" style="margin:0">PROGRESS PAGE</h2>';
+  if(SY.key)return head+'<p style="margin:0;font-size:17px">✅ Linked'+(SY.nick?' as <b>'+esc(SY.nick)+'</b>':'')+'. Her progress shows up on your page whenever this phone is online.</p>'+
+    '<p style="margin:0;color:var(--muted);font-size:15px" id="syMsg">'+syncStatusText()+'</p>'+
+    '<div class="row"><button class="btn" id="syNow" style="min-height:52px;font-size:18px">Send progress now</button><span id="syOffBox"><button class="link" id="syOff">Unlink this phone</button></span></div></section>';
+  return head+(SY.lost?'<p style="margin:0;color:var(--nudge)">This phone isn’t linked anymore. Make a new code on your progress page to link it again.</p>':'')+
+    '<p style="margin:0;color:var(--muted);font-size:16px">See her progress on your own phone. Open <b>jenlees68.github.io/case-files/parent.html</b>, follow the steps there, then type the 6-character code here.</p>'+
+    '<div class="row"><input type="text" id="syCode" maxlength="7" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="characters" placeholder="ABC234" aria-label="Link code" style="width:10ch;font-size:24px;letter-spacing:.15em;text-transform:uppercase"><button class="btn" id="syLink" style="min-height:52px;font-size:18px">Link</button></div>'+
+    '<p style="margin:0;font-weight:600" id="syMsg" role="status"></p></section>';}
+function wireSyncCard(again){var m=$('#syMsg');
+  if($('#syLink'))$('#syLink').onclick=function(){var c=$('#syCode').value.replace(/[^a-z0-9]/gi,'').toUpperCase();
+    if(c.length!==6){m.textContent='The code has 6 letters and numbers.';return;}m.textContent='Linking…';$('#syLink').disabled=true;
+    rpc('cf_pair_device',{p_code:c}).then(function(j){SY={key:j.device_key,nick:j.nickname};saveSY();
+      var y=new Date();y.setDate(y.getDate()-1);var yd=isoDay(y);
+      return rpc('cf_sync',{p_device:SY.key,p_state:syncState(),p_summary:syncSummary(yd),p_day:yd}).catch(function(){}).then(function(){return syncNow();});})
+    .then(function(){SFX.unlock();toast('Linked! Her progress is on your page now.');again();},
+      function(e){$('#syLink').disabled=false;m.textContent=/bad code/i.test(e&&e.message)?'That code didn’t work. Codes last 30 minutes, so make a new one on your page and try again.':'Couldn’t reach the internet. Check the connection and try again.';});};
+  if($('#syNow'))$('#syNow').onclick=function(){m.textContent='Sending…';syncNow().then(function(ok){m.textContent=ok?'Sent just now.':syncStatusText();});};
+  if($('#syOff'))$('#syOff').onclick=function(){$('#syOffBox').innerHTML='<span>Stop sending progress from this phone?</span> <button class="btn pink" id="syOffY" style="min-height:44px;font-size:16px">Unlink</button> <button class="btn alt" id="syOffN" style="min-height:44px;font-size:16px">Keep</button>';
+    $('#syOffY').onclick=function(){SY={};saveSY();toast('This phone is unlinked');again();};$('#syOffN').onclick=again;};}
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden'&&SY.key&&syncDirty)syncNow(true);});
+window.addEventListener('online',function(){if(syncDirty)syncSoon(2000);});
+setTimeout(function(){if(SY.key)syncNow();},4000);
+setInterval(function(){if(syncDirty&&document.visibilityState==='visible')syncNow();},120000);
+/* minutes played: counts 15-second ticks while the game is on screen and she has touched it in the last 2 minutes */
+var lastAct=Date.now();['pointerdown','keydown','touchstart'].forEach(function(t){document.addEventListener(t,function(){lastAct=Date.now();},{passive:true,capture:true});});
+setInterval(function(){if(document.visibilityState!=='visible'||Date.now()-lastAct>120000)return;if(!S.play)S.play={};var d=isoDay();S.play[d]=(S.play[d]||0)+15;
+  var ks=Object.keys(S.play).sort();if(ks.length>120)ks.slice(0,ks.length-120).forEach(function(k){delete S.play[k];});
+  try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}if(SY.key)syncDirty=true;},15000);
+
+window.__test={renderRewards:renderRewards,earn:earn,ensureWallet:ensureWallet,pinHash:pinHash,MM_WORDS:MM_WORDS,RM_A:RM_A,RM_B:RM_B,startArcade:startArcade,renderArcade:renderArcade,genMath:genMath,genDiv:genDiv,mathHint:mathHint,spellPool:spellPool,readWit:readWit,readClue:readClue,pupText:pupText,PWIT:PWIT,PCLUE:PCLUE,TRx:TR,PUPx:PUP_TR,buildHunt:buildHunt,makePupCase:makePupCase,openStation:function(kind,type){startCase(kind);runStation(C.stations.findIndex(function(s){return s.type===type;}));},align:align,normWord:normWord,match:match,makeCase:makeCase,TR:TR,makeBackup:makeBackup,readBackup:readBackup,getS:function(){return S;},syncSummary:syncSummary,syncState:syncState,getSY:function(){return SY;},openWitness:function(){startCase();runStation(C.stations.findIndex(function(s){return s.type==='read';}));},caseC:function(){return C;}};
 renderHome();
 })();
 </script>
