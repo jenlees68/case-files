@@ -419,6 +419,65 @@ input[type=text]{font:inherit;font-size:18px;background:var(--board2);color:var(
   .slot{width:42px;height:56px;font-size:28px}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* ===== v3.0: setup, tours, kid walkthrough, family ===== */
+.h-id{text-align:left;padding:0}
+.h-sw{font-style:normal;font-size:.6em;color:var(--muted);vertical-align:middle}
+.h-streak{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted);background:var(--board);border:2px solid var(--line);border-radius:14px;padding:8px 12px}
+.h-streak .bar{flex:1}
+.setup-step{font-family:var(--f-type);color:var(--hi);letter-spacing:.12em;font-size:14px}
+.w-logo{font-size:84px;animation:popin .7s cubic-bezier(.3,1.6,.5,1) both}
+.pin-hint{margin:0;color:var(--hi);font-size:17px;font-weight:600}
+.g-who{margin:-4px 0 0;color:var(--muted);font-size:15px}
+.new-tour{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;border-color:var(--hi)}
+.new-tour span{flex:1 1 200px;color:var(--muted)}
+.unit-pick{display:flex;flex-wrap:wrap;gap:8px}
+.unit{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:14px;border:2px solid var(--line);background:var(--board2);font-weight:600;font-size:16px;cursor:pointer;min-height:48px}
+.unit input{width:22px;height:22px;margin:0}
+.unit.on{border-color:var(--good);background:rgba(62,230,168,.12)}
+.sb-say{margin:0;font-weight:700;color:var(--good)}
+.setup-grow span{min-height:2.6em}
+.mic.mic-off{background:#4a5384;box-shadow:0 6px 0 #2c3360;opacity:.75;width:84px;height:84px;font-size:36px;margin-top:6px}
+.mic-lock{margin-top:8px}
+.flash{animation:flashB 1.6s ease 2}
+@keyframes flashB{50%{box-shadow:0 0 0 4px var(--hi)}}
+/* tour */
+#tourLayer{position:fixed;inset:0;z-index:60;pointer-events:none}
+#tourSpot{position:fixed;border-radius:16px;box-shadow:0 0 0 9999px rgba(6,10,28,.78);outline:3px solid var(--hi);transition:all .3s ease;pointer-events:auto;cursor:pointer}
+#tourCard{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));width:min(calc(100% - 24px),440px);background:var(--paper);color:var(--paper-ink);border-radius:20px;padding:16px 18px;box-shadow:0 10px 30px rgba(0,0,0,.45);pointer-events:auto;display:flex;flex-direction:column;gap:8px;animation:tcIn .3s ease both}
+@keyframes tcIn{from{opacity:0}}
+#tourCard.low{bottom:auto;top:calc(14px + env(safe-area-inset-top,0px))}
+#tourCard.mid{top:50%;bottom:auto;transform:translate(-50%,-50%)}
+.tc-top{display:flex;justify-content:space-between;align-items:center}
+.tc-n{font-family:var(--f-type);font-size:13px;color:#7a6a45}
+.tc-hear{font-size:24px;width:48px;height:48px;border-radius:50%;background:var(--paper2)}
+.tc-icon{font-size:36px;line-height:1}
+.tc-t{font-size:21px}
+.tc-p{margin:0;font-size:17px;line-height:1.45}
+.tc-btns{display:flex;gap:10px;align-items:center;justify-content:flex-end;flex-wrap:wrap}
+.tc-btns .btn{min-height:48px;font-size:17px;padding:8px 18px}
+.tc-tap{font-weight:800;color:var(--pin)}
+.tc-skip{align-self:center;color:#7a6a45!important;font-size:14px}
+/* kid walkthrough */
+.av-prev{width:110px;height:110px;border-radius:50%;display:grid;place-items:center;font-size:62px;box-shadow:0 0 0 5px var(--board2),0 0 0 8px var(--hi);transition:background .2s}
+.av-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;width:100%;max-width:440px}
+.av-opt{font-size:32px;aspect-ratio:1;border-radius:14px;background:var(--board2);border:3px solid transparent}
+.av-opt.on{border-color:var(--hi);background:var(--board)}
+.col-grid{display:flex;gap:12px;justify-content:center}
+.col-opt{width:44px;height:44px;border-radius:50%;border:3px solid transparent}
+.col-opt.on{border-color:#fff;transform:scale(1.15)}
+.pet-pick{display:flex;gap:14px;justify-content:center;width:100%}
+.pet-opt{flex:1 1 0;max-width:200px;background:var(--board2);border:3px solid var(--line);border-radius:22px;padding:18px 10px;font-size:22px;font-weight:800;display:flex;flex-direction:column;align-items:center;gap:6px}
+.pet-opt span{font-size:72px;line-height:1}
+.pet-opt:active{transform:scale(.97)}
+.name-sugg{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:440px}
+.chip-btn{min-height:48px;padding:8px 16px;border-radius:999px;background:var(--board2);border:2px solid var(--line);font-size:18px;font-weight:700}
+.chip-btn.on{border-color:var(--hi);background:rgba(255,225,77,.14)}
+.kid-list{display:flex;flex-direction:column;gap:10px;width:100%}
+.kid-pick{display:flex;align-items:center;gap:14px;padding:10px 14px;border-radius:16px;background:var(--board2);border:2px solid var(--line);font-size:20px;min-height:64px}
+.kid-pick.on{border-color:var(--hi)}
+.kp-av{width:44px;height:44px;border-radius:50%;display:inline-grid;place-items:center;font-size:24px;flex:none}
+.kp-av.sm{width:30px;height:30px;font-size:16px;vertical-align:middle}
 </style>
 
 <canvas id="fx"></canvas>
@@ -439,15 +498,29 @@ input[type=text]{font:inherit;font-size:18px;background:var(--board2);color:var(
 (function(){
 'use strict';
 /* ================= storage ================= */
-var VERSION='v2.4';
-var KEY='caseFilesDetective.v1';
+var VERSION='v3.0';
+var KEY='caseFilesDetective.v1',FAM_KEY='caseFilesDetective.family',FEEDBACK_EMAIL='rexakinzapps@gmail.com';
 function defSkill(){return {lvl:1,att:0,first:0,run:0,missRun:0,missed:{}};}
 function defaults(){return {name:'',cases:0,points:0,bestCase:0,badges:[],archive:[],
-  skills:{mult:defSkill(),div:defSkill(),spell:defSkill(),read:defSkill(),hunt:defSkill()},pupSaved:0,grade:{math:3,spell:2,read:1},arcade:{},
-  wordsRead:0,bestStreak:0,dayStreak:0,lastDay:'',muted:false,mic:true,micMode:'relaxed',caseNo:0};}
-var S=defaults();
-try{var raw=localStorage.getItem(KEY);if(raw){var o=JSON.parse(raw);var d=defaults();S=Object.assign(d,o);S.skills=Object.assign(defaults().skills,o.skills||{});}}catch(e){}
-function persist(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}if(typeof syncSoon==='function')syncSoon();}
+  skills:{mult:defSkill(),div:defSkill(),spell:defSkill(),read:defSkill(),hunt:defSkill()},pupSaved:0,grade:{math:2,spell:2,read:2},arcade:{},
+  wordsRead:0,bestStreak:0,dayStreak:0,lastDay:'',muted:false,micMode:'relaxed',caseNo:0,av:'🕵️',col:'#ffb547',pet:null,kidOnboard:false,readToMe:true};}
+/* ---- family (shared by every kid on this phone): PIN, hint, mic approval, kid list ---- */
+function kidKey(id){return id==='main'?KEY:KEY+'.'+id;}
+function syncKeyOf(id){return id==='main'?'caseFilesDetective.sync':'caseFilesDetective.sync.'+id;}
+function loadKid(id){var s=defaults();try{var raw=localStorage.getItem(kidKey(id));if(raw){var o=JSON.parse(raw);s=Object.assign(defaults(),o);s.skills=Object.assign(defaults().skills,o.skills||{});}}catch(e){}return s;}
+var FAM=null;try{FAM=JSON.parse(localStorage.getItem(FAM_KEY));}catch(e){}
+var S;
+if(!FAM){var legacy=null;try{legacy=localStorage.getItem(KEY);}catch(e){}
+  if(legacy){S=loadKid('main');
+    /* phone that already had the game (v2.x): keep everything, skip the first-time setup */
+    FAM={v:1,pinH:S.pinH||'j1swzl',hint:'',micOK:S.mic!==false,setupDone:true,tourDone:false,kids:[{id:'main',name:S.name||'Detective'}],active:'main'};
+    if(!S.pet)S.pet={k:'dog',n:'Jax',g:'he',o:'Gigi',oe:'👵'};
+    S.kidOnboard=false;S.whatsNew=true;
+  }else{FAM={v:1,pinH:'',hint:'',micOK:false,setupDone:false,tourDone:false,kids:[{id:'main',name:''}],active:'main'};S=defaults();}
+  try{localStorage.setItem(FAM_KEY,JSON.stringify(FAM));localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}
+}else{S=loadKid(FAM.active||'main');}
+function saveFam(){try{localStorage.setItem(FAM_KEY,JSON.stringify(FAM));}catch(e){}}
+function persist(){try{localStorage.setItem(kidKey(FAM.active),JSON.stringify(S));}catch(e){}var k=FAM.kids.find(function(x){return x.id===FAM.active;});if(k&&S.name&&k.name!==S.name){k.name=S.name;saveFam();}if(typeof syncSoon==='function')syncSoon();}
 
 /* ================= helpers ================= */
 function rnd(a,b){return a+Math.floor(Math.random()*(b-a+1));}
@@ -486,7 +559,8 @@ function say(text,opts){opts=opts||{};var done=false;function fin(){if(done)retu
 /* ================= speech in ================= */
 var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
 var micBroken=false;
-function micOn(){return !!SR&&S.mic&&!micBroken;}
+function micOn(){return !!SR&&FAM.micOK&&!micBroken;}
+function micLocked(){return !!SR&&!FAM.micOK;}
 var NUM={'0':'zero','1':'one','2':'two','3':'three','4':'four','5':'five','6':'six','7':'seven','8':'eight','9':'nine','10':'ten'};
 function normWord(w){w=String(w).toLowerCase().replace(/[’']/g,'').replace(/[^a-z0-9]/g,'');return NUM[w]||w;}
 var HOMO={};[['to','too','two'],['there','their','theyre'],['red','read'],['by','buy','bye'],['no','know'],['right','write'],['whole','hole'],['hear','here'],['for','four'],['new','knew'],['one','won'],['eight','ate'],['blue','blew'],['sea','see'],['so','sew'],['flip','flick'],['flop','flap'],['ok','okay'],,['gigi','geegee','gg','jiji','gigis','gigi'],['jax','jacks','jacques','jack']].forEach(function(g){g.forEach(function(w){HOMO[w]=(HOMO[w]||[]).concat(g);});});
@@ -592,24 +666,24 @@ var ATTRS=['jacket','shoes','extra','pet'];
 var PUP_TR={
  paws:{vals:['mud','sand','grass'],
    chip:function(v){return '🐾 '+v;},
-   clue:function(v){return 'Jax has '+v+' on his paws.';},
-   wit:function(v){return 'I saw '+v+' on his paws.';},
-   q:'What was on his paws?',ans:function(v){return '🐾 '+v;}},
+   clue:function(v){return pf('{P} has '+v+' on {his} paws.');},
+   wit:function(v){return pf('I saw '+v+' on {his} paws.');},
+   get q(){return pf('What was on {his} paws?');},ans:function(v){return '🐾 '+v;}},
  sound:{vals:['ducks','cows','kids','birds'],em:{ducks:'🦆',cows:'🐄',kids:'🧒',birds:'🐦'},
    chip:function(v){return PUP_TR.sound.em[v]+' '+v;},
-   clue:function(v){return 'Jax ran to the '+v+'.';},
+   clue:function(v){return pf('{P} ran to the '+v+'.');},
    wit:function(v){return {ducks:'I heard a duck go quack.',cows:'I heard a cow go moo.',kids:'I heard kids play and yell.',birds:'I heard a bird go tweet.'}[v];},
    q:'What did they hear?',ans:function(v){return PUP_TR.sound.em[v]+' '+v;}},
- toy:{vals:['stick','ball'],em:{stick:'🪵',ball:'⚾'},
+ toy:{vals:['stick','ball'],em:{stick:'🪵',ball:'⚾',leaf:'🍃'},
    chip:function(v){return PUP_TR.toy.em[v]+' '+v;},
-   clue:function(v){return 'Jax had a '+v+'.';},
-   wit:function(v){return {stick:'He had a big stick.',ball:'He had a red ball.'}[v];},
-   q:'What did Jax have?',ans:function(v){return PUP_TR.toy.em[v]+' '+v;}},
+   clue:function(v){return pf('{P} had a '+v+'.');},
+   wit:function(v){return pf({stick:'{He} had a big stick.',leaf:'{He} had a big leaf.',ball:'{He} had a red ball.'}[v]);},
+   get q(){return pf('What did {P} have?');},ans:function(v){return PUP_TR.toy.em[v]+' '+v;}},
  smell:{vals:['fish','hay','hot dogs','flowers'],em:{fish:'🐟',hay:'🌾','hot dogs':'🌭',flowers:'🌸'},
    chip:function(v){return PUP_TR.smell.em[v]+' '+v;},
-   clue:function(v){return 'Jax smells like '+v+'.';},
-   wit:function(v){return 'He smelled like '+v+'!';},
-   q:'What did Jax smell like?',ans:function(v){return PUP_TR.smell.em[v]+' '+v;}}
+   clue:function(v){return pf('{P} smells like '+v+'.');},
+   wit:function(v){return pf('{He} smelled like '+v+'!');},
+   get q(){return pf('What did {P} smell like?');},ans:function(v){return PUP_TR.smell.em[v]+' '+v;}}
 };
 var PUP_ATTRS=['paws','sound','toy','smell'];
 var PUP_PLACES=[
@@ -619,12 +693,17 @@ var PUP_PLACES=[
  {name:'The Beach',av:'🏖️',t:{paws:'sand',sound:'kids',toy:'ball',smell:'fish'}},
  {name:'The Woods',av:'🌲',t:{paws:'mud',sound:'birds',toy:'stick',smell:'flowers'}}
 ];
-var PUP_FLAVOR=['I live by Gigi.','I saw a little pup.','He ran by my house.','He was so fast!','He had a red tag.'];
 var PUP_SETTING={title:'The Missing Puppy',loot:'treats',box:'bowl'};
+/* the pet in the pet case: phones from v2 keep their original dog; new kids pick a dog or cat, name it, and they are the owner */
+function nameCase(w){var a=String(PET().n||'').toLowerCase(),b=String(PET().o||'').toLowerCase();return w===a?PET().n:w===b?PET().o:w;}
+function PET(){return S.pet||{k:'dog',n:'Rex',g:'he',o:S.name||'Sam',oe:S.av||'🧒'};}
+function petEm(){return PET().k==='cat'?'🐱':'🐶';}
+function pf(t){var p=PET(),she=p.g==='she',cat=p.k==='cat';return String(t).replace(/\{P\}/g,p.n).replace(/\{O\}/g,p.o).replace(/\{he\}/g,she?'she':'he').replace(/\{He\}/g,she?'She':'He').replace(/\{his\}/g,she?'her':'his').replace(/\{him\}/g,she?'her':'him').replace(/\{pup\}/g,cat?'cat':'pup').replace(/\{puppy\}/g,cat?'kitten':'puppy').replace(/\{Puppy\}/g,cat?'Kitten':'Puppy').replace(/\{lick\}/g,cat?'purr':'lick');}
+function petTitle(){return pf('The Missing {Puppy}');}
 var HUNT_WORDS={1:['dog','pup','sit','dig','run','mud','bed','paw','wag','hug','nap','fun','sun','hop','pet','toy'],
  2:['bone','ball','bark','lick','home','tail','jump','play','walk','food','dish','bath'],
  3:['puppy','treat','sniff','happy','leash','grass','smile','sleep']};
-var HUNT_EM={dog:'🐶',pup:'🐶',jax:'🐶',gigi:'👵',sit:'🪑',dig:'⛏️',run:'🏃',mud:'🟤',bed:'🛏️',paw:'🐾',wag:'🐕',hug:'🤗',nap:'💤',fun:'🎉',sun:'☀️',hop:'🐇',pet:'✋',toy:'🧸',bone:'🦴',ball:'⚾',bark:'🗯️',lick:'👅',home:'🏠',tail:'🐕',jump:'🦘',play:'🎾',walk:'🚶',food:'🍖',dish:'🥣',bath:'🛁',puppy:'🐶',treat:'🍪',sniff:'👃',happy:'😄',leash:'🦮',grass:'🌱',smile:'😊',sleep:'😴'};
+var HUNT_EM={dog:'🐶',pup:'🐶',sit:'🪑',dig:'⛏️',run:'🏃',mud:'🟤',bed:'🛏️',paw:'🐾',wag:'🐕',hug:'🤗',nap:'💤',fun:'🎉',sun:'☀️',hop:'🐇',pet:'✋',toy:'🧸',bone:'🦴',ball:'⚾',bark:'🗯️',lick:'👅',home:'🏠',tail:'🐕',jump:'🦘',play:'🎾',walk:'🚶',food:'🍖',dish:'🥣',bath:'🛁',puppy:'🐶',treat:'🍪',sniff:'👃',happy:'😄',leash:'🦮',grass:'🌱',smile:'😊',sleep:'😴'};
 var FLAVOR=['I was by the {place} at lunch.','It was dark and I was a little scared.','I only saw them for one second.','I was eating my snack when it happened.','I was looking for my lost pencil.'];
 var STATIONS={mult:{name:'Safe Cracker',icon:'🔐'},div:{name:'Split the Loot',icon:'⚖️'},spell:{name:'Code Breaker',icon:'🔑'},read:{name:'Witness',icon:'🎙️'},hunt:{name:'Word Hunt',icon:'🔍'}};
 function stInfo(type){return (C&&C.stNames&&C.stNames[type])||STATIONS[type];}
@@ -653,7 +732,7 @@ var BADGES=[
  ['blaze','Unstoppable','☄️',function(){return S.bestStreak>=10;}],
  ['clean','Flawless Case','💎',function(){return C&&C.closed&&C.hints===0;}],
  ['days','3-Day Detective','📅',function(){return S.dayStreak>=3;}],
- ['pup','Puppy Rescuer','🐶',function(){return (S.pupSaved||0)>=1;}],
+ ['pup','Pet Rescuer','🐾',function(){return (S.pupSaved||0)>=1;}],
  ['hunter','Word Hunter','🔍',function(){return S.skills.hunt.first>=15;}],
  ['arcade','Arcade Star','🕹️',function(){return Object.keys(S.arcade||{}).length>=5;}],
  ['blast','Lightning Brain','⚡',function(){return ((S.arcade||{}).blaster||{}).best>=250;}],
@@ -772,23 +851,23 @@ function caseIntro(st,g){if(g===1)return 'Someone took '+st.item+'! Find 4 clues
   return 'Someone took '+st.item+' from the '+st.place+'! Find 4 clues. Then catch the thief.';}
 /* puppy case by reading band */
 var PWIT={
- paws:{1:'I saw {v} on his paws.',2:'I saw {v} all over his little paws.',3:'His paws were caked with {v}, like he had been digging for hours.'},
+ paws:{1:'I saw {v} on {his} paws.',2:'I saw {v} all over {his} little paws.',3:'{His} paws were caked with {v}, like {he} had been digging for hours.'},
  sound:{1:{ducks:'I heard a duck go quack.',cows:'I heard a cow go moo.',kids:'I heard kids play and yell.',birds:'I heard a bird go tweet.'},
   2:{ducks:'Then I heard a duck quack by the water.',cows:'Then I heard a cow moo by the barn.',kids:'Then I heard kids laughing and playing.',birds:'Then I heard birds singing in the trees.'},
   3:{ducks:'A moment later, I heard ducks quacking loudly near the water.',cows:'A moment later, I heard cows mooing from somewhere nearby.',kids:'A moment later, I heard a crowd of kids cheering and laughing.',birds:'A moment later, I heard birds chirping all around the tall trees.'}},
- toy:{1:{stick:'He had a big stick.',ball:'He had a red ball.'},2:{stick:'He was carrying a big stick in his mouth.',ball:'He was carrying a red ball in his mouth.'},3:{stick:'He was proudly carrying an enormous stick in his mouth.',ball:'He was proudly carrying a slobbery red ball in his mouth.'}},
- smell:{1:'He smelled like {v}!',2:'He smelled just like {v}!',3:'Honestly, he smelled exactly like {v}!'}};
+ toy:{1:{stick:'{He} had a big stick.',leaf:'{He} had a big leaf.',ball:'{He} had a red ball.'},2:{stick:'{He} was carrying a big stick in {his} mouth.',leaf:'{He} was carrying a big leaf in {his} mouth.',ball:'{He} was carrying a red ball in {his} mouth.'},3:{stick:'{He} was proudly carrying an enormous stick in {his} mouth.',leaf:'{He} was proudly carrying a crunchy orange leaf in {his} mouth.',ball:'{He} was proudly carrying a slightly chewed red ball in {his} mouth.'}},
+ smell:{1:'{He} smelled like {v}!',2:'{He} smelled just like {v}!',3:'Honestly, {he} smelled exactly like {v}!'}};
 var PCLUE={
- paws:{1:'Jax has {v} on his paws.',2:'Jax had {v} stuck between his toes.',3:'Tiny paw prints made of {v} lead away from Gigi’s house.'},
- sound:{1:'Jax ran to the {v}.',2:'Someone saw Jax run toward the {v}.',3:'A neighbor spotted Jax racing toward the {v}.'},
- toy:{1:'Jax had a {v}.',2:'Jax was seen carrying a {v}.',3:'A neighbor noticed Jax carrying a {v}.'},
- smell:{1:'Jax smells like {v}.',2:'Jax smelled like {v}.',3:'Gigi’s friend says Jax smelled strongly of {v}.'}};
-var PFLAV={1:['I live by Gigi.','I saw a little pup.','He ran by my house.','He was so fast!','He had a red tag.'],
- 2:['I live right next door to Gigi.','I saw a little puppy with a red collar.','He ran past my house really fast.'],
- 3:['I live right next door to Gigi, so I know Jax well.','I was raking leaves when a little puppy zoomed past me.','I tried to call him, but he was having too much fun to listen.']};
-var PINTRO={1:'Oh no! Jax the puppy is lost. Gigi misses him a lot. Find 4 clues. Then help Gigi bring Jax home!',
- 2:'Oh no! Jax the puppy ran away, and Gigi misses him so much. Find 4 clues, then help Gigi bring Jax home!',
- 3:'Oh no! Jax the puppy slipped out of the yard, and Gigi is worried sick. Collect four clues, figure out where he went, and help Gigi bring him home!'};
+ paws:{1:'{P} has {v} on {his} paws.',2:'{P} had {v} stuck between {his} toes.',3:'Tiny paw prints made of {v} lead away from {O}’s house.'},
+ sound:{1:'{P} ran to the {v}.',2:'Someone saw {P} run toward the {v}.',3:'A neighbor spotted {P} racing toward the {v}.'},
+ toy:{1:'{P} had a {v}.',2:'{P} was seen carrying a {v}.',3:'A neighbor noticed {P} carrying a {v}.'},
+ smell:{1:'{P} smells like {v}.',2:'{P} smelled like {v}.',3:'{O}’s neighbor says {P} smelled strongly of {v}.'}};
+var PFLAV={1:['I live by {O}.','I saw a little {pup}.','{He} ran by my house.','{He} was so fast!','{He} had a red tag.'],
+ 2:['I live right next door to {O}.','I saw a little {puppy} with a red collar.','{He} ran past my house really fast.'],
+ 3:['I live right next door to {O}, so I know {P} well.','I was raking leaves when a little {puppy} zoomed past me.','I tried to call {him}, but {he} was having too much fun to listen.']};
+var PINTRO={1:'Oh no! {P} the {pup} is lost. {O} misses {him} a lot. Find 4 clues. Then bring {P} home!',
+ 2:'Oh no! {P} the {puppy} ran away, and {O} misses {him} so much. Find 4 clues, then bring {P} home!',
+ 3:'Oh no! {P} the {puppy} slipped out of the yard, and {O} is worried sick. Collect four clues, figure out where {he} went, and bring {him} home!'};
 function lvlText(k){var g=k==='mult'||k==='div'?gr('math'):k==='read'?gr('read'):gr('spell'),L=S.skills[k].lvl;
   var t=k==='mult'?MATH_LBL[g][L-1]:k==='div'?DIV_LBL[g][L-1]:k==='spell'?SPELL_LBL[g][L-1]:k==='hunt'?HUNT_LBL[L-1]:'Witness statements';
   return 'Grade '+g+(k==='read'?'':' · step '+L+' of 3')+'<br><span style="color:var(--muted)">'+esc(t)+'</span>';}
@@ -836,24 +915,26 @@ function renderHome(){stopAllMic();clearInterval(ARC_T);ARC_T=null;C=null;GROWN_
   var got=BADGES.filter(function(b){return S.badges.indexOf(b[0])>=0;}),locked=BADGES.filter(function(b){return S.badges.indexOf(b[0])<0;});
   var badgeHTML=got.map(function(b){return '<button class="hb got" data-b="'+esc(b[1])+'" aria-label="'+esc(b[1])+'">'+b[2]+'</button>';}).join('')+
     locked.map(function(b){return '<button class="hb" data-b="Locked badge. Keep playing!" aria-label="Locked badge">'+b[2]+'</button>';}).join('');
-  var recent=S.archive.slice(-3).reverse().map(function(a){return '<div class="h-rc"><span class="rc-no">#'+String(a.no).padStart(3,'0')+'</span><span class="rc-t">'+esc(a.title)+'</span><span class="rc-r">'+(a.kind==='pup'?'found Jax 🐶':'caught '+esc(a.culprit))+'</span></div>';}).join('');
+  var recent=S.archive.slice(-3).reverse().map(function(a){return '<div class="h-rc"><span class="rc-no">#'+String(a.no).padStart(3,'0')+'</span><span class="rc-t">'+esc(a.title)+'</span><span class="rc-r">'+(a.kind==='pup'?'found '+esc(a.culprit)+' '+(a.pet||'🐶'):'caught '+esc(a.culprit))+'</span></div>';}).join('');
   stage.innerHTML=
-   '<header class="h-top"><div class="h-id"><div class="h-badge" aria-hidden="true">'+r[2]+'</div><div class="h-who"><span class="h-rank">'+esc(r[1])+'</span><b>'+(S.name?esc(S.name):'Detective')+'</b></div></div>'+
+   '<header class="h-top"><button class="h-id" id="whoBtn" aria-label="Who is playing"><div class="h-badge" aria-hidden="true" style="background:'+esc(S.col||'#ffb547')+'">'+(S.av||r[2])+'</div><div class="h-who"><span class="h-rank">'+r[2]+' '+esc(r[1])+'</span><b>'+(S.name?esc(S.name):'Detective')+(FAM.kids.length>1?' <i class="h-sw">⇄</i>':'')+'</b></div></button>'+
    '<button class="h-pts" id="rwBtn" aria-label="'+fmt(S.wallet.bal)+' reward points. Open rewards"><span aria-hidden="true">⭐</span><b>'+fmt(S.wallet.bal)+'</b>'+(pend?'<i class="h-dot"></i>':'')+'</button></header>'+
    '<div class="h-rankbar"><div class="bar sm"><i style="width:'+rankPct+'%"></i></div><span>'+(next?(next[0]-S.cases)+' more case'+(next[0]-S.cases===1?'':'s')+' to '+esc(next[1]):'Top rank!')+'</span></div>'+
    '<button class="h-case" id="newCase"><span class="hc-tab">CASE #'+String((S.caseNo||0)+1).padStart(3,'0')+'</span><span class="hc-body"><b>Open a new case</b><span>Find 4 clues. Catch the thief.</span></span><span class="hc-go" aria-hidden="true">›</span></button>'+
    '<div class="h-tiles">'+
-    '<button class="h-tile t-pup" id="pupCase"><span class="ht-e" aria-hidden="true">🐶</span><b>Missing Puppy</b><span>Help Gigi find Jax</span></button>'+
+    '<button class="h-tile t-pup" id="pupCase"><span class="ht-e" aria-hidden="true">'+petEm()+'</span><b>'+esc(petTitle().replace('The ',''))+'</b><span>'+esc(pf(S.pet&&S.pet.o&&S.pet.o!==S.name?'Help {O} find {P}':'Find {P}'))+'</span></button>'+
     '<button class="h-tile t-arc" id="arcBtn"><span class="ht-e" aria-hidden="true">🕹️</span><b>Arcade</b><span>5 quick games</span></button>'+
    '</div>'+
    '<button class="h-goal" id="goalBtn">'+(goal?
      '<span class="hg-e" aria-hidden="true">'+goal.e+'</span><span class="hg-mid"><span class="hg-k">SAVING FOR</span><b>'+esc(goal.n)+'</b><span class="bar sm"><i style="width:'+Math.min(100,avail/goal.p*100)+'%"></i></span></span><span class="hg-pct">'+(avail>=goal.p?'Ready!':Math.floor(avail/goal.p*100)+'%')+'</span>':
      '<span class="hg-e" aria-hidden="true">🎁</span><span class="hg-mid"><span class="hg-k">REWARDS</span><b>Pick something to save for</b></span><span class="hg-pct">›</span>')+
    '</button>'+(pend?'<p class="h-note">📨 '+pend+' reward'+(pend>1?'s':'')+' waiting for a grown-up to approve</p>':'')+
+   streakLineHTML()+
    '<section class="h-stats"><div><b>'+S.cases+'</b><span>📁 cases</span></div><div><b>'+S.bestStreak+'</b><span>🔥 best streak</span></div><div><b>'+S.dayStreak+'</b><span>📅 days in a row</span></div><div><b>'+fmt(S.wordsRead)+'</b><span>📖 words read</span></div></section>'+
    '<section class="h-sec"><div class="h-sechead"><span>BADGES</span><span>'+got.length+' of '+BADGES.length+'</span></div><div class="h-badges">'+badgeHTML+'</div></section>'+
    (recent?'<section class="h-sec"><div class="h-sechead"><span>RECENT CASES</span><span>'+S.cases+' solved</span></div>'+recent+'</section>':'')+
-   '<div class="h-foot"><button class="link" id="grown">🔒 Grown-ups</button><span>'+VERSION+'</span></div>';
+   '<div class="h-foot"><button class="link" id="kidHelp">🆘 Tell a grown-up</button><button class="link" id="howTo">❓ How to play</button></div>'+
+   '<div class="h-foot"><button class="link" id="grown">🔒 Grown-ups</button><span>'+VERSION+'</span></div><div id="sheet"></div>';
   $('#newCase').onclick=function(){ac();SFX.tap();startCase();};
   $('#pupCase').onclick=function(){ac();SFX.tap();startCase('pup');};
   $('#arcBtn').onclick=function(){ac();SFX.tap();renderArcade();};
@@ -861,7 +942,12 @@ function renderHome(){stopAllMic();clearInterval(ARC_T);ARC_T=null;C=null;GROWN_
   $('#goalBtn').onclick=function(){ac();SFX.tap();renderRewards('shop');};
   $$('.hb').forEach(function(b){b.onclick=function(){SFX.tap();toast(b.dataset.b);};});
   $('#grown').onclick=renderGrown;
+  $('#whoBtn').onclick=function(){SFX.tap();renderSwitcher();};
+  $('#kidHelp').onclick=function(){SFX.tap();kidHelp();};
+  $('#howTo').onclick=function(){ac();SFX.tap();kidTour();};
 }
+function streakLineHTML(){var p=streakProgress();if(!p)return '';var r=streakRule();
+  return '<div class="h-streak"><span>🔥 Streak bonus</span><div class="bar sm"><i style="width:'+Math.min(100,p.have/p.need*100)+'%"></i></div><span>'+esc(p.txt)+' → +'+fmt(r.pts)+'</span></div>';}
 
 /* ================= CASE SETUP ================= */
 function makeCase(){S.caseNo++;
@@ -885,10 +971,13 @@ function makeCase(){S.caseNo++;
     return st;});
   return {no:S.caseNo,setting:setting,stations:stations,suspects:shuffle(sus),culprit:cul,points:0,hints:0,streak:0,qsDone:0,
     learned:{mult:[],div:[],spell:[],read:0,hunt:[]},levelUps:[],clues:[],closed:false};}
-function pupText(tbl,a,v,b){var t=tbl[a][b];if(typeof t==='object')t=t[v];return fill(t,v);}
+function pupText(tbl,a,v,b){var t=tbl[a][b];if(typeof t==='object')t=t[v];return pf(fill(t,v));}
 function makePupCase(){S.caseNo++;
-  var attrs=shuffle(PUP_ATTRS),places,ans;
-  for(var t=0;t<600;t++){places=shuffle(PUP_PLACES).slice(0,3);ans=places[0];var others=places.slice(1);
+  var attrs=shuffle(PUP_ATTRS),places,ans,cat=PET().k==='cat';
+  var PL=PUP_PLACES.map(function(x){var t=Object.assign({},x.t);if(cat&&t.toy==='stick')t.toy='leaf';return {name:x.name,av:x.av,t:t};});
+  var tr=Object.assign({},PUP_TR);if(cat)tr.toy=Object.assign({},PUP_TR.toy,{vals:['leaf','ball']});
+  [PET().n,PET().o].forEach(function(w){String(w||'').split(/\s+/).forEach(function(x){x=normWord(x);if(x)TINY[x]=1;});});
+  for(var t=0;t<600;t++){places=shuffle(PL).slice(0,3);ans=places[0];var others=places.slice(1);
     var fits=function(s,k){return attrs.slice(0,k).every(function(a){return s.t[a]===ans.t[a];});};
     if(others.some(function(o){return fits(o,4);}))continue;
     if(t<500&&!others.some(function(o){return fits(o,2);}))continue;
@@ -896,14 +985,14 @@ function makePupCase(){S.caseNo++;
   var order=shuffle(['hunt','read','mult','div']);
   var stations=order.map(function(type,i){var a=attrs[i],v=ans.t[a];var st={type:type,attr:a,done:false};
     var b=band(gr('read'));
-    if(type==='read'){st.flavor=pick(PFLAV[b]);st.wit=pupText(PWIT,a,v,b);st.clue='Gigi’s friend: “'+st.wit+'”';}
+    if(type==='read'){st.flavor=pf(pick(PFLAV[b]));st.wit=pupText(PWIT,a,v,b);st.clue='Neighbor: “'+st.wit+'”';}
     else st.clue=pupText(PCLUE,a,v,b);
     return st;});
-  return {kind:'pup',no:S.caseNo,setting:PUP_SETTING,stations:stations,suspects:shuffle(places),culprit:ans,tr:PUP_TR,attrList:PUP_ATTRS,
-    stNames:{mult:{name:'Gate Code',icon:'🔐'},div:{name:'Split the Treats',icon:'🦴'},read:{name:'Gigi’s Friend',icon:'🎙️'},hunt:STATIONS.hunt},
+  return {kind:'pup',no:S.caseNo,setting:{title:petTitle(),loot:'treats',box:'bowl'},stations:stations,suspects:shuffle(places),culprit:ans,tr:tr,attrList:PUP_ATTRS,
+    stNames:{mult:{name:'Gate Code',icon:'🔐'},div:{name:'Split the Treats',icon:cat?'🐟':'🦴'},read:{name:'The Neighbor',icon:'🎙️'},hunt:STATIONS.hunt},
     points:0,hints:0,streak:0,qsDone:0,learned:{mult:[],div:[],spell:[],read:0,hunt:[]},levelUps:[],clues:[],closed:false};}
 function startCase(kind){var t=todayStr();if(S.lastDay!==t){var y=new Date();y.setDate(y.getDate()-1);S.dayStreak=(S.lastDay===todayStr(y))?S.dayStreak+1:1;S.lastDay=t;}
-  C=(kind==='pup')?makePupCase():makeCase();persist();shownPts=0;$('#pts').textContent='0';setHUD(true);$('#hcase').textContent='CASE #'+String(C.no).padStart(3,'0');setFlame();setMeter();renderIntro();}
+  markPlayed();C=(kind==='pup')?makePupCase():makeCase();persist();shownPts=0;$('#pts').textContent='0';setHUD(true);$('#hcase').textContent='CASE #'+String(C.no).padStart(3,'0');setFlame();setMeter();renderIntro();}
 
 function caseTR(){return (C&&C.tr)||TR;}
 function caseAttrs(){return (C&&C.attrList)||ATTRS;}
@@ -918,12 +1007,12 @@ function renderIntro(){if(C.kind==='pup'){renderPupIntro();return;}var st=C.sett
   $('#take').onclick=function(){SFX.tap();renderBoard();};
   SFX.unlock();}
 
-function renderPupIntro(){var intro=PINTRO[band(gr('read'))];
-  stage.innerHTML='<div class="paper center" style="gap:10px"><div class="clue-no">CASE #'+String(C.no).padStart(3,'0')+' · SPECIAL CASE</div><h1 class="big" style="font-size:clamp(30px,7vw,46px);margin:0">The Missing Puppy</h1>'+
-   '<div class="pup-row" aria-hidden="true"><span>👵</span><span class="q">?</span><span>🐶</span></div>'+
+function renderPupIntro(){var intro=pf(PINTRO[band(gr('read'))]),P=PET();
+  stage.innerHTML='<div class="paper center" style="gap:10px"><div class="clue-no">CASE #'+String(C.no).padStart(3,'0')+' · SPECIAL CASE</div><h1 class="big" style="font-size:clamp(30px,7vw,46px);margin:0">'+esc(petTitle())+'</h1>'+
+   '<div class="pup-row" aria-hidden="true"><span>'+(P.oe||S.av)+'</span><span class="q">?</span><span>'+petEm()+'</span></div>'+
    '<p style="font-size:22px;margin:0;max-width:30ch">'+esc(intro)+'</p><button class="btn alt" id="hearIntro" style="min-height:52px;font-size:18px;color:var(--text)">🔊 Hear it</button></div>'+
-   '<h2 class="h2" style="text-align:center;margin:4px 0 0">WHERE DID JAX GO?</h2><div class="suspects">'+suspectsHTML(false)+'</div>'+
-   '<button class="btn big" id="take" style="font-size:26px">🐾 Help Gigi</button>';
+   '<h2 class="h2" style="text-align:center;margin:4px 0 0">WHERE DID '+esc(P.n.toUpperCase())+' GO?</h2><div class="suspects">'+suspectsHTML(false)+'</div>'+
+   '<button class="btn big" id="take" style="font-size:26px">🐾 Find '+esc(P.n)+'</button>';
   $('#hearIntro').onclick=function(){say(intro);};
   $('#take').onclick=function(){SFX.tap();renderBoard();};
   SFX.unlock();}
@@ -932,7 +1021,7 @@ function renderPupIntro(){var intro=PINTRO[band(gr('read'))];
 function renderBoard(){var nextIdx=C.stations.findIndex(function(s){return !s.done;});
   var staHTML=C.stations.map(function(s,i){var m=stInfo(s.type);return '<div class="sta'+(s.done?' done':'')+(i===nextIdx?' next':'')+'"><i>'+(s.done?'✅':m.icon)+'</i>'+m.name+'</div>';}).join('');
   var clues='';for(var i=0;i<4;i++){clues+=C.clues[i]?'<div class="clue"><b>CLUE '+(i+1)+'</b><span>'+esc(C.clues[i].text)+'</span></div>':'<div class="clue empty"><b>CLUE '+(i+1)+'</b><span>???</span></div>';}
-  var btn=nextIdx>=0?'<button class="btn big" id="go" style="font-size:24px">Next: '+stInfo(C.stations[nextIdx].type).icon+' '+stInfo(C.stations[nextIdx].type).name+'</button>':'<button class="btn pink big" id="go" style="font-size:26px">'+(C.kind==='pup'?'🐶 Go get Jax!':'🚨 Make the arrest')+'</button>';
+  var btn=nextIdx>=0?'<button class="btn big" id="go" style="font-size:24px">Next: '+stInfo(C.stations[nextIdx].type).icon+' '+stInfo(C.stations[nextIdx].type).name+'</button>':'<button class="btn pink big" id="go" style="font-size:26px">'+(C.kind==='pup'?petEm()+' Go get '+esc(PET().n)+'!':'🚨 Make the arrest')+'</button>';
   stage.innerHTML='<div class="suspects">'+suspectsHTML(true)+'</div><div class="stations">'+staHTML+'</div><div class="notebook">'+clues+'</div>'+btn;
   $('#go').onclick=function(){SFX.tap();if(nextIdx<0)renderAccuse();else runStation(nextIdx);};}
 
@@ -1021,7 +1110,9 @@ function spellStation(done){var sk=S.skills.spell,n=0,total=3,g=gr('spell');var 
 /* ================= WORD HUNT (word search) ================= */
 function buildHunt(L,g){g=g||gr('spell');var size=[6,7,8][L-1]+(g>=4?1:0),count=[4,5,6][L-1],diag=L>=3;
   var pool=HUNTG[g].filter(function(w){return w.length<=size;});
-  var words=['jax'];if(L>=2)words.push('gigi');
+  var words=[],pn=String(PET().n||'').toLowerCase(),on=String(PET().o||'').toLowerCase();
+  if(/^[a-z]{3,}$/.test(pn)&&pn.length<=size){words.push(pn);HUNT_EM[pn]=petEm();}
+  if(L>=2&&/^[a-z]{3,}$/.test(on)&&on.length<=size&&on!==pn){words.push(on);HUNT_EM[on]=PET().oe||S.av;}
   shuffle(pool).forEach(function(w){if(words.length<count&&w.length<=size&&words.indexOf(w)<0)words.push(w);});
   var dirs=[[0,1],[1,0]];if(diag)dirs.push([1,1]);
   for(var attempt=0;attempt<60;attempt++){var g=[],r,c,k;for(r=0;r<size;r++){g.push([]);for(c=0;c<size;c++)g[r].push('');}
@@ -1048,7 +1139,7 @@ function huntStation(done){var sk=S.skills.hunt,L=sk.lvl,P=buildHunt(L);
     '<div class="hwords" id="hwords">'+list+'</div>'+
     '<div class="wgrid" id="wg" style="grid-template-columns:repeat('+size+',1fr)">'+cells+'</div><div id="hint"></div>';
   var cellEls=$$('#wg .wc'),grid=$('#wg');
-  $$('#hwords .hw').forEach(function(b){b.onclick=function(){say(b.dataset.w==='gigi'?'Gigi':b.dataset.w,{rate:.8});};});
+  $$('#hwords .hw').forEach(function(b){b.onclick=function(){say(nameCase(b.dataset.w),{rate:.8});};});
   function rc(i){return [Math.floor(i/size),i%size];}
   function line(a,b){var A=rc(a),B=rc(b),dr=B[0]-A[0],dc=B[1]-A[1],n=Math.max(Math.abs(dr),Math.abs(dc));
     if(n===0)return [a];if(dr!==0&&dc!==0&&Math.abs(dr)!==Math.abs(dc))return null;
@@ -1061,7 +1152,7 @@ function huntStation(done){var sk=S.skills.hunt,L=sk.lvl,P=buildHunt(L);
   function gotIt(w,sel){found[w]=true;lastFind=Date.now();wrongs=0;var n=Object.keys(found).length,col=COLS[(n-1)%COLS.length];
     sel.forEach(function(i){var c=cellEls[i];c.classList.add('found');c.classList.remove('glow');c.style.background=col;});
     var b=$('#hwords .hw[data-w="'+w+'"]');if(b)b.classList.add('done');
-    SFX.good();pip(n);say(w==='gigi'?'Gigi':w,{rate:.85});C.learned.hunt.push(w);
+    SFX.good();pip(n);say(nameCase(w),{rate:.85});C.learned.hunt.push(w);
     result('hunt',!hinted[w],w,cellEls[sel[0]]);$('#hint').innerHTML='';
     if(n>=words.length){finished=true;clearInterval(HUNT_T);HUNT_T=null;
       $('#hint').innerHTML='<div class="hintbox" style="border-color:var(--good);background:rgba(62,230,168,.12)"><p>You found every word!</p></div>';
@@ -1097,7 +1188,7 @@ function stopAllMic(){clearInterval(STALL);STALL=null;clearInterval(HUNT_T);HUNT
 function readStation(st,done){var sk=S.skills.read;var sents=[st.flavor,st.wit],si=0;
   function render(){stopAllMic();var text=sents[si];var words=text.split(' ');var W=words.map(normWord);var mic=micOn();var sentMiss=0;
     stage.innerHTML=stationHead('read',2)+'<p class="line1">'+(mic?'Tap the mic. Read the witness statement out loud.':'Read it out loud. Tap a word to hear it.')+'</p>'+
-      '<div class="paper"><div class="clue-no">'+(C.kind==='pup'?'GIGI’S FRIEND SAYS · ':'WITNESS STATEMENT ')+(si+1)+' of 2</div><div class="statement" id="stmt">'+wordsHTML(text)+'</div></div>'+
+      '<div class="paper"><div class="clue-no">'+(C.kind==='pup'?'THE NEIGHBOR SAYS · ':'WITNESS STATEMENT ')+(si+1)+' of 2</div><div class="statement" id="stmt">'+wordsHTML(text)+'</div></div>'+
       (S.micDebug&&mic?'<p class="heard" id="heard">Mic heard: (nothing yet)</p>':'')+'<div class="center" id="ctrl"></div>';
     for(var x=0;x<si;x++)pip(x+1);
     hookHear($('#stmt'));var spans=$$('#stmt .w');var ctrl=$('#ctrl');
@@ -1107,7 +1198,8 @@ function readStation(st,done){var sk=S.skills.read;var sents=[st.flavor,st.wit],
       ctrl.innerHTML='<div class="big" style="color:var(--good);font-size:26px">Got it!</div>';
       setTimeout(function(){if(si<1){si++;render();}else done();},1100);}
 
-    if(!mic){ctrl.innerHTML='<button class="btn big" id="did">I read it!</button>'+(SR&&!micBroken&&!S.mic?'':'');
+    if(!mic){ctrl.innerHTML='<button class="btn big" id="did">I read it!</button>'+(micLocked()?'<button class="mic mic-off" id="lockedMic" aria-label="Microphone needs a grown-up">🎙️</button><div id="micNote"></div>':'');
+      if($('#lockedMic'))$('#lockedMic').onclick=function(){SFX.nudge();$('#micNote').innerHTML=micLockedNote();say('A grown-up needs to turn on the mic first.');};
       $('#did').onclick=function(){SFX.tap();if(si<1){S.wordsRead+=words.length;C.learned.read+=words.length;pip(1);si++;render();}else quiz();};
       function quiz(){var TT=caseTR(),a=st.attr,v=C.culprit.t[a];var opts=shuffle([v].concat(shuffle(TT[a].vals.filter(function(x){return x!==v;})).slice(0,2)));var tries=0;
         ctrl.innerHTML='<p style="font-size:22px;font-weight:800;margin:0">'+esc(TT[a].q)+'</p><div class="choices" id="qz"></div><div id="qh"></div>';
@@ -1196,7 +1288,7 @@ function readStation(st,done){var sk=S.skills.read;var sents=[st.flavor,st.wit],
 /* ================= ARREST ================= */
 function renderAccuse(){var sel=-1,out={};
   function draw(flag){var clues=C.clues.map(function(c,i){return '<div class="clue'+(flag&&flag.clue===i?' flag':'')+'"><b>CLUE '+(i+1)+'</b><span>'+esc(c.text)+'</span></div>';}).join('');
-    var pup=C.kind==='pup';stage.innerHTML='<div class="center"><div class="big" style="font-size:clamp(28px,7vw,40px)">'+(pup?'Where is Jax?':'Who did it?')+'</div><p class="line1">'+(pup?'Tap a place to pick it. Tap again to cross it out.':'Tap a suspect to pick. Tap again to cross them out.')+'</p></div><div class="suspects" id="sus">'+suspectsHTML(false,flag)+'</div><div id="msg"></div><div class="notebook">'+clues+'</div><button class="btn pink big" id="arrest" '+(sel<0?'disabled':'')+'>'+(pup?'🐶 Go to ':'🚨 Arrest ')+(sel>=0?esc(C.suspects[sel].name):'…')+'</button>';
+    var pup=C.kind==='pup';stage.innerHTML='<div class="center"><div class="big" style="font-size:clamp(28px,7vw,40px)">'+(pup?'Where is '+esc(PET().n)+'?':'Who did it?')+'</div><p class="line1">'+(pup?'Tap a place to pick it. Tap again to cross it out.':'Tap a suspect to pick. Tap again to cross them out.')+'</p></div><div class="suspects" id="sus">'+suspectsHTML(false,flag)+'</div><div id="msg"></div><div class="notebook">'+clues+'</div><button class="btn pink big" id="arrest" '+(sel<0?'disabled':'')+'>'+(pup?petEm()+' Go to ':'🚨 Arrest ')+(sel>=0?esc(C.suspects[sel].name):'…')+'</button>';
     $$('#sus .suspect').forEach(function(el){var i=+el.dataset.i;el.classList.remove('pop-in');if(out[i])el.classList.add('out');if(i===sel)el.classList.add('sel');
       el.onclick=function(){SFX.tap();if(sel===i){out[i]=true;sel=-1;}else if(out[i]){out[i]=false;}else sel=i;draw();};});
     if(flag)$('#msg').innerHTML='<div class="hintbox"><p>'+flag.msg+'</p></div>';
@@ -1204,7 +1296,7 @@ function renderAccuse(){var sel=-1,out={};
       if(s===C.culprit){closeCase();return;}
       var ci=C.clues.findIndex(function(c){return s.t[c.attr]!==C.culprit.t[c.attr];});var c=C.clues[ci];
       C.hints++;C.streak=0;setFlame();SFX.nudge();out[sel]=true;var bad=sel;sel=-1;
-      draw({i:bad,k:c.attr,clue:ci,msg:C.kind==='pup'?'Look at clue '+(ci+1)+'. Jax is not at '+esc(s.name)+'.':'Wait! Check clue '+(ci+1)+'. '+esc(s.name)+'’s '+(c.attr==='pet'?'pet':c.attr==='extra'?'look':c.attr)+' doesn’t match.'});};}
+      draw({i:bad,k:c.attr,clue:ci,msg:C.kind==='pup'?'Look at clue '+(ci+1)+'. '+esc(PET().n)+' is not at '+esc(s.name)+'.':'Wait! Check clue '+(ci+1)+'. '+esc(s.name)+'’s '+(c.attr==='pet'?'pet':c.attr==='extra'?'look':c.attr)+' doesn’t match.'});};}
   draw();}
 
 /* ================= CASE CLOSED ================= */
@@ -1212,27 +1304,27 @@ function closeCase(){C.closed=true;C.qsDone=12;setMeter();SFX.stamp();setTimeout
   var bonus=50;C.points+=bonus;S.cases++;S.points+=C.points;var pb=C.points>S.bestCase;if(pb)S.bestCase=C.points;
   var pupCase=C.kind==='pup';if(pupCase)S.pupSaved=(S.pupSaved||0)+1;
   var EARN=earn(pupCase?'pup':'case',C.setting.title,C.points);
-  S.archive.push({no:C.no,title:C.setting.title,culprit:pupCase?'Jax':C.culprit.name,kind:C.kind||'',pts:C.points,date:todayStr()});if(S.archive.length>60)S.archive=S.archive.slice(-60);
+  S.archive.push({no:C.no,title:C.setting.title,culprit:pupCase?PET().n:C.culprit.name,pet:pupCase?petEm():'',kind:C.kind||'',pts:C.points,date:todayStr()});if(S.archive.length>60)S.archive=S.archive.slice(-60);
   var news=checkBadges();persist();
   var L=C.learned,items=[];
   if(L.mult.length)items.push('🔐 You cracked math codes: <b>'+L.mult.map(esc).join(', ')+'</b>');
   if(L.div.length)items.push((C.kind==='pup'?'🦴 You split treats fair and square: ':'⚖️ You split loot fair and square: ')+'<b>'+L.div.map(esc).join(', ')+'</b>');
   if(L.spell.length)items.push('🔑 You spelled: <b>'+L.spell.map(esc).join(', ')+'</b>');
   if(L.hunt&&L.hunt.length)items.push('🔍 You found these words: <b>'+L.hunt.map(function(w){return esc(w.toUpperCase());}).join(', ')+'</b>');
-  if(L.read)items.push('🎙️ You read <b>'+L.read+' words</b> '+(C.kind==='pup'?'from Gigi’s friend':'from witness statements'));
+  if(L.read)items.push('🎙️ You read <b>'+L.read+' words</b> '+(C.kind==='pup'?'from the neighbor':'from witness statements'));
   C.levelUps.forEach(function(k){items.push('🔓 You leveled up in <b>'+stInfo(k).name+'</b>!');});
   var cul=C.culprit;
   var story=pupCase?
-    '<div class="paper center" style="max-width:520px;width:100%;gap:6px"><div style="font-size:60px" class="pup-hug">👵❤️🐶</div><div style="font-weight:800;font-size:24px">You found Jax at '+esc(cul.name)+'!</div><div style="font-size:21px">Gigi gives Jax a big hug. Jax gives Gigi a big lick!</div><button class="btn alt" id="hearEnd" style="min-height:48px;font-size:17px;color:var(--text)">🔊 Hear it</button></div>':
+    '<div class="paper center" style="max-width:520px;width:100%;gap:6px"><div style="font-size:60px" class="pup-hug">'+(PET().oe||S.av)+'❤️'+petEm()+'</div><div style="font-weight:800;font-size:24px">'+esc(pf('You found {P} at '))+esc(cul.name)+'!</div><div style="font-size:21px">'+esc(pf('{O} gives {P} a big hug. {P} gives {O} a big {lick}!'))+'</div><button class="btn alt" id="hearEnd" style="min-height:48px;font-size:17px;color:var(--text)">🔊 Hear it</button></div>':
     '<div class="paper center" style="max-width:520px;width:100%;gap:6px"><div style="font-size:54px">'+cul.av+'</div><div style="font-weight:800;font-size:22px">'+esc(cul.name)+' did it!</div><div class="confess">“'+esc(C.setting.confess)+'”</div></div>';
-  stage.innerHTML='<div class="center" style="padding-top:10px"><div class="stamp">'+(pupCase?'JAX IS<br>HOME!':'CASE<br>CLOSED')+'</div>'+story+
+  stage.innerHTML='<div class="center" style="padding-top:10px"><div class="stamp">'+(pupCase?esc(PET().n.toUpperCase())+' IS<br>HOME!':'CASE<br>CLOSED')+'</div>'+story+
     '<div><div class="tally" id="tally">0</div><div class="line1">points'+(pb?' · NEW PERSONAL BEST!':'')+'</div></div>'+earnedHTML(EARN)+
     (news.length?'<div class="badges" style="width:100%">'+news.map(function(b){return '<div class="bdg got pop-in"><i>'+b[2]+'</i>NEW: '+esc(b[1])+'</div>';}).join('')+'</div>':'')+
     '<div class="learned"><div class="h2" style="margin:0">TODAY YOU LEARNED</div>'+items.map(function(t){return '<div>'+t+'</div>';}).join('')+'</div>'+
     '<div class="row" style="justify-content:center"><button class="btn alt" id="stop">💾 Save & stop</button><button class="btn" id="again">📂 Next case</button></div></div>';
   var t=0,target=C.points;(function up(){t+=Math.ceil((target-t)/10)||1;if(t>target)t=target;var el=$('#tally');if(el)el.textContent=t;if(t<target)requestAnimationFrame(up);})();
   if(news.length)setTimeout(function(){SFX.unlock();},900);
-  if(pupCase){$('#hearEnd').onclick=function(){say('You found Jax at '+cul.name+'! Gigi gives Jax a big hug. Jax gives Gigi a big lick!');};setTimeout(function(){say('You found Jax! Jax is home with Gigi!');},900);}
+  if(pupCase){$('#hearEnd').onclick=function(){say(pf('You found {P} at ')+cul.name+'! '+pf('{O} gives {P} a big hug. {P} gives {O} a big {lick}!'));};setTimeout(function(){say(pf('You found {P}! {P} is home with {O}!'));},900);}
   $('#stop').onclick=function(){SFX.tap();renderHome();};$('#again').onclick=function(){SFX.tap();startCase();};}
 
 /* ================= ARCADE (mini games) ================= */
@@ -1254,7 +1346,7 @@ function renderArcade(){stopAllMic();stopArcade();C=null;setHUD(false);try{speec
    '<div class="arc-grid">'+ARCADE.map(function(g){var b=A[g.id];return '<button class="arc-tile" data-g="'+g.id+'"><span class="at-icon" aria-hidden="true">'+g.icon+'</span><span class="at-cat">'+g.cat.toUpperCase()+'</span><b>'+g.name+'</b><span class="at-tag">'+g.tag+'</span><span class="at-best">'+(b?'🏆 Best: '+b.best:'New!')+'</span></button>';}).join('')+'</div>';
   $('#back').onclick=function(){SFX.tap();renderHome();};
   $$('.arc-tile').forEach(function(t){t.onclick=function(){ac();SFX.tap();startArcade(t.dataset.g);};});}
-function startArcade(id){var g=ARCADE.find(function(x){return x.id===id;});arcadeC(g.name);
+function startArcade(id){var g=ARCADE.find(function(x){return x.id===id;});markPlayed();arcadeC(g.name);
   ({blaster:gameBlaster,scramble:gameScramble,hunt:gameHunt,readmatch:gameReadMatch,memory:gameMemory})[id]();}
 function arcadeEnd(id,score,lines,stars){stopArcade();stopAllMic();if(!S.arcade)S.arcade={};var rec=S.arcade[id]||{best:0,plays:0};
   rec.plays++;var nb=score>rec.best;if(nb)rec.best=score;S.arcade[id]=rec;persist();var news=checkBadges();
@@ -1368,20 +1460,20 @@ function playMemory(mode){var pairs=[],seen={},g;
    Every case and mini game adds reward points to her wallet (with limits so it can't be farmed).
    She picks a reward and asks for it; a grown-up approves it with the PIN, which takes the points. */
 var DEFAULT_REWARDS=[
- {id:'candy',e:'🍫',n:'Candy bar',p:600},
- {id:'slush',e:'🥤',n:'Slushie or special drink',p:800},
+ {id:'candy',e:'🍫',n:'A favorite treat or candy',p:600},
+ {id:'slush',e:'🥤',n:'Special drink (slushie, smoothie, hot cocoa)',p:800},
  {id:'gamenight',e:'🎲',n:'Family game night: you pick the game',p:1000},
  {id:'late',e:'🌙',n:'Stay up 30 minutes late',p:1200},
  {id:'meal',e:'🍽️',n:'You pick dinner, lunch or breakfast',p:1500},
  {id:'chore',e:'🧹',n:'Skip one chore',p:1800},
- {id:'dollar',e:'🛒',n:'$5 at Dollar Tree',p:2000},
+ {id:'five',e:'💵',n:'$5 to spend at a store you pick',p:2000},
  {id:'movie',e:'🎬',n:'Movie night: you pick the movie + popcorn',p:2200},
  {id:'icecream',e:'🍦',n:'Ice cream trip',p:2500},
- {id:'fivebelow',e:'🎁',n:'$10 at Five Below',p:4500},
- {id:'bowl',e:'🎳',n:'Bowling',p:8000},
- {id:'sky',e:'🦘',n:'Sky Zone trip',p:12000}];
+ {id:'ten',e:'🎁',n:'$10 to spend at a store you pick',p:4500},
+ {id:'outing',e:'🎳',n:'Fun outing (bowling, mini golf, arcade)',p:8000},
+ {id:'bigtrip',e:'🦘',n:'Big day out (trampoline park, water park)',p:12000}];
 var DEFAULT_RULES={maxCase:300,maxArcade:100,daily:1000};
-var PIN_DEFAULT='j1swzl';
+var DEFAULT_STREAK={on:false,pts:200,n:3,unit:'days'};
 var GROWN_OK=false;
 function pinHash(s){var h=2166136261>>>0;s='cfd-pin:'+s;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)>>>0;}return h.toString(36);}
 function fmt(n){return Number(n||0).toLocaleString('en-US');}
@@ -1391,10 +1483,10 @@ function ensureWallet(){var ch=false;
   var si=S.rewards.findIndex(function(r){return r.id==='screen';});if(si>=0){S.rewards[si]={id:'gamenight',e:'🎲',n:'Family game night: you pick the game',p:1000};if(S.goal==='screen')S.goal='gamenight';ch=true;}
   if(!S.rules){S.rules=Object.assign({},DEFAULT_RULES);ch=true;}
   if(!S.requests){S.requests=[];ch=true;}
-  if(!S.pinH){S.pinH=PIN_DEFAULT;ch=true;}
+  if(!S.rules.streak){S.rules.streak=Object.assign({},DEFAULT_STREAK);ch=true;}
   if(!S.dayEarn||S.dayEarn.day!==todayStr()){S.dayEarn={day:todayStr(),pts:0};ch=true;}
   if(ch)persist();}
-function srcName(src){if(src==='case')return '🕵️ Detective cases';if(src==='pup')return '🐶 Missing Puppy';if(src==='bonus')return '🎉 Bonus from a grown-up';if(src==='start')return '⭐ Starting points';
+function srcName(src){if(src==='case')return '🕵️ Detective cases';if(src==='pup')return petEm()+' '+petTitle().replace('The ','');if(src==='streak')return '🔥 Streak bonus';if(src==='bonus')return '🎉 Bonus from a grown-up';if(src==='start')return '⭐ Starting points';
   if(src&&src.indexOf('arc:')===0){var g=ARCADE.find(function(x){return 'arc:'+x.id===src;});return g?g.icon+' '+g.name:'🕹️ Arcade';}return '⭐ Other';}
 function logPush(e){S.wallet.log.push(e);if(S.wallet.log.length>400)S.wallet.log=S.wallet.log.slice(-400);}
 function earn(src,label,amount){ensureWallet();var R=S.rules,cap=src==='case'||src==='pup'?R.maxCase:R.maxArcade;
@@ -1454,38 +1546,77 @@ function openReward(id){var r=S.rewards.find(function(x){return x.id===id;});if(
 var pinFails=0,pinLockUntil=0;
 function renderPin(onOk,why){setHUD(false);var typed='';
   stage.innerHTML='<div class="center" style="padding-top:10px"><div style="font-size:48px">🔒</div><h1 class="big" style="font-size:28px;margin:0">Grown-ups only</h1><p class="line1">'+(why||'Enter the 4-digit PIN to unlock.')+'</p>'+
-   '<div class="pin-dots" id="pd"><i></i><i></i><i></i><i></i></div><p class="status" id="pmsg"></p><div class="keypad" id="pk"></div><button class="link" id="pback">← Back</button></div>';
+   '<div class="pin-dots" id="pd"><i></i><i></i><i></i><i></i></div><p class="status" id="pmsg"></p><p class="pin-hint" id="phint" hidden></p><div class="keypad" id="pk"></div>'+
+   '<div class="row" style="justify-content:center;gap:22px"><button class="link" id="pback">← Back</button><button class="link" id="pforgot">Forgot PIN?</button></div></div>';
   var pk=$('#pk');[1,2,3,4,5,6,7,8,9,'⌫',0,''].forEach(function(k){var b=document.createElement('button');b.className='key';b.textContent=k;if(k==='')b.style.visibility='hidden';b.setAttribute('aria-label',k==='⌫'?'delete':String(k));b.onclick=function(){press(k);};pk.appendChild(b);});
   function dots(){$$('#pd i').forEach(function(d,i){d.classList.toggle('on',i<typed.length);});}
   function press(k){if(Date.now()<pinLockUntil){$('#pmsg').textContent='Too many tries. Wait a few seconds.';return;}
     SFX.type();if(k==='⌫')typed=typed.slice(0,-1);else if(typed.length<4)typed+=k;dots();
-    if(typed.length===4){if(pinHash(typed)===S.pinH){pinFails=0;GROWN_OK=true;SFX.unlock();onOk();}
+    if(typed.length===4){if(pinHash(typed)===FAM.pinH){pinFails=0;GROWN_OK=true;SFX.unlock();onOk();}
       else{pinFails++;SFX.nudge();var pd=$('#pd');pd.classList.remove('wobble');void pd.offsetWidth;pd.classList.add('wobble');typed='';setTimeout(dots,300);
+        if(FAM.hint){var h=$('#phint');h.hidden=false;h.textContent='Hint: '+FAM.hint;}
         if(pinFails>=5){pinLockUntil=Date.now()+30000;pinFails=0;$('#pmsg').textContent='Too many tries. Wait 30 seconds.';}else $('#pmsg').textContent='That’s not it. Try again.';}}}
-  $('#pback').onclick=function(){SFX.tap();renderHome();};}
+  $('#pback').onclick=function(){SFX.tap();renderHome();};
+  $('#pforgot').onclick=function(){SFX.tap();renderForgotPin(onOk);};}
+
+/* ---------- Forgot PIN: a grown-up math check, then a new PIN (progress is kept) ---------- */
+function renderForgotPin(onOk){var a,b,tries=0;
+  function newQ(){a=rnd(23,89);b=rnd(23,89);if(a%10===0)a++;if(b%10===0)b++;}
+  newQ();
+  function draw(msg){stage.innerHTML='<div class="center" style="padding-top:10px;gap:12px"><div style="font-size:48px">🧮</div><h1 class="big" style="font-size:28px;margin:0">Grown-up check</h1>'+
+    '<p class="line1" style="max-width:32ch">To reset the PIN, solve this. (A calculator is fine.) Nothing else gets erased.</p>'+
+    '<div class="big" style="font-size:40px">'+a+' × '+b+' = ?</div>'+
+    '<input type="number" id="fq" inputmode="numeric" style="width:180px;font-size:28px;text-align:center" aria-label="Answer">'+
+    '<p class="status" id="fmsg">'+(msg||'')+'</p>'+
+    '<div class="row" style="justify-content:center"><button class="btn" id="fok">Check</button><button class="btn alt" id="fback">Cancel</button></div></div>';
+    $('#fq').focus();
+    $('#fq').onkeydown=function(e){if(e.key==='Enter')$('#fok').click();};
+    $('#fok').onclick=function(){if(+$('#fq').value===a*b){SFX.unlock();renderMakePin(function(){GROWN_OK=true;toast('New PIN saved');onOk();},'Make a new PIN');}
+      else{tries++;SFX.nudge();if(tries>=3){tries=0;newQ();draw('Not quite. Here’s a new one.');}else draw('Not quite. Try again.');}};
+    $('#fback').onclick=function(){SFX.tap();renderHome();};}
+  draw();}
+
+/* ---------- Make a PIN (first-time setup and forgot-PIN): PIN twice, then an optional hint ---------- */
+function renderMakePin(after,title,stepTxt){var first='',typed='',phase=1;
+  function draw(){stage.innerHTML='<div class="center" style="padding-top:6px">'+(stepTxt?'<div class="setup-step">'+stepTxt+'</div>':'')+'<div style="font-size:44px">🔐</div><h1 class="big" style="font-size:28px;margin:0">'+(title||'Make a grown-up PIN')+'</h1>'+
+    '<p class="line1" style="max-width:32ch">'+(phase===1?'Pick 4 numbers your kid won’t guess. This PIN locks every grown-up setting.':'Type the same 4 numbers again.')+'</p>'+
+    '<div class="pin-dots" id="pd"><i></i><i></i><i></i><i></i></div><p class="status" id="pmsg"></p><div class="keypad" id="pk"></div></div>';
+    var pk=$('#pk');[1,2,3,4,5,6,7,8,9,'⌫',0,''].forEach(function(k){var b=document.createElement('button');b.className='key';b.textContent=k;if(k==='')b.style.visibility='hidden';b.setAttribute('aria-label',k==='⌫'?'delete':String(k));b.onclick=function(){press(k);};pk.appendChild(b);});}
+  function dots(){$$('#pd i').forEach(function(d,i){d.classList.toggle('on',i<typed.length);});}
+  function press(k){SFX.type();if(k==='⌫')typed=typed.slice(0,-1);else if(typed.length<4)typed+=k;dots();
+    if(typed.length<4)return;
+    if(phase===1){first=typed;typed='';phase=2;setTimeout(draw,200);return;}
+    if(typed!==first){SFX.nudge();first='';typed='';phase=1;draw();$('#pmsg').textContent='Those didn’t match. Let’s start over.';return;}
+    FAM.pinH=pinHash(typed);saveFam();SFX.good();hintStep();}
+  function hintStep(){stage.innerHTML='<div class="center" style="padding-top:6px;gap:12px">'+(stepTxt?'<div class="setup-step">'+stepTxt+'</div>':'')+'<div style="font-size:44px">💡</div><h1 class="big" style="font-size:28px;margin:0">Add a PIN hint?</h1>'+
+    '<p class="line1" style="max-width:34ch">It only shows after a wrong PIN, so make it something <b>you</b> get and your kid won’t. Like “Grandma’s house number” or “our first car’s year”.</p>'+
+    '<input type="text" id="hint" maxlength="60" value="'+esc(FAM.hint||'')+'" placeholder="Your hint (optional)" style="width:min(100%,360px)">'+
+    '<div class="row" style="justify-content:center"><button class="btn" id="hsave">Save hint</button><button class="btn alt" id="hskip">No hint</button></div></div>';
+    $('#hsave').onclick=function(){FAM.hint=$('#hint').value.trim();saveFam();SFX.good();after();};
+    $('#hskip').onclick=function(){FAM.hint='';saveFam();SFX.tap();after();};}
+  draw();}
 
 /* ---------- grown-up: Rewards & Points ---------- */
 function renderGrownRewards(){ensureWallet();var W=S.wallet;var pend=S.requests.filter(function(q){return q.st==='pending';});
   stage.innerHTML=grownTabs('rewards')+
    '<section class="card"><div class="pt-tot"><div><b>'+fmt(W.bal)+'</b><span>in wallet</span></div><div><b>'+fmt(W.earned)+'</b><span>earned all time</span></div><div><b>'+fmt(W.spent)+'</b><span>spent</span></div><div><b>'+fmt(S.dayEarn.pts)+'</b><span>earned today</span></div></div></section>'+
-   '<section class="card"><h2 class="h2">REQUESTS WAITING</h2>'+(pend.length?'<div class="ledger">'+pend.map(function(q){return '<div class="lg"><span class="lg-l">'+q.e+' <b>'+esc(q.n)+'</b><br><small>'+fmt(q.p)+' points · asked '+when(q.t)+'</small></span><button class="btn" data-ap="'+q.id+'" style="min-height:44px;font-size:16px;padding:6px 14px">Approve</button><button class="btn alt" data-dn="'+q.id+'" style="min-height:44px;font-size:16px;padding:6px 14px">Deny</button></div>';}).join('')+'</div>':'<p class="line1" style="text-align:left">No requests right now.</p>')+
-   '<p style="margin:10px 0 0;color:var(--muted);font-size:14px">Approving takes the points out of her wallet and saves it in her history.</p></section>'+
-   '<section class="card" style="display:flex;flex-direction:column;gap:10px"><h2 class="h2" style="margin:0">GIVE OR TAKE POINTS</h2>'+
+   '<section class="card" id="gReq"><h2 class="h2">REQUESTS WAITING</h2>'+(pend.length?'<div class="ledger">'+pend.map(function(q){return '<div class="lg"><span class="lg-l">'+q.e+' <b>'+esc(q.n)+'</b><br><small>'+fmt(q.p)+' points · asked '+when(q.t)+'</small></span><button class="btn" data-ap="'+q.id+'" style="min-height:44px;font-size:16px;padding:6px 14px">Approve</button><button class="btn alt" data-dn="'+q.id+'" style="min-height:44px;font-size:16px;padding:6px 14px">Deny</button></div>';}).join('')+'</div>':'<p class="line1" style="text-align:left">No requests right now.</p>')+
+   '<p style="margin:10px 0 0;color:var(--muted);font-size:14px">Approving takes the points out of their wallet and saves it in their history.</p></section>'+
+   '<section class="card" id="gAdj" style="display:flex;flex-direction:column;gap:10px"><h2 class="h2" style="margin:0">GIVE OR TAKE POINTS</h2>'+
    '<div class="row"><input type="number" id="adjN" inputmode="numeric" min="1" placeholder="Points" style="width:120px"><input type="text" id="adjL" placeholder="Why? (e.g. great report card)" style="flex:1 1 180px;min-width:0"></div>'+
    '<div class="row"><button class="btn" id="adjAdd" style="min-height:48px;font-size:17px">＋ Give points</button><button class="btn alt" id="adjSub" style="min-height:48px;font-size:17px">− Take points</button></div></section>'+
-   '<section class="card" style="display:flex;flex-direction:column;gap:10px"><h2 class="h2" style="margin:0">REWARDS CATALOG</h2>'+
+   '<section class="card" id="gCat" style="display:flex;flex-direction:column;gap:10px"><h2 class="h2" style="margin:0">REWARDS CATALOG</h2>'+
    '<p style="margin:0;color:var(--muted);font-size:14px">Change the picture (any emoji), the name, or the points. Tap Save when you’re done.</p>'+
    '<div id="cat">'+S.rewards.map(catRow).join('')+'</div>'+
    '<div class="row"><button class="btn alt" id="catAdd" style="min-height:48px;font-size:17px">＋ Add a reward</button><button class="btn" id="catSave" style="min-height:48px;font-size:17px">Save catalog</button></div>'+
    '<button class="link" id="catReset" style="align-self:flex-start">Go back to the suggested list</button></section>'+
-   '<section class="card" style="display:flex;flex-direction:column;gap:10px"><h2 class="h2" style="margin:0">EARNING LIMITS</h2>'+
-   '<p style="margin:0;color:var(--muted);font-size:14px">These stop her from racking up points by replaying the easiest game. A case usually earns 150–250, a mini game 50–100.</p>'+
+   '<section class="card" id="gLim" style="display:flex;flex-direction:column;gap:10px"><h2 class="h2" style="margin:0">EARNING LIMITS</h2>'+
+   '<p style="margin:0;color:var(--muted);font-size:14px">These stop anyone from racking up points by replaying the easiest game. A case usually earns 150–250, a mini game 50–100.</p>'+
    '<label class="toggle">Most points from one case <input type="number" id="rC" value="'+S.rules.maxCase+'" style="width:110px"></label>'+
    '<label class="toggle">Most points from one mini game <input type="number" id="rA" value="'+S.rules.maxArcade+'" style="width:110px"></label>'+
    '<label class="toggle">Most points per day <input type="number" id="rD" value="'+S.rules.daily+'" style="width:110px"></label>'+
    '<button class="btn" id="rSave" style="min-height:48px;font-size:17px;align-self:flex-start">Save limits</button></section>'+
-   '<section class="card" style="display:flex;flex-direction:column;gap:10px"><h2 class="h2" style="margin:0">CHANGE PIN</h2>'+
-   '<div class="row"><input type="password" id="p1" inputmode="numeric" maxlength="4" placeholder="New PIN" style="width:130px"><input type="password" id="p2" inputmode="numeric" maxlength="4" placeholder="Again" style="width:130px"><button class="btn alt" id="pSave" style="min-height:48px;font-size:17px">Save PIN</button></div></section>'+
+   streakCardHTML()+
    '<section class="card"><h2 class="h2">FULL HISTORY</h2><div class="ledger">'+((W.log||[]).slice(-100).reverse().map(function(e){var pos=e.k==='earn'||(e.k==='adjust'&&e.p>0);
      return '<div class="lg"><span class="lg-w">'+when(e.t)+'</span><span class="lg-l">'+(e.k==='earn'?srcName(e.src)+' · ':'')+esc(e.l)+'</span><b class="'+(pos?'plus':'minus')+'">'+(pos?'+':'−')+fmt(Math.abs(e.p))+'</b></div>';}).join('')||'<p class="line1">Nothing yet.</p>')+'</div></section>'+
    '<div class="row" style="justify-content:center"><button class="btn alt" id="lockB">🔒 Lock & go home</button></div>';
@@ -1507,14 +1638,14 @@ function renderGrownRewards(){ensureWallet();var W=S.wallet;var pend=S.requests.
   $('#catReset').onclick=function(){S.rewards=JSON.parse(JSON.stringify(DEFAULT_REWARDS));persist();toast('Back to the suggested list');renderGrownRewards();};
   $('#rSave').onclick=function(){var c=Math.round(+$('#rC').value),a=Math.round(+$('#rA').value),d=Math.round(+$('#rD').value);
     if(!(c>0&&a>0&&d>0)){toast('Limits need to be numbers above 0.');return;}S.rules={maxCase:c,maxArcade:a,daily:d};persist();SFX.good();toast('Limits saved');};
-  $('#pSave').onclick=function(){var a=$('#p1').value,b=$('#p2').value;if(!/^\d{4}$/.test(a)){toast('The PIN must be 4 numbers.');return;}if(a!==b){toast('The two PINs don’t match.');return;}
-    S.pinH=pinHash(a);persist();SFX.good();toast('PIN changed');$('#p1').value=$('#p2').value='';};
+  wireStreakCard(function(){toast('Streak bonus saved');});
   $('#lockB').onclick=function(){GROWN_OK=false;SFX.tap();renderHome();};}
 function catRow(r){return '<div class="cat-row" data-id="'+esc(r.id)+'"><input class="ce" type="text" value="'+esc(r.e)+'" aria-label="Picture" maxlength="4"><input class="cn" type="text" value="'+esc(r.n)+'" placeholder="Reward name" aria-label="Reward name"><button class="cd" aria-label="Remove">🗑️</button><label class="cpw">⭐<input class="cp" type="number" inputmode="numeric" value="'+r.p+'" aria-label="Points">points</label></div>';}
 function grownTabs(cur){return '<div class="row" style="justify-content:space-between"><h1 class="big" style="font-size:28px;margin:0">Grown-ups</h1><button class="btn alt" id="gHome" style="min-height:52px;font-size:18px">🔒 Lock</button></div>'+
-  '<div class="tabs">'+[['report','📊 Report & settings'],['rewards','⭐ Rewards & points']].map(function(t){var n=t[0]==='rewards'?S.requests.filter(function(q){return q.st==='pending';}).length:0;return '<button class="tab'+(t[0]===cur?' on':'')+'" data-g="'+t[0]+'">'+t[1]+(n?' <span class="nb">'+n+'</span>':'')+'</button>';}).join('')+'</div>';}
+  (FAM.kids.length>1?'<p class="g-who">Showing: <b>'+esc(S.av+' '+(S.name||'Detective'))+'</b> · switch kids in the Family & help tab</p>':'')+
+  '<div class="tabs" id="gTabs">'+[['report','📊 Report'],['rewards','⭐ Rewards'],['family','👪 Family & help']].map(function(t){var n=t[0]==='rewards'?S.requests.filter(function(q){return q.st==='pending';}).length:0;return '<button class="tab'+(t[0]===cur?' on':'')+'" data-g="'+t[0]+'">'+t[1]+(n?' <span class="nb">'+n+'</span>':'')+'</button>';}).join('')+'</div>';}
 function wireGrownTabs(){$('#gHome').onclick=function(){GROWN_OK=false;SFX.tap();renderHome();};
-  $$('.tab[data-g]').forEach(function(b){b.onclick=function(){SFX.tap();if(b.dataset.g==='rewards')renderGrownRewards();else renderGrown();};});}
+  $$('.tab[data-g]').forEach(function(b){b.onclick=function(){SFX.tap();if(b.dataset.g==='rewards')renderGrownRewards();else if(b.dataset.g==='family')renderGrownFamily();else renderGrown();};});}
 
 /* ================= GROWN-UP REPORT ================= */
 function renderGrown(){setHUD(false);ensureWallet();if(!GROWN_OK){renderPin(renderGrown);return;}
@@ -1523,23 +1654,26 @@ function renderGrown(){setHUD(false);ensureWallet();if(!GROWN_OK){renderPin(rend
     var nm={mult:'Math facts',div:'Division / sharing',spell:'Spelling',hunt:'Word Hunt',read:'Reading aloud'}[k];
     return '<tr><td><b>'+nm+'</b></td><td>'+lvlText(k)+'</td><td>'+s.att+'</td><td>'+pct+'</td><td>'+tough+'</td></tr>';}).join('');
   stage.innerHTML=grownTabs('report')+
-   '<section class="card"><p style="margin-top:0;color:var(--muted)">“First try” means she got it without a hint. The game aims for about 80%: it levels up after 4 first-try answers in a row and quietly eases off after 2 misses in a row.</p><div class="tablewrap"><table><thead><tr><th>Skill</th><th>Level</th><th>Tries</th><th>First try</th><th>Needed help with (times)</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>'+
-   '<section class="card" style="display:flex;flex-direction:column;gap:12px"><h2 class="h2" style="margin:0">GRADE LEVELS</h2>'+
-   '<p style="margin:0;color:var(--muted);font-size:15px">Only you can change these, and grade numbers never show up on her screens. Each grade has 3 steps that move up and down on their own as she plays.</p>'+
+   (!FAM.tourDone?'<section class="card new-tour"><b>👋 New in '+VERSION+'</b><span>Take the 2-minute tour of the grown-up area.</span><button class="btn" id="startTour" style="min-height:44px;font-size:16px">Start the tour</button></section>':'')+
+   '<section class="card" id="gSkills"><p style="margin-top:0;color:var(--muted)">“First try” means they got it without a hint. The game aims for about 80%: it levels up after 4 first-try answers in a row and quietly eases off after 2 misses in a row.</p><div class="tablewrap"><table><thead><tr><th>Skill</th><th>Level</th><th>Tries</th><th>First try</th><th>Needed help with (times)</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>'+
+   '<section class="card" id="gGrades" style="display:flex;flex-direction:column;gap:12px"><h2 class="h2" style="margin:0">GRADE LEVELS</h2>'+
+   '<p style="margin:0;color:var(--muted);font-size:15px">Only you can change these, and grade numbers never show up on kid screens. Each grade has 3 steps that move up and down on their own while they play.</p>'+
    [['math','Math','facts, sharing & division'],['spell','Spelling','passwords, word hunt, word games'],['read','Reading','witness statements & clues']].map(function(r){var cur=gr(r[0]);
      return '<div class="grow"><div><b>'+r[1]+'</b><span>'+r[2]+'</span></div><div class="gbtns" role="group" aria-label="'+r[1]+' grade">'+[1,2,3,4,5].map(function(n){return '<button class="gb'+(n===cur?' on':'')+'" data-k="'+r[0]+'" data-g="'+n+'" aria-pressed="'+(n===cur)+'">'+n+'</button>';}).join('')+'</div></div>';}).join('')+
    '</section>'+syncCardHTML()+
-   '<section class="card" style="display:flex;flex-direction:column;gap:14px"><label class="toggle" for="nm">Detective name <input type="text" id="nm" value="'+esc(S.name)+'" maxlength="20"></label>'+
-   '<label class="toggle"><input type="checkbox" id="micT" '+(S.mic?'checked':'')+' style="width:26px;height:26px"> Use the microphone to check reading '+(SR?'':'<span style="color:var(--muted)">(this browser can’t listen; use Chrome)</span>')+'</label>'+
+   '<section class="card" id="gMic" style="display:flex;flex-direction:column;gap:14px"><h2 class="h2" style="margin:0">MICROPHONE</h2>'+
+   '<p style="margin:0;font-size:16px">'+(FAM.micOK?'✅ <b>Approved.</b> The game listens while your kid reads out loud and checks the words.':'🔒 <b>Not approved yet.</b> Kids read and tap “I read it!” instead. If they tap the mic, they see a note to ask you.')+'</p>'+
+   '<p style="margin:0;color:var(--muted);font-size:14px">The phone’s own speech service turns speech into text. The game never records or saves audio.'+(SR?'':' (This browser can’t listen; use Chrome.)')+'</p>'+
+   '<div class="row">'+(FAM.micOK?'<button class="btn alt" id="micOff" style="min-height:48px;font-size:17px">Turn the mic off</button>':'<button class="btn" id="micOn" style="min-height:48px;font-size:17px">🎙️ Approve the mic</button>')+'</div>'+
    '<div class="toggle" role="group" aria-label="Mic pickiness"><span>Mic pickiness</span><button class="btn '+(relaxed()?'':'alt')+'" id="mmR" style="min-height:44px;font-size:16px;padding:6px 14px">Relaxed</button><button class="btn '+(relaxed()?'alt':'')+'" id="mmS" style="min-height:44px;font-size:16px;padding:6px 14px">Strict</button></div>'+
-   '<label class="toggle"><input type="checkbox" id="dbgT" '+(S.micDebug?'checked':'')+' style="width:26px;height:26px"> Show what the mic hears while she reads</label>'+
+   '<label class="toggle"><input type="checkbox" id="dbgT" '+(S.micDebug?'checked':'')+' style="width:26px;height:26px"> Show what the mic hears while they read</label>'+
    (SR?'<div style="display:flex;flex-direction:column;gap:8px"><div class="row"><button class="btn alt" id="micTest" style="min-height:48px;font-size:17px">🎙️ Mic check</button><span style="color:var(--muted);font-size:15px">Tap, then say a sentence. You’ll see exactly what the phone heard.</span></div><p class="heard" id="micTestOut" style="text-align:left;font-size:16px;color:var(--text)"></p></div>':'')+
-   '<p style="margin:0;color:var(--muted);font-size:14px">Relaxed lets her read at a normal speed and forgives words the mic misses. Strict stops her on every skipped or slightly-off word.</p>'+
+   '<p style="margin:0;color:var(--muted);font-size:14px">Relaxed lets kids read at a normal speed and forgives words the mic misses. Strict stops them on every skipped or slightly-off word.</p>'+
    '<p style="margin:0;color:var(--muted);font-size:15px">Arcade: '+(ARCADE.map(function(g){var r=(S.arcade||{})[g.id];return r?g.name+' (played '+r.plays+'×, best '+r.best+')':null;}).filter(Boolean).join(' · ')||'not played yet')+'</p>'+
    '<p style="margin:0;color:var(--muted);font-size:15px">Cases: '+S.cases+' · Total points: '+S.points+' · Best case: '+S.bestCase+' · Words read: '+S.wordsRead+'</p>'+
    '<div id="resetBox"><button class="link" id="reset">Reset all progress</button></div></section>'+
-   '<section class="card" style="display:flex;flex-direction:column;gap:12px"><h2 class="h2" style="margin:0">PROGRESS BACKUP</h2>'+
-   '<p style="margin:0;color:var(--muted);font-size:16px">Copy this code and text or email it to yourself. If her phone gets replaced or reset, paste it below to bring back every case, badge and level. Make a new one every so often, since it only holds progress up to today.</p>'+
+   '<section class="card" id="gBackup" style="display:flex;flex-direction:column;gap:12px"><h2 class="h2" style="margin:0">PROGRESS BACKUP</h2>'+
+   '<p style="margin:0;color:var(--muted);font-size:16px">Copy this code and text or email it to yourself. If the phone gets replaced or reset, paste it below to bring back every case, badge and level. Make a new one every so often, since it only holds progress up to today.</p>'+
    '<textarea id="bkOut" class="code" rows="4" readonly aria-label="Backup code"></textarea>'+
    '<div class="row"><button class="btn" id="bkCopy" style="min-height:52px;font-size:18px">Copy backup code</button><span id="bkMsg" style="color:var(--good);font-weight:600"></span></div>'+
    '<h2 class="h2" style="margin:8px 0 0">RESTORE FROM A CODE</h2>'+
@@ -1559,8 +1693,9 @@ function renderGrown(){setHUD(false);ensureWallet();if(!GROWN_OK){renderPin(rend
     $('#bkNo').onclick=renderGrown;};
   function renderGrownKeep(){var v=$('#bkIn').value;renderGrown();$('#bkIn').value=v;}
   wireSyncCard(renderGrownKeep);
-  $('#nm').oninput=function(e){S.name=e.target.value.trim();persist();};
-  $('#micT').onchange=function(e){S.mic=e.target.checked;micBroken=false;persist();};
+  if($('#startTour'))$('#startTour').onclick=function(){SFX.tap();parentTour();};
+  if($('#micOn'))$('#micOn').onclick=function(){approveMic(renderGrownKeep);};
+  if($('#micOff'))$('#micOff').onclick=function(){FAM.micOK=false;saveFam();stopAllMic();toast('Mic is off');renderGrownKeep();};
   $('#mmR').onclick=function(){S.micMode='relaxed';persist();renderGrownKeep();};
   $('#dbgT').onchange=function(e){S.micDebug=e.target.checked;persist();};
   $$('.gb').forEach(function(b){b.onclick=function(){var k=b.dataset.k,g=+b.dataset.g;if(!S.grade)S.grade={math:3,spell:2,read:1};if(S.grade[k]===g)return;S.grade[k]=g;
@@ -1579,7 +1714,308 @@ function renderGrown(){setHUD(false);ensureWallet();if(!GROWN_OK){renderPin(rend
     round();};
   $('#mmS').onclick=function(){S.micMode='strict';persist();renderGrownKeep();};
   $('#reset').onclick=function(){$('#resetBox').innerHTML='<div class="row"><span>Erase every case, badge, score and reward point?</span><button class="btn pink" id="yes" style="min-height:48px;font-size:17px">Yes, erase</button><button class="btn alt" id="no" style="min-height:48px;font-size:17px">Keep it</button></div>';
-    $('#yes').onclick=function(){var keep={name:S.name,rewards:S.rewards,rules:S.rules,pinH:S.pinH,grade:S.grade};S=Object.assign(defaults(),keep);S.wallet=null;persist();ensureWallet();renderGrown();};$('#no').onclick=renderGrown;};}
+    $('#yes').onclick=function(){var keep={name:S.name,rewards:S.rewards,rules:S.rules,grade:S.grade,av:S.av,col:S.col,pet:S.pet,kidOnboard:S.kidOnboard,readToMe:S.readToMe};S=Object.assign(defaults(),keep);S.wallet=null;persist();ensureWallet();renderGrown();};$('#no').onclick=renderGrown;};}
+
+/* ================= v3.0: STREAK BONUS =================
+   Grown-ups choose: on/off, how many points, and "every N hours of play / days in a row / weeks in a row". */
+function streakRule(){ensureWallet();return S.rules.streak;}
+function unitWord(u,n){return u==='hours'?(n===1?'hour of play':'hours of play'):u==='weeks'?(n===1?'week in a row':'weeks in a row'):(n===1?'day in a row':'days in a row');}
+function streakSentence(r){return 'Give '+fmt(r.pts)+' bonus points for every '+r.n+' '+unitWord(r.unit,r.n)+'.';}
+function streakCardHTML(){var r=streakRule();
+  return '<section class="card" id="gStreak" style="display:flex;flex-direction:column;gap:10px"><h2 class="h2" style="margin:0">STREAK BONUS</h2>'+
+   '<p style="margin:0;color:var(--muted);font-size:14px">Optional extra points for coming back. Bonus points don’t count toward the daily limit.</p>'+
+   '<label class="toggle"><input type="checkbox" id="sbOn" '+(r.on?'checked':'')+' style="width:26px;height:26px"> Turn on the streak bonus</label>'+
+   '<div class="row"><label class="toggle" style="gap:8px">Bonus points <input type="number" id="sbPts" inputmode="numeric" min="1" value="'+r.pts+'" style="width:100px"></label>'+
+   '<label class="toggle" style="gap:8px">Every <input type="number" id="sbN" inputmode="numeric" min="1" value="'+r.n+'" style="width:80px"></label></div>'+
+   '<div class="unit-pick" role="radiogroup" aria-label="Counted in">'+[['hours','⏱️ Hours of play'],['days','📅 Days in a row'],['weeks','🗓️ Weeks in a row']].map(function(u){
+     return '<label class="unit'+(r.unit===u[0]?' on':'')+'"><input type="checkbox" name="sbU" value="'+u[0]+'" '+(r.unit===u[0]?'checked':'')+'> '+u[1]+'</label>';}).join('')+'</div>'+
+   '<p class="sb-say" id="sbSay">'+esc(streakSentence(r))+'</p>'+
+   '<button class="btn" id="sbSave" style="min-height:48px;font-size:17px;align-self:flex-start">Save streak bonus</button></section>';}
+function readStreakCard(){var u=($$('input[name=sbU]').find(function(x){return x.checked;})||{}).value||'days';
+  return {on:$('#sbOn').checked,pts:Math.max(1,Math.round(+$('#sbPts').value||0)),n:Math.max(1,Math.round(+$('#sbN').value||0)),unit:u};}
+function wireStreakCard(onSaved){if(!$('#gStreak'))return;
+  function upd(){var r=readStreakCard();$('#sbSay').textContent=r.on?streakSentence(r):'Streak bonus is off.';}
+  $$('input[name=sbU]').forEach(function(x){x.onchange=function(){$$('input[name=sbU]').forEach(function(y){y.checked=(y===x);y.parentNode.classList.toggle('on',y===x);});upd();};});
+  ['sbOn','sbPts','sbN'].forEach(function(id){$('#'+id).oninput=upd;$('#'+id).onchange=upd;});upd();
+  $('#sbSave').onclick=function(){var r=readStreakCard();if(!(+$('#sbPts').value>=1)||!(+$('#sbN').value>=1)){toast('Use numbers of 1 or more.');return;}
+    var old=S.rules.streak||{};S.rules.streak=r;if(old.unit!==r.unit||old.n!==r.n)S.sbt={};persist();SFX.good();onSaved&&onSaved();};}
+function weekKey(d){d=new Date(d||Date.now());d.setHours(0,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7));return isoDay(d);}
+function streakProgress(){var r=streakRule();if(!r.on)return null;var t=S.sbt||{};
+  if(r.unit==='hours'){var h=(t.sec||0)/3600;return {have:Math.floor(h*10)/10,need:r.n,txt:(Math.floor(h*10)/10)+' of '+r.n+' hours'};}
+  var run=r.unit==='weeks'?(t.wRun||0):(t.dRun||0);var into=run%r.n;
+  var cur=r.unit==='weeks'?(t.wLast===weekKey()):(t.dLast===todayStr());
+  return {have:cur&&into===0&&run>0?r.n:into,need:r.n,txt:(cur&&into===0&&run>0?r.n:into)+' of '+r.n+' '+(r.unit==='weeks'?'weeks':'days')};}
+function streakAward(why){var r=streakRule();ensureWallet();S.wallet.bal+=r.pts;S.wallet.earned+=r.pts;
+  logPush({t:Date.now(),k:'earn',src:'streak',l:why,p:r.pts});persist();
+  setTimeout(function(){SFX.unlock();confetti(90);toast('🔥 Streak bonus! +'+fmt(r.pts)+' points');},700);}
+/* called whenever a case or mini game starts */
+function markPlayed(){var r=streakRule();if(!S.sbt)S.sbt={};var t=S.sbt;
+  var td=todayStr(),y=new Date();y.setDate(y.getDate()-1);
+  if(t.dLast!==td){t.dRun=(t.dLast===todayStr(y))?(t.dRun||0)+1:1;t.dLast=td;if(r.on&&r.unit==='days'&&t.dRun%r.n===0)streakAward(t.dRun+' days in a row');}
+  var wk=weekKey(),pw=new Date();pw.setDate(pw.getDate()-7);
+  if(t.wLast!==wk){t.wRun=(t.wLast===weekKey(pw))?(t.wRun||0)+1:1;t.wLast=wk;if(r.on&&r.unit==='weeks'&&t.wRun%r.n===0)streakAward(t.wRun+' weeks in a row');}
+  persist();}
+/* called by the 15-second play timer */
+function streakTick(sec){var r=S.rules&&S.rules.streak;if(!r||!r.on||r.unit!=='hours')return;if(!S.sbt)S.sbt={};
+  S.sbt.sec=(S.sbt.sec||0)+sec;if(S.sbt.sec>=r.n*3600){S.sbt.sec-=r.n*3600;streakAward(r.n+' '+unitWord('hours',r.n));}}
+
+/* ================= v3.0: MIC APPROVAL ================= */
+function approveMic(after){
+  stage.innerHTML='<div class="center" style="padding-top:10px;gap:12px"><div style="font-size:52px">🎙️</div><h1 class="big" style="font-size:28px;margin:0">One more tap</h1>'+
+   '<p class="line1" style="max-width:32ch">Your phone will now ask if this game can use the microphone. Tap <b>Allow</b>.</p>'+
+   '<p style="margin:0;color:var(--muted);font-size:14px;max-width:36ch">It only listens while a reading page is open. Nothing is recorded or saved.</p>'+
+   '<button class="btn big" id="micGo">Okay, ask me</button><button class="link" id="micNo">Not now</button></div>';
+  $('#micNo').onclick=function(){SFX.tap();FAM.micOK=false;saveFam();after&&after(false);};
+  $('#micGo').onclick=function(){SFX.tap();function ok(){FAM.micOK=true;micBroken=false;saveFam();SFX.good();toast('Mic approved 🎙️');after&&after(true);}
+    if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){navigator.mediaDevices.getUserMedia({audio:true}).then(function(st){try{st.getTracks().forEach(function(t){t.stop();});}catch(e){}ok();},
+      function(){FAM.micOK=false;saveFam();
+        stage.innerHTML='<div class="center" style="padding-top:10px;gap:12px"><div style="font-size:52px">🙉</div><h1 class="big" style="font-size:26px;margin:0">The mic is blocked</h1><p class="line1" style="max-width:34ch">That’s okay! Kids can still read and tap “I read it!”. To turn it on later, allow the microphone for this app in your phone’s settings, then come back to Report → Microphone.</p><button class="btn" id="micCont">Keep going</button></div>';
+        $('#micCont').onclick=function(){after&&after(false);};});}
+    else ok();};}
+function micLockedNote(){return '<div class="hintbox mic-lock"><p>🔒🎙️ A grown-up needs to turn on the mic first. Ask them to open <b>Grown-ups → Report → Microphone</b>.</p></div>';}
+
+/* ================= v3.0: GUIDED TOURS =================
+   A spotlight on one thing at a time, with a card that explains it. Kid tours read themselves out loud. */
+var TOUR=null;
+function tour(steps,opts){opts=opts||{};endTour(true);TOUR={steps:steps,i:0,opts:opts};
+  var sh=document.createElement('div');sh.id='tourLayer';sh.innerHTML='<div id="tourSpot"></div><div id="tourCard" role="dialog" aria-live="polite"></div>';document.body.appendChild(sh);
+  window.addEventListener('resize',placeTour);window.addEventListener('scroll',placeTour,true);showStep();}
+function endTour(silent){if(!TOUR)return;var o=TOUR.opts;TOUR=null;var l=$('#tourLayer');if(l)l.remove();window.removeEventListener('resize',placeTour);window.removeEventListener('scroll',placeTour,true);try{speechSynthesis.cancel();}catch(e){}if(!silent&&o.done)o.done();}
+function tourTarget(){var st=TOUR&&TOUR.steps[TOUR.i];return st&&st.sel?$(st.sel):null;}
+function showStep(){var st=TOUR.steps[TOUR.i],o=TOUR.opts,last=TOUR.i===TOUR.steps.length-1;
+  if(st.before)st.before();
+  var el=tourTarget();if(el&&el.scrollIntoView){el.scrollIntoView({block:'center'});}
+  var card=$('#tourCard');var kid=!!o.kid;
+  card.innerHTML='<div class="tc-top"><span class="tc-n">'+(TOUR.i+1)+' / '+TOUR.steps.length+'</span>'+(kid||o.voice?'<button class="tc-hear" id="tcHear" aria-label="Read it to me">🔊</button>':'')+'</div>'+
+    (st.icon?'<div class="tc-icon">'+st.icon+'</div>':'')+'<b class="tc-t">'+esc(st.title)+'</b><p class="tc-p">'+st.text+'</p>'+
+    '<div class="tc-btns">'+(TOUR.i>0?'<button class="btn alt" id="tcBack">Back</button>':'')+(st.tap?'<span class="tc-tap">👆 Tap it to keep going</span>':'<button class="btn" id="tcNext">'+(last?(o.lastLabel||'Done!'):'Next')+'</button>')+'</div>'+
+    (o.skip===false?'':'<button class="link tc-skip" id="tcSkip">'+(kid?'Skip the tour':'Skip tour')+'</button>');
+  if($('#tcBack'))$('#tcBack').onclick=function(){SFX.tap();TOUR.i--;showStep();};
+  if($('#tcNext'))$('#tcNext').onclick=function(){SFX.tap();if(st.after)st.after();if(last)endTour();else{TOUR.i++;showStep();}};
+  if($('#tcSkip'))$('#tcSkip').onclick=function(){SFX.tap();endTour();};
+  if($('#tcHear'))$('#tcHear').onclick=function(){say(st.title+'. '+plainText(st.text));};
+  $('#tourSpot').onclick=function(){if(st.tap){SFX.tap();var go=st.tap;if(last)endTour(true);else{TOUR.i++;}go();if(TOUR)showStep();}};
+  placeTour();setTimeout(placeTour,350);
+  if(kid&&S.readToMe!==false)say(st.title+'. '+plainText(st.text));}
+function placeTour(){if(!TOUR)return;var el=tourTarget(),sp=$('#tourSpot'),card=$('#tourCard');if(!sp)return;
+  if(!el){sp.style.cssText='left:50%;top:40%;width:0;height:0';card.classList.remove('low');card.classList.add('mid');return;}
+  var r=el.getBoundingClientRect(),p=8;card.classList.remove('mid');
+  sp.style.left=(r.left-p)+'px';sp.style.top=(r.top-p)+'px';sp.style.width=(r.width+p*2)+'px';sp.style.height=(r.height+p*2)+'px';
+  card.classList.toggle('low',r.top+r.height/2>innerHeight/2);}
+
+/* ================= v3.0: FIRST-TIME SETUP (grown-up) ================= */
+var SETUP_N=7;
+function stepTag(n){return 'STEP '+n+' OF '+SETUP_N;}
+function renderWelcome(){setHUD(false);
+  stage.innerHTML='<div class="center welcome" style="padding-top:18px;gap:14px"><div class="w-logo">🕵️</div><h1 class="big" style="font-size:clamp(32px,8vw,48px);margin:0">Case Files Detective</h1>'+
+   '<p class="line1" style="max-width:32ch">A detective game that sneaks in math, spelling and reading practice, with rewards you choose.</p>'+
+   '<section class="card" style="max-width:420px;text-align:left"><b style="font-size:19px">👋 Grown-up, start here.</b><p style="margin:6px 0 0;color:var(--muted)">Setup takes about 3 minutes: a PIN, your kid’s name and level, the mic, and rewards.</p></section>'+
+   '<button class="btn big" id="wGo">Let’s set it up</button>'+
+   '<button class="link" id="wKid">🧒 I’m a kid! <span style="color:var(--muted)">(tap to hear)</span></button></div>';
+  $('#wKid').onclick=function(){ac();say('Hi detective! Please go get a grown-up. They need to set up the game first. Then it’s your turn!');toast('Go get a grown-up! 🏃');};
+  $('#wGo').onclick=function(){ac();SFX.tap();setupFindDoor();};}
+/* step 1: show where the grown-up door is */
+function setupFindDoor(){renderHome(true);
+  tour([{sel:'#grown',icon:'🔒',title:'This is the grown-up door',text:'It’s at the bottom of the home screen, so kids don’t bump it by accident. Everything you set up lives behind it. Tap it now.',tap:function(){renderMakePin(setupKid,'Make a grown-up PIN',stepTag(2));}}],{skip:false});}
+function setupKid(){var nm=FAM.kids[0]&&FAM.kids[0].name||S.name||'';
+  stage.innerHTML='<div class="center" style="padding-top:6px;gap:12px"><div class="setup-step">'+stepTag(3)+'</div><div style="font-size:44px">🧒</div><h1 class="big" style="font-size:28px;margin:0">What’s your kid’s name?</h1>'+
+   '<p class="line1" style="max-width:34ch">It shows on their screens and on your progress page. A nickname is fine. You can add more kids later.</p>'+
+   '<input type="text" id="kn" maxlength="20" value="'+esc(nm)+'" placeholder="First name or nickname" autocomplete="off" style="width:min(100%,320px);font-size:22px;text-align:center">'+
+   '<button class="btn" id="knGo">Next</button></div>';
+  $('#kn').focus();$('#kn').onkeydown=function(e){if(e.key==='Enter')$('#knGo').click();};
+  $('#knGo').onclick=function(){var v=$('#kn').value.trim();if(!v){toast('Type a name first.');return;}S.name=v;FAM.kids[0].name=v;saveFam();persist();SFX.good();setupGrades();};}
+var GRADE_EX={math:['Adding and taking away up to 20','2-digit adding, ×2 ×5 ×10','Times tables to ×10','Bigger times tables, 2-digit × 1-digit','3-digit × 1-digit, 2-digit × 2-digit'],
+  spell:['Short words: jump, ship','Long vowels: rain, light','Tricky words: friend, because','Longer words','Harder multi-syllable words'],
+  read:['Very short, simple sentences','Short sentences','Longer sentences','Paragraph-style sentences','Rich, detailed sentences']};
+function gradeRowsHTML(){return [['math','➗ Math'],['spell','🔤 Spelling'],['read','📖 Reading']].map(function(r){var cur=gr(r[0]);
+  return '<div class="grow setup-grow"><div><b>'+r[1]+'</b><span id="ex-'+r[0]+'">'+esc(GRADE_EX[r[0]][cur-1])+'</span></div><div class="gbtns" role="group" aria-label="'+r[1]+' level">'+[1,2,3,4,5].map(function(n){return '<button class="gb'+(n===cur?' on':'')+'" data-k="'+r[0]+'" data-g="'+n+'" aria-pressed="'+(n===cur)+'">'+n+'</button>';}).join('')+'</div></div>';}).join('');}
+function wireGradeRows(){$$('.setup-grow .gb').forEach(function(b){b.onclick=function(){var k=b.dataset.k,g=+b.dataset.g;S.grade[k]=g;
+  ({math:['mult','div'],spell:['spell','hunt'],read:['read']})[k].forEach(function(s){var sk=S.skills[s];sk.lvl=1;sk.run=0;sk.missRun=0;});persist();SFX.tap();
+  $$('.setup-grow .gb[data-k="'+k+'"]').forEach(function(x){x.classList.toggle('on',+x.dataset.g===g);x.setAttribute('aria-pressed',+x.dataset.g===g);});$('#ex-'+k).textContent=GRADE_EX[k][g-1];};});}
+function setupGrades(){if(!S.grade)S.grade={math:2,spell:2,read:2};
+  stage.innerHTML='<div class="center" style="padding-top:6px;gap:12px"><div class="setup-step">'+stepTag(4)+'</div><h1 class="big" style="font-size:28px;margin:0">Where is '+esc(S.name)+' working?</h1>'+
+   '<p class="line1" style="max-width:36ch">Pick the grade they’re <b>working at</b>, not the grade they’re in. Not sure? Pick lower. The game moves up on its own when it’s too easy.</p>'+
+   '<section class="card" style="width:100%;display:flex;flex-direction:column;gap:12px">'+gradeRowsHTML()+'</section>'+
+   '<p style="margin:0;color:var(--muted);font-size:14px">Grade numbers never show on kid screens.</p><button class="btn" id="grGo">Next</button></div>';
+  wireGradeRows();$('#grGo').onclick=function(){SFX.tap();setupMic();};}
+function setupMic(){
+  stage.innerHTML='<div class="center" style="padding-top:6px;gap:12px"><div class="setup-step">'+stepTag(5)+'</div><div style="font-size:44px">🎙️</div><h1 class="big" style="font-size:28px;margin:0">Let the game hear them read?</h1>'+
+   '<p class="line1" style="max-width:36ch">On reading pages, the game can listen while '+esc(S.name)+' reads out loud and light up each word they get right. It forgives accents and missed words.</p>'+
+   '<p style="margin:0;color:var(--muted);font-size:14px;max-width:36ch">Without the mic, they read and tap “I read it!”. You can change this anytime.</p>'+
+   '<div class="row" style="justify-content:center">'+(SR?'<button class="btn" id="mYes">🎙️ Approve the mic</button>':'')+'<button class="btn alt" id="mNo">'+(SR?'Not now':'Next (this browser can’t listen)')+'</button></div></div>';
+  if($('#mYes'))$('#mYes').onclick=function(){approveMic(function(){setupRewards();});};
+  $('#mNo').onclick=function(){SFX.tap();FAM.micOK=false;saveFam();setupRewards();};}
+function setupRewards(){ensureWallet();
+  stage.innerHTML='<div class="center" style="padding-top:6px;gap:12px"><div class="setup-step">'+stepTag(6)+'</div><div style="font-size:44px">⭐</div><h1 class="big" style="font-size:28px;margin:0">Points & rewards</h1>'+
+   '<p class="line1" style="max-width:36ch">Every case and mini game earns points. Kids save up and ask for a reward, and you approve it with your PIN. Here’s a starter list:</p>'+
+   '<section class="card" style="width:100%"><div class="ledger">'+S.rewards.map(function(r){return '<div class="lg"><span class="lg-l">'+r.e+' '+esc(r.n)+'</span><b>⭐ '+fmt(r.p)+'</b></div>';}).join('')+'</div></section>'+
+   '<p style="margin:0;color:var(--muted);font-size:14px;max-width:38ch">A typical day of play earns about 500–700 points. You’ll see how to change rewards and amounts in the tour.</p>'+
+   '<button class="btn" id="rwGo">Next</button></div>';
+  $('#rwGo').onclick=function(){SFX.tap();setupStreak();};}
+function setupStreak(){ensureWallet();
+  stage.innerHTML='<div class="center" style="padding-top:6px;gap:12px"><div class="setup-step">'+stepTag(7)+'</div><div style="font-size:44px">🔥</div><h1 class="big" style="font-size:28px;margin:0">Streak bonus (optional)</h1>'+
+   '<p class="line1" style="max-width:36ch">Want to reward coming back? Set it up here, or leave it off.</p>'+streakCardHTML()+'</div>';
+  $('#sbSave').textContent='Save & finish';
+  var skip=document.createElement('button');skip.className='link';skip.textContent='Skip for now';skip.onclick=function(){S.rules.streak.on=false;persist();setupDone();};$('#gStreak').appendChild(skip);
+  wireStreakCard(setupDone);}
+function setupDone(){FAM.setupDone=true;saveFam();GROWN_OK=true;confetti(80);SFX.win();
+  stage.innerHTML='<div class="center" style="padding-top:14px;gap:12px"><div style="font-size:60px">🎉</div><h1 class="big" style="font-size:30px;margin:0">You’re set up!</h1>'+
+   '<p class="line1" style="max-width:34ch">Next, a 2-minute tour of the grown-up area: approving rewards, adding prizes, changing points, and more.</p>'+
+   '<button class="btn big" id="tGo">Take the tour</button><button class="link" id="tSkip">Skip the tour and hand it to '+esc(S.name)+'</button></div>';
+  $('#tGo').onclick=function(){SFX.tap();parentTour(function(){handOff();});};
+  $('#tSkip').onclick=function(){SFX.tap();handOff();};}
+function handOff(){GROWN_OK=false;
+  stage.innerHTML='<div class="center" style="padding-top:14px;gap:12px"><div style="font-size:60px">🤝</div><h1 class="big" style="font-size:30px;margin:0">Hand it to '+esc(S.name)+'!</h1>'+
+   '<p class="line1" style="max-width:32ch">They get their own quick walkthrough. It can read itself out loud.</p><button class="btn big" id="hGo">'+esc(S.name)+' is ready</button></div>';
+  $('#hGo').onclick=function(){ac();SFX.tap();renderKidOnboard();};}
+
+/* the grown-up area tour (also from Family & help → Show me again) */
+function parentTour(done){GROWN_OK=true;
+  function rep(){renderGrown();} function rew(){renderGrownRewards();} function fam(){renderGrownFamily();}
+  tour([
+   {before:rep,sel:'#gTabs',icon:'🗂️',title:'Three tabs',text:'<b>Report</b> shows how they’re doing. <b>Rewards</b> is points and prizes. <b>Family & help</b> has kids, PIN, feedback and privacy.'},
+   {before:rep,sel:'#gSkills',icon:'📊',title:'How they’re doing',text:'Each skill shows its level, how many tries, and how often they got it on the first try. “Needed help with” lists what to practice.'},
+   {before:rep,sel:'#gGrades',icon:'🎚️',title:'Grade levels',text:'Change the level for math, spelling or reading any time. The game also moves up and down on its own inside each grade.'},
+   {before:rep,sel:'#gSync',icon:'📱',title:'Progress page',text:'Want to check progress from your own phone? Link this phone to your progress page with a 6-character code.'},
+   {before:rep,sel:'#gMic',icon:'🎙️',title:'Microphone',text:'Approve or turn off the mic here. “Relaxed” is best for most kids. If a word won’t register, turn on “Show what the mic hears”.'},
+   {before:rep,sel:'#gBackup',icon:'💾',title:'Backup code',text:'Copy this code somewhere safe. If the phone is lost or reset, paste it back here to restore everything.'},
+   {before:rew,sel:'#gReq',icon:'📨',title:'Approving rewards',text:'When your kid asks for a reward, it waits here. <b>Approve</b> takes the points. <b>Deny</b> gives them back.'},
+   {before:rew,sel:'#gAdj',icon:'🎉',title:'Give or take points',text:'Great report card? Type points and a reason, then tap <b>Give points</b>. You can take points away the same way.'},
+   {before:rew,sel:'#catAdd',icon:'➕',title:'Add a prize',text:'Tap <b>Add a reward</b>, pick an emoji, type a name and how many points it costs.'},
+   {before:rew,sel:'#cat .cat-row .cpw',icon:'✏️',title:'Change a prize’s points',text:'Type a new number in any points box. Tap the 🗑️ to remove a prize.'},
+   {before:rew,sel:'#catSave',icon:'💾',title:'Save your changes',text:'Changes to the catalog only stick after you tap <b>Save catalog</b>. “Go back to the suggested list” undoes everything.'},
+   {before:rew,sel:'#gLim',icon:'🚦',title:'Earning limits',text:'Caps per case, per mini game and per day, so nobody farms points on the easiest game.'},
+   {before:rew,sel:'#gStreak',icon:'🔥',title:'Streak bonus',text:'Turn it on, type the bonus points and a number, then pick <b>hours of play</b>, <b>days in a row</b> or <b>weeks in a row</b>.'},
+   {before:fam,sel:'#gKids',icon:'👪',title:'More than one kid',text:'Add a detective for each kid. Each one gets their own points, rewards, levels and pet. Kids switch by tapping their name on the home screen.'},
+   {before:fam,sel:'#gPin',icon:'🔐',title:'PIN and hint',text:'Change the PIN or hint here. Forgot it? Tap “Forgot PIN?” on the lock screen and solve a grown-up math problem.'},
+   {before:fam,sel:'#gFb',icon:'💌',title:'Feedback & problems',text:'Something broken or have an idea? This opens an email to us. Kids get a “Tell a grown-up” button that brings them here.'},
+   {before:fam,sel:'#gAbout',icon:'ℹ️',title:'About, privacy, delete',text:'See the version and privacy policy, replay these tours, or delete all data from this phone.'}
+  ],{done:function(){FAM.tourDone=true;saveFam();if(done)done();else{renderGrownFamily();toast('Tour done! 🎉');}},lastLabel:'Finish tour'});}
+
+/* ================= v3.0: KID WALKTHROUGH ================= */
+var AVATARS=['🕵️','🕵️‍♀️','🦊','🐺','🦉','🐯','🐼','🤖','👽','🦸','🥷','🐉'];
+var COLORS=['#ffb547','#ff5c8a','#3ee6a8','#4d8dff','#c6a2ff','#ffe14d'];
+var PETNAMES={dog:['Max','Rocket','Biscuit','Luna','Bear','Pepper'],cat:['Whiskers','Shadow','Mittens','Luna','Ziggy','Pumpkin']};
+function kidScreen(html,line){stage.innerHTML='<div class="center kid-ob" style="padding-top:8px;gap:12px">'+
+   '<div class="row" style="justify-content:flex-end;width:100%"><button class="btn alt" id="rtm" style="min-height:44px;font-size:15px;padding:6px 12px">'+(S.readToMe!==false?'🔊 Reading to me':'🔈 Read to me: off')+'</button></div>'+html+'</div>';
+  $('#rtm').onclick=function(){S.readToMe=S.readToMe===false;persist();$('#rtm').textContent=S.readToMe?'🔊 Reading to me':'🔈 Read to me: off';if(S.readToMe&&line)say(line);};
+  if($('#hearK'))$('#hearK').onclick=function(){say(line);};
+  if(line&&S.readToMe!==false)setTimeout(function(){say(line);},150);}
+function renderKidOnboard(){setHUD(false);var news=S.whatsNew;
+  var line=news?'Hey '+S.name+'! The game got new stuff. Want to pick a new detective look? Then I’ll show you around.':'Hey '+S.name+'! Welcome, detective. Let’s get you set up. It only takes a minute.';
+  kidScreen('<div style="font-size:72px" class="pop-in">'+S.av+'</div><h1 class="big" style="font-size:clamp(30px,8vw,44px);margin:0">'+(news?'New stuff, ':'Hey, ')+esc(S.name||'Detective')+'!</h1>'+
+   '<p class="line1" style="max-width:30ch">'+(news?'Pick a new detective look, then I’ll show you around.':'Welcome, detective. Let’s get you set up.')+'</p>'+
+   '<button class="btn alt" id="hearK" style="min-height:48px;font-size:17px;color:var(--text)">🔊 Hear it</button><button class="btn big" id="kGo">Let’s go!</button>',line);
+  $('#kGo').onclick=function(){SFX.tap();kidLook();};}
+function kidLook(){var line='Pick your detective. Then pick your color.';
+  kidScreen('<h1 class="big" style="font-size:30px;margin:0">Pick your detective</h1>'+
+   '<div class="av-prev" id="avp" style="background:'+S.col+'">'+S.av+'</div>'+
+   '<div class="av-grid">'+AVATARS.map(function(a){return '<button class="av-opt'+(a===S.av?' on':'')+'" data-a="'+a+'">'+a+'</button>';}).join('')+'</div>'+
+   '<div class="col-grid">'+COLORS.map(function(c){return '<button class="col-opt'+(c===S.col?' on':'')+'" data-c="'+c+'" style="background:'+c+'" aria-label="color"></button>';}).join('')+'</div>'+
+   '<button class="btn alt" id="hearK" style="min-height:48px;font-size:17px;color:var(--text)">🔊 Hear it</button><button class="btn big" id="kGo">That’s me!</button>',line);
+  $$('.av-opt').forEach(function(b){b.onclick=function(){SFX.type();S.av=b.dataset.a;$$('.av-opt').forEach(function(x){x.classList.toggle('on',x===b);});$('#avp').textContent=S.av;};});
+  $$('.col-opt').forEach(function(b){b.onclick=function(){SFX.type();S.col=b.dataset.c;$$('.col-opt').forEach(function(x){x.classList.toggle('on',x===b);});$('#avp').style.background=S.col;};});
+  $('#kGo').onclick=function(){persist();SFX.good();if(S.pet)kidTour();else kidPetKind();};}
+function kidPetKind(){var line='Quick question. Do you like dogs or cats better?';
+  kidScreen('<h1 class="big" style="font-size:30px;margin:0">Dogs or cats?</h1><p class="line1">You’ll get a pet in the game. Which one?</p>'+
+   '<div class="pet-pick"><button class="pet-opt" data-k="dog"><span>🐶</span>Dogs</button><button class="pet-opt" data-k="cat"><span>🐱</span>Cats</button></div>'+
+   '<button class="btn alt" id="hearK" style="min-height:48px;font-size:17px;color:var(--text)">🔊 Hear it</button>',line);
+  $$('.pet-opt').forEach(function(b){b.onclick=function(){SFX.good();kidPetName(b.dataset.k);};});}
+function kidPetName(kind){var g='he',em=kind==='cat'?'🐱':'🐶',word=kind==='cat'?'cat':'dog';
+  var line='Now name your '+word+'! Tap a name, or type your own. Is it a boy or a girl?';
+  kidScreen('<div style="font-size:64px" class="pop-in">'+em+'</div><h1 class="big" style="font-size:30px;margin:0">Name your '+word+'!</h1>'+
+   '<div class="name-sugg">'+PETNAMES[kind].map(function(n){return '<button class="chip-btn" data-n="'+n+'">'+n+'</button>';}).join('')+'</div>'+
+   '<input type="text" id="pn" maxlength="14" placeholder="Or type a name" autocomplete="off" style="width:min(100%,300px);font-size:24px;text-align:center">'+
+   '<div class="row" style="justify-content:center"><button class="chip-btn on" data-g="he">Boy</button><button class="chip-btn" data-g="she">Girl</button></div>'+
+   '<button class="btn alt" id="hearK" style="min-height:48px;font-size:17px;color:var(--text)">🔊 Hear it</button><button class="btn big" id="kGo">Done!</button>',line);
+  $$('[data-n]').forEach(function(b){b.onclick=function(){SFX.type();$('#pn').value=b.dataset.n;say(b.dataset.n);};});
+  $$('[data-g]').forEach(function(b){b.onclick=function(){SFX.type();g=b.dataset.g;$$('[data-g]').forEach(function(x){x.classList.toggle('on',x===b);});};});
+  $('#kGo').onclick=function(){var n=$('#pn').value.replace(/[^A-Za-z' -]/g,'').trim();if(!n){toast('Pick or type a name!');say('Pick a name first!');return;}
+    n=n.charAt(0).toUpperCase()+n.slice(1);S.pet={k:kind,n:n,g:g,o:S.name||'you',oe:S.av};persist();SFX.unlock();confetti(60);
+    say(n+'! Great name.');setTimeout(kidTour,700);};}
+function kidTour(done){S.whatsNew=false;renderHome(true);var P=PET();
+  tour([
+   {sel:'#newCase',icon:'📁',title:'Solve cases',text:'Tap here to open a case. Find 4 clues, then catch the thief!'},
+   {sel:'#pupCase',icon:petEm(),title:'Find '+P.n,text:P.n+' keeps running away! Follow the clues to bring '+(P.g==='she'?'her':'him')+' home.'},
+   {sel:'#arcBtn',icon:'🕹️',title:'Arcade',text:'Quick games when you want something fast.'},
+   {sel:'#rwBtn',icon:'⭐',title:'Your points',text:'Everything you play earns points. Tap here to see them and pick rewards.'},
+   {sel:'#goalBtn',icon:'🎯',title:'Save up',text:'Pick a reward to save for. When you have enough, ask a grown-up to approve it.'},
+   {sel:'.h-badges',icon:'🏅',title:'Badges',text:'Collect badges as you get better. Tap one to see what it is.'},
+   {sel:'#kidHelp',icon:'🆘',title:'Need help?',text:'Something broken or stuck? Tap here and get a grown-up.'}
+  ],{kid:true,lastLabel:'Let’s play!',done:function(){S.kidOnboard=true;persist();renderHome();if(done)done();}});}
+
+/* ================= v3.0: KID PROFILES ================= */
+function switchKid(id){persist();if(typeof syncNow==='function'&&SY.key&&syncDirty)syncNow(true);
+  FAM.active=id;saveFam();S=loadKid(id);loadSY();micBroken=false;syncMute();}
+function addKid(name){var id='k'+Date.now().toString(36);var cur=S;
+  var n=defaults();n.name=name;n.rewards=JSON.parse(JSON.stringify(cur.rewards||DEFAULT_REWARDS));n.rules=JSON.parse(JSON.stringify(cur.rules||DEFAULT_RULES));n.grade={math:2,spell:2,read:2};
+  try{localStorage.setItem(kidKey(id),JSON.stringify(n));}catch(e){}FAM.kids.push({id:id,name:name});saveFam();return id;}
+function renderSwitcher(){var sh=$('#sheet');if(!sh)return;
+  sh.innerHTML='<div class="sheet-bg" id="sbg"></div><div class="sheet" role="dialog" aria-label="Who is playing?"><h2 class="big" style="font-size:26px;margin:0;text-align:center">Who’s playing?</h2>'+
+   '<div class="kid-list">'+FAM.kids.map(function(k){var s=k.id===FAM.active?S:loadKid(k.id);return '<button class="kid-pick'+(k.id===FAM.active?' on':'')+'" data-id="'+k.id+'"><span class="kp-av" style="background:'+(s.col||'#ffb547')+'">'+(s.av||'🕵️')+'</span><b>'+esc(k.name||'Detective')+'</b></button>';}).join('')+'</div>'+
+   '<button class="link" id="addK">＋ Add a detective (grown-up)</button><button class="link" id="shut">Close</button></div>';
+  $('#sbg').onclick=$('#shut').onclick=function(){sh.innerHTML='';};
+  $$('.kid-pick').forEach(function(b){b.onclick=function(){SFX.tap();if(b.dataset.id!==FAM.active)switchKid(b.dataset.id);sh.innerHTML='';goHome();};});
+  $('#addK').onclick=function(){renderPin(function(){renderGrownFamily();setTimeout(function(){var i=$('#newKid');if(i)i.focus();},50);},'Adding a detective needs a grown-up.');};}
+/* home, or the kid walkthrough if this kid hasn't had it yet */
+function goHome(){if(!FAM.setupDone){renderWelcome();return;}if(!S.kidOnboard){renderKidOnboard();return;}renderHome();}
+
+/* ================= v3.0: GROWN-UP → FAMILY & HELP ================= */
+function feedbackURL(){var b='\n\n---\nApp: Case Files Detective '+VERSION+'\nDevice: '+navigator.userAgent+'\n';
+  return 'mailto:'+FEEDBACK_EMAIL+'?subject='+encodeURIComponent('Case Files feedback ('+VERSION+')')+'&body='+encodeURIComponent('Tell us what happened or what you’d like:'+b);}
+function renderGrownFamily(){setHUD(false);ensureWallet();if(!GROWN_OK){renderPin(renderGrownFamily);return;}
+  stage.innerHTML=grownTabs('family')+
+   '<section class="card" id="gKids" style="display:flex;flex-direction:column;gap:10px"><h2 class="h2" style="margin:0">KIDS ON THIS PHONE</h2>'+
+   '<div class="ledger">'+FAM.kids.map(function(k){var s=k.id===FAM.active?S:loadKid(k.id);return '<div class="lg"><span class="lg-l"><span class="kp-av sm" style="background:'+(s.col||'#ffb547')+'">'+(s.av||'🕵️')+'</span> <b>'+esc(k.name||'Detective')+'</b>'+(k.id===FAM.active?' <small>(showing now)</small>':'')+'<br><small>'+(s.cases||0)+' cases · ⭐ '+fmt(s.wallet?s.wallet.bal:0)+(s.pet?' · '+(s.pet.k==='cat'?'🐱':'🐶')+' '+esc(s.pet.n):'')+'</small></span>'+
+     (k.id!==FAM.active?'<button class="btn alt" data-sw="'+k.id+'" style="min-height:44px;font-size:15px;padding:6px 12px">Show</button>':'')+'</div>';}).join('')+'</div>'+
+   '<label class="toggle">Name of the kid showing now <input type="text" id="nm" value="'+esc(S.name)+'" maxlength="20"></label>'+
+   '<div class="row"><input type="text" id="newKid" maxlength="20" placeholder="New kid’s name" style="flex:1 1 160px;min-width:0"><button class="btn" id="addKid" style="min-height:48px;font-size:17px">＋ Add a detective</button></div>'+
+   '<p style="margin:0;color:var(--muted);font-size:14px">New kids start with a copy of this kid’s rewards and limits. Kids switch by tapping their name on the home screen.</p>'+
+   (FAM.kids.length>1?'<div id="rmBox"><button class="link" id="rmKid">Remove '+esc(S.name||'this kid')+' from this phone</button></div>':'')+'</section>'+
+   '<section class="card" id="gPin" style="display:flex;flex-direction:column;gap:10px"><h2 class="h2" style="margin:0">PIN & HINT</h2>'+
+   '<p style="margin:0;font-size:16px">Hint: '+(FAM.hint?'<b>'+esc(FAM.hint)+'</b>':'<span style="color:var(--muted)">none</span>')+'</p>'+
+   '<div class="row"><button class="btn alt" id="chPin" style="min-height:48px;font-size:17px">Change PIN & hint</button></div></section>'+
+   '<section class="card" id="gFb" style="display:flex;flex-direction:column;gap:10px"><h2 class="h2" style="margin:0">FEEDBACK & PROBLEMS</h2>'+
+   '<p style="margin:0;font-size:16px">Found a bug, or have an idea for a new case or game? We read every message.</p>'+
+   '<div class="row"><a class="btn" id="fbMail" href="'+esc(feedbackURL())+'" style="min-height:48px;font-size:17px;text-decoration:none">💌 Email us</a><span style="color:var(--muted);font-size:15px">'+FEEDBACK_EMAIL+'</span></div>'+
+   '<p style="margin:0;color:var(--muted);font-size:14px">Screenshots help a lot. The email includes the app version and phone type so we can fix things faster.</p></section>'+
+   '<section class="card" id="gAbout" style="display:flex;flex-direction:column;gap:10px"><h2 class="h2" style="margin:0">ABOUT & PRIVACY</h2>'+
+   '<p style="margin:0;font-size:16px"><b>Case Files Detective</b> '+VERSION+'<br>Made by Rexakinz Apps</p>'+
+   '<p style="margin:0;color:var(--muted);font-size:15px">No ads. No accounts. No tracking. Progress stays on this phone unless you link it to your progress page.</p>'+
+   '<div class="row"><a class="btn alt" href="privacy.html" style="min-height:48px;font-size:17px;text-decoration:none">🔏 Privacy policy</a></div>'+
+   '<h2 class="h2" style="margin:8px 0 0">SHOW ME AGAIN</h2><div class="row"><button class="btn alt" id="rpT" style="min-height:48px;font-size:17px">Grown-up tour</button><button class="btn alt" id="rkT" style="min-height:48px;font-size:17px">Kid walkthrough</button></div>'+
+   '<h2 class="h2" style="margin:8px 0 0">DELETE MY DATA</h2>'+
+   '<p style="margin:0;color:var(--muted);font-size:15px">Erases every kid, point, reward, PIN and setting from this phone, and removes any copy on your progress page. This can’t be undone.</p>'+
+   '<div id="delBox"><button class="btn pink" id="delAll" style="min-height:48px;font-size:17px">Delete all data</button></div></section>'+
+   '<div class="row" style="justify-content:center"><button class="btn alt" id="lockB">🔒 Lock & go home</button></div>';
+  wireGrownTabs();
+  $('#lockB').onclick=function(){GROWN_OK=false;SFX.tap();goHome();};
+  $('#nm').oninput=function(e){S.name=e.target.value.trim();persist();};
+  $$('[data-sw]').forEach(function(b){b.onclick=function(){SFX.tap();switchKid(b.dataset.sw);renderGrownFamily();toast('Now showing '+(S.name||'Detective'));};});
+  $('#addKid').onclick=function(){var n=$('#newKid').value.trim();if(!n){toast('Type a name first.');return;}var id=addKid(n);switchKid(id);SFX.good();
+    stage.innerHTML='<div class="center" style="padding-top:14px;gap:12px"><div style="font-size:56px">🆕</div><h1 class="big" style="font-size:28px;margin:0">'+esc(n)+' is added!</h1><p class="line1" style="max-width:34ch">Set their levels now, or later in Report → Grade levels.</p><section class="card" style="width:100%;display:flex;flex-direction:column;gap:12px">'+gradeRowsHTML()+'</section><div class="row" style="justify-content:center"><button class="btn" id="kNow">Hand it to '+esc(n)+'</button><button class="btn alt" id="kLater">Back to Family</button></div></div>';
+    wireGradeRows();$('#kNow').onclick=function(){GROWN_OK=false;SFX.tap();renderKidOnboard();};$('#kLater').onclick=function(){SFX.tap();renderGrownFamily();};};
+  if($('#rmKid'))$('#rmKid').onclick=function(){$('#rmBox').innerHTML='<div class="row"><span>Erase '+esc(S.name)+'’s points, badges and progress from this phone?</span><button class="btn pink" id="rmY" style="min-height:44px;font-size:16px">Remove</button><button class="btn alt" id="rmN" style="min-height:44px;font-size:16px">Keep</button></div>';
+    $('#rmN').onclick=renderGrownFamily;
+    $('#rmY').onclick=function(){var id=FAM.active,key=SY.key;if(key)rpc('cf_delete_device',{p_device:key}).catch(function(){});
+      try{localStorage.removeItem(kidKey(id));localStorage.removeItem(syncKeyOf(id));}catch(e){}
+      FAM.kids=FAM.kids.filter(function(k){return k.id!==id;});FAM.active=FAM.kids[0].id;saveFam();S=loadKid(FAM.active);loadSY();toast('Removed');renderGrownFamily();};};
+  $('#chPin').onclick=function(){SFX.tap();renderMakePin(function(){toast('PIN saved');renderGrownFamily();},'Change your PIN');};
+  $('#rpT').onclick=function(){SFX.tap();parentTour();};
+  $('#rkT').onclick=function(){SFX.tap();GROWN_OK=false;kidTour();};
+  $('#delAll').onclick=function(){$('#delBox').innerHTML='<p style="margin:0 0 8px;font-weight:700">Type DELETE to confirm.</p><div class="row"><input type="text" id="delTxt" autocomplete="off" style="width:160px"><button class="btn pink" id="delY" style="min-height:48px;font-size:17px">Erase everything</button><button class="btn alt" id="delN" style="min-height:48px;font-size:17px">Cancel</button></div><p id="delMsg" style="margin:8px 0 0"></p>';
+    $('#delN').onclick=renderGrownFamily;
+    $('#delY').onclick=function(){if($('#delTxt').value.trim().toUpperCase()!=='DELETE'){toast('Type DELETE first.');return;}$('#delMsg').textContent='Deleting…';deleteAllData();};};}
+function deleteAllData(){var keys=FAM.kids.map(function(k){var sy={};try{sy=JSON.parse(localStorage.getItem(syncKeyOf(k.id)))||{};}catch(e){}return sy.key;}).filter(Boolean);
+  var online=Promise.all(keys.map(function(k){return rpc('cf_delete_device',{p_device:k}).then(function(){return true;},function(){return false;});}));
+  online.then(function(res){var failed=res.filter(function(x){return !x;}).length;
+    try{Object.keys(localStorage).forEach(function(k){if(k.indexOf('caseFilesDetective')===0)localStorage.removeItem(k);});}catch(e){}
+    stage.innerHTML='<div class="center" style="padding-top:14px;gap:12px"><div style="font-size:56px">🧹</div><h1 class="big" style="font-size:28px;margin:0">All data deleted</h1>'+
+     (failed?'<p class="line1" style="max-width:34ch">This phone is wiped. We couldn’t reach the progress page, so email <b>'+FEEDBACK_EMAIL+'</b> and we’ll remove that copy.</p>':'<p class="line1">This phone is wiped. The game will start fresh.</p>')+
+     '<button class="btn" id="fresh">Start over</button></div>';
+    $('#fresh').onclick=function(){location.reload();};});}
+/* kid side: "Tell a grown-up" opens the PIN, then the feedback card */
+function kidHelp(){renderPin(function(){renderGrownFamily();setTimeout(function(){var f=$('#gFb');if(f){f.scrollIntoView({block:'center'});f.classList.add('flash');}},60);},'Something wrong? Get a grown-up to type the PIN.');}
 
 /* ================= backup codes ================= */
 function ckSum(s){var n=0;for(var i=0;i<s.length;i++)n=(n*31+s.charCodeAt(i))%9973;return n;}
@@ -1593,10 +2029,10 @@ function readBackup(code){var c=String(code||'').replace(/\s+/g,'');var m=/^CF1-
     if(!o||typeof o!=='object'||!o.skills||typeof o.cases!=='number')return null;delete o.v;return o;}catch(e){return null;}}
 
 /* ================= progress sync (v2.4) ================= */
-/* Sends a copy of her progress to Jen's progress page. Works only after a grown-up links the phone with a code. */
+/* Sends a copy of progress to the grown-up's progress page. Works only after a grown-up links the phone with a code. */
 var SB_URL='https://nkbivmvsgvhnsarvsnmt.supabase.co',SB_KEY='sb_publishable_aHn1997H6MOfImvKYXqnAA_d8_0CqVp',SYNC_KEY='caseFilesDetective.sync';
-var SY=(function(){try{return JSON.parse(localStorage.getItem(SYNC_KEY))||{};}catch(e){return {};}})();
-function saveSY(){try{localStorage.setItem(SYNC_KEY,JSON.stringify(SY));}catch(e){}}
+var SY={};function loadSY(){try{SY=JSON.parse(localStorage.getItem(syncKeyOf(FAM.active)))||{};}catch(e){SY={};}}loadSY();
+function saveSY(){try{localStorage.setItem(syncKeyOf(FAM.active),JSON.stringify(SY));}catch(e){}}
 function isoDay(d){d=d||new Date();function p(n){return (n<10?'0':'')+n;}return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
 function seenFact(sk,key){if(!sk.seen)sk.seen={};sk.seen[key]=(sk.seen[key]||0)+1;}
 function rpc(fn,args,keep){return fetch(SB_URL+'/rest/v1/rpc/'+fn,{method:'POST',keepalive:!!keep,headers:{'apikey':SB_KEY,'Content-Type':'application/json'},body:JSON.stringify(args)})
@@ -1621,12 +2057,12 @@ function syncNow(keep){if(!SY.key||syncBusy||navigator.onLine===false)return Pro
 function syncStatusText(){if(SY.err)return 'The last send didn’t go through. It will try again when the phone is online.';
   if(!SY.last)return 'Nothing sent yet.';var m=Math.round((Date.now()-SY.last)/60000);
   return 'Last sent '+(m<1?'just now':m<60?m+' min ago':m<1440?Math.round(m/60)+' hr ago':new Date(SY.last).toLocaleDateString())+'.';}
-function syncCardHTML(){var head='<section class="card" style="display:flex;flex-direction:column;gap:12px"><h2 class="h2" style="margin:0">PROGRESS PAGE</h2>';
-  if(SY.key)return head+'<p style="margin:0;font-size:17px">✅ Linked'+(SY.nick?' as <b>'+esc(SY.nick)+'</b>':'')+'. Her progress shows up on your page whenever this phone is online.</p>'+
+function syncCardHTML(){var head='<section class="card" id="gSync" style="display:flex;flex-direction:column;gap:12px"><h2 class="h2" style="margin:0">PROGRESS PAGE</h2>';
+  if(SY.key)return head+'<p style="margin:0;font-size:17px">✅ Linked'+(SY.nick?' as <b>'+esc(SY.nick)+'</b>':'')+'. Progress shows up on your page whenever this phone is online.</p>'+
     '<p style="margin:0;color:var(--muted);font-size:15px" id="syMsg">'+syncStatusText()+'</p>'+
     '<div class="row"><button class="btn" id="syNow" style="min-height:52px;font-size:18px">Send progress now</button><span id="syOffBox"><button class="link" id="syOff">Unlink this phone</button></span></div></section>';
   return head+(SY.lost?'<p style="margin:0;color:var(--nudge)">This phone isn’t linked anymore. Make a new code on your progress page to link it again.</p>':'')+
-    '<p style="margin:0;color:var(--muted);font-size:16px">See her progress on your own phone. Open <b>jenlees68.github.io/case-files/parent.html</b>, follow the steps there, then type the 6-character code here.</p>'+
+    '<p style="margin:0;color:var(--muted);font-size:16px">See progress on your own phone or computer. Open <b>jenlees68.github.io/case-files/parent.html</b>, follow the steps there, then type the 6-character code here.</p>'+
     '<div class="row"><input type="text" id="syCode" maxlength="7" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="characters" placeholder="ABC234" aria-label="Link code" style="width:10ch;font-size:24px;letter-spacing:.15em;text-transform:uppercase"><button class="btn" id="syLink" style="min-height:52px;font-size:18px">Link</button></div>'+
     '<p style="margin:0;font-weight:600" id="syMsg" role="status"></p></section>';}
 function wireSyncCard(again){var m=$('#syMsg');
@@ -1635,7 +2071,7 @@ function wireSyncCard(again){var m=$('#syMsg');
     rpc('cf_pair_device',{p_code:c}).then(function(j){SY={key:j.device_key,nick:j.nickname};saveSY();
       var y=new Date();y.setDate(y.getDate()-1);var yd=isoDay(y);
       return rpc('cf_sync',{p_device:SY.key,p_state:syncState(),p_summary:syncSummary(yd),p_day:yd}).catch(function(){}).then(function(){return syncNow();});})
-    .then(function(){SFX.unlock();toast('Linked! Her progress is on your page now.');again();},
+    .then(function(){SFX.unlock();toast('Linked! Progress is on your page now.');again();},
       function(e){$('#syLink').disabled=false;m.textContent=/bad code/i.test(e&&e.message)?'That code didn’t work. Codes last 30 minutes, so make a new one on your page and try again.':'Couldn’t reach the internet. Check the connection and try again.';});};
   if($('#syNow'))$('#syNow').onclick=function(){m.textContent='Sending…';syncNow().then(function(ok){m.textContent=ok?'Sent just now.':syncStatusText();});};
   if($('#syOff'))$('#syOff').onclick=function(){$('#syOffBox').innerHTML='<span>Stop sending progress from this phone?</span> <button class="btn pink" id="syOffY" style="min-height:44px;font-size:16px">Unlink</button> <button class="btn alt" id="syOffN" style="min-height:44px;font-size:16px">Keep</button>';
@@ -1647,11 +2083,11 @@ setInterval(function(){if(syncDirty&&document.visibilityState==='visible')syncNo
 /* minutes played: counts 15-second ticks while the game is on screen and she has touched it in the last 2 minutes */
 var lastAct=Date.now();['pointerdown','keydown','touchstart'].forEach(function(t){document.addEventListener(t,function(){lastAct=Date.now();},{passive:true,capture:true});});
 setInterval(function(){if(document.visibilityState!=='visible'||Date.now()-lastAct>120000)return;if(!S.play)S.play={};var d=isoDay();S.play[d]=(S.play[d]||0)+15;
-  var ks=Object.keys(S.play).sort();if(ks.length>120)ks.slice(0,ks.length-120).forEach(function(k){delete S.play[k];});
-  try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}if(SY.key)syncDirty=true;},15000);
+  streakTick(15);var ks=Object.keys(S.play).sort();if(ks.length>120)ks.slice(0,ks.length-120).forEach(function(k){delete S.play[k];});
+  try{localStorage.setItem(kidKey(FAM.active),JSON.stringify(S));}catch(e){}if(SY.key)syncDirty=true;},15000);
 
-window.__test={renderRewards:renderRewards,earn:earn,ensureWallet:ensureWallet,pinHash:pinHash,MM_WORDS:MM_WORDS,RM_A:RM_A,RM_B:RM_B,startArcade:startArcade,renderArcade:renderArcade,genMath:genMath,genDiv:genDiv,mathHint:mathHint,spellPool:spellPool,readWit:readWit,readClue:readClue,pupText:pupText,PWIT:PWIT,PCLUE:PCLUE,TRx:TR,PUPx:PUP_TR,buildHunt:buildHunt,makePupCase:makePupCase,openStation:function(kind,type){startCase(kind);runStation(C.stations.findIndex(function(s){return s.type===type;}));},align:align,normWord:normWord,match:match,makeCase:makeCase,TR:TR,makeBackup:makeBackup,readBackup:readBackup,getS:function(){return S;},syncSummary:syncSummary,syncState:syncState,getSY:function(){return SY;},openWitness:function(){startCase();runStation(C.stations.findIndex(function(s){return s.type==='read';}));},caseC:function(){return C;}};
-renderHome();
+window.__test={renderRewards:renderRewards,earn:earn,ensureWallet:ensureWallet,pinHash:pinHash,MM_WORDS:MM_WORDS,RM_A:RM_A,RM_B:RM_B,startArcade:startArcade,renderArcade:renderArcade,genMath:genMath,genDiv:genDiv,mathHint:mathHint,spellPool:spellPool,readWit:readWit,readClue:readClue,pupText:pupText,PWIT:PWIT,PCLUE:PCLUE,TRx:TR,PUPx:PUP_TR,buildHunt:buildHunt,makePupCase:makePupCase,openStation:function(kind,type){startCase(kind);runStation(C.stations.findIndex(function(s){return s.type===type;}));},align:align,normWord:normWord,match:match,makeCase:makeCase,TR:TR,makeBackup:makeBackup,readBackup:readBackup,getS:function(){return S;},syncSummary:syncSummary,syncState:syncState,getSY:function(){return SY;},openWitness:function(){startCase();runStation(C.stations.findIndex(function(s){return s.type==='read';}));},caseC:function(){return C;},getFAM:function(){return FAM;},goHome:function(){goHome();},parentTour:parentTour,kidTour:kidTour,markPlayed:markPlayed,streakTick:streakTick,PET:PET};
+goHome();
 })();
 </script>
 
