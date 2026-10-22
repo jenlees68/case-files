@@ -2108,6 +2108,7 @@ setInterval(function(){if(document.visibilityState!=='visible'||Date.now()-lastA
 window.__test={renderRewards:renderRewards,earn:earn,ensureWallet:ensureWallet,pinHash:pinHash,MM_WORDS:MM_WORDS,RM_A:RM_A,RM_B:RM_B,startArcade:startArcade,renderArcade:renderArcade,genMath:genMath,genDiv:genDiv,mathHint:mathHint,spellPool:spellPool,readWit:readWit,readClue:readClue,pupText:pupText,PWIT:PWIT,PCLUE:PCLUE,TRx:TR,PUPx:PUP_TR,buildHunt:buildHunt,makePupCase:makePupCase,openStation:function(kind,type){startCase(kind);runStation(C.stations.findIndex(function(s){return s.type===type;}));},align:align,normWord:normWord,match:match,makeCase:makeCase,TR:TR,makeBackup:makeBackup,readBackup:readBackup,getS:function(){return S;},syncSummary:syncSummary,syncState:syncState,getSY:function(){return SY;},openWitness:function(){startCase();runStation(C.stations.findIndex(function(s){return s.type==='read';}));},caseC:function(){return C;},getFAM:function(){return FAM;},goHome:function(){goHome();},parentTour:parentTour,kidTour:kidTour,markPlayed:markPlayed,streakTick:streakTick,PET:PET};
 goHome();
 })();
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
 </script>
 
 </body>
