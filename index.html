@@ -498,7 +498,7 @@ input[type=text]{font:inherit;font-size:18px;background:var(--board2);color:var(
 (function(){
 'use strict';
 /* ================= storage ================= */
-var VERSION='v3.0';
+var VERSION='v3.1';
 var KEY='caseFilesDetective.v1',FAM_KEY='caseFilesDetective.family',FEEDBACK_EMAIL='rexakinzapps@gmail.com';
 function defSkill(){return {lvl:1,att:0,first:0,run:0,missRun:0,missed:{}};}
 function defaults(){return {name:'',cases:0,points:0,bestCase:0,badges:[],archive:[],
@@ -703,7 +703,7 @@ function petTitle(){return pf('The Missing {Puppy}');}
 var HUNT_WORDS={1:['dog','pup','sit','dig','run','mud','bed','paw','wag','hug','nap','fun','sun','hop','pet','toy'],
  2:['bone','ball','bark','lick','home','tail','jump','play','walk','food','dish','bath'],
  3:['puppy','treat','sniff','happy','leash','grass','smile','sleep']};
-var HUNT_EM={dog:'🐶',pup:'🐶',sit:'🪑',dig:'⛏️',run:'🏃',mud:'🟤',bed:'🛏️',paw:'🐾',wag:'🐕',hug:'🤗',nap:'💤',fun:'🎉',sun:'☀️',hop:'🐇',pet:'✋',toy:'🧸',bone:'🦴',ball:'⚾',bark:'🗯️',lick:'👅',home:'🏠',tail:'🐕',jump:'🦘',play:'🎾',walk:'🚶',food:'🍖',dish:'🥣',bath:'🛁',puppy:'🐶',treat:'🍪',sniff:'👃',happy:'😄',leash:'🦮',grass:'🌱',smile:'😊',sleep:'😴'};
+var HUNT_EM={adventure:'🗺️',neighbor:'🏡',scramble:'🏃',tumble:'🤸',curious:'🤔',squirrel:'🐿️',whisker:'🐱',backyard:'🌳',dog:'🐶',pup:'🐶',sit:'🪑',dig:'⛏️',run:'🏃',mud:'🟤',bed:'🛏️',paw:'🐾',wag:'🐕',hug:'🤗',nap:'💤',fun:'🎉',sun:'☀️',hop:'🐇',pet:'✋',toy:'🧸',bone:'🦴',ball:'⚾',bark:'🗯️',lick:'👅',home:'🏠',tail:'🐕',jump:'🦘',play:'🎾',walk:'🚶',food:'🍖',dish:'🥣',bath:'🛁',puppy:'🐶',treat:'🍪',sniff:'👃',happy:'😄',leash:'🦮',grass:'🌱',smile:'😊',sleep:'😴'};
 var FLAVOR=['I was by the {place} at lunch.','It was dark and I was a little scared.','I only saw them for one second.','I was eating my snack when it happened.','I was looking for my lost pencil.'];
 var STATIONS={mult:{name:'Safe Cracker',icon:'🔐'},div:{name:'Split the Loot',icon:'⚖️'},spell:{name:'Code Breaker',icon:'🔑'},read:{name:'Witness',icon:'🎙️'},hunt:{name:'Word Hunt',icon:'🔍'}};
 function stInfo(type){return (C&&C.stNames&&C.stNames[type])||STATIONS[type];}
@@ -808,8 +808,8 @@ var HUNTG={1:['dog','pup','sit','dig','run','mud','bed','paw','wag','hug','nap',
  2:['dog','pup','dig','run','mud','paw','wag','hug','nap','bone','ball','bark','lick','home','tail','jump','play','walk','food','dish','bath'],
  3:['bone','ball','bark','lick','home','tail','jump','play','walk','food','puppy','treat','sniff','happy','leash','grass','smile','sleep'],
  4:['puppy','treat','sniff','happy','leash','smile','collar','garden','rabbit','kitten','window','paws','bark','bone','fetch'],
- 5:['blanket','pillow','whistle','puddle','feather','kennel','playful','gentle','journey','mystery','collar','rescue','fetch','garden']};
-var HUNT_LBL=['Small grid','Medium grid','Big grid with diagonals'];
+ 5:['blanket','pillow','whistle','puddle','feather','kennel','playful','gentle','journey','mystery','collar','rescue','garden','adventure','neighbor','scramble','tumble','curious','squirrel','whisker','backyard']};
+var HUNT_LBL=['Small grid','Medium grid, some words backwards','Big grid, words go every direction'];
 
 /* ---------- reading: witness statements & clues by grade ---------- */
 var RWIT={
@@ -1108,24 +1108,36 @@ function spellStation(done){var sk=S.skills.spell,n=0,total=3,g=gr('spell');var 
   gen();}
 
 /* ================= WORD HUNT (word search) ================= */
-function buildHunt(L,g){g=g||gr('spell');var size=[6,7,8][L-1]+(g>=4?1:0),count=[4,5,6][L-1],diag=L>=3;
+/* harder by grade: bigger grids, more words, backwards/upward words, look-alike filler letters and fake starts */
+function buildHunt(L,g){g=g||gr('spell');
+  var size=g>=5?[9,10,10][L-1]:g>=4?[8,9,10][L-1]:g>=3?[7,8,9][L-1]:[6,7,8][L-1];
+  var count=g>=5?[7,8,9][L-1]:g>=4?[6,7,8][L-1]:g>=3?[5,6,7][L-1]:[4,5,6][L-1];
+  var diag=L>=3||g>=4;
   var pool=HUNTG[g].filter(function(w){return w.length<=size;});
   var words=[],pn=String(PET().n||'').toLowerCase(),on=String(PET().o||'').toLowerCase();
   if(/^[a-z]{3,}$/.test(pn)&&pn.length<=size){words.push(pn);HUNT_EM[pn]=petEm();}
   if(L>=2&&/^[a-z]{3,}$/.test(on)&&on.length<=size&&on!==pn){words.push(on);HUNT_EM[on]=PET().oe||S.av;}
   shuffle(pool).forEach(function(w){if(words.length<count&&w.length<=size&&words.indexOf(w)<0)words.push(w);});
   var dirs=[[0,1],[1,0]];if(diag)dirs.push([1,1]);
+  if(g>=3&&L>=2||g>=4)dirs.push([0,-1],[-1,0]);          /* backwards and bottom-to-top */
+  if(g>=4&&L>=2||g>=5)dirs.push([-1,1],[1,-1],[-1,-1]); /* every diagonal */
   for(var attempt=0;attempt<60;attempt++){var g=[],r,c,k;for(r=0;r<size;r++){g.push([]);for(c=0;c<size;c++)g[r].push('');}
     var placed={},ok=true;var order=words.slice().sort(function(a,b){return b.length-a.length;});
     for(var wi=0;wi<order.length&&ok;wi++){var W=order[wi].toUpperCase(),put=false;
       for(var t=0;t<300&&!put;t++){var d=pick(dirs),r0=rnd(0,size-1),c0=rnd(0,size-1);
-        if(r0+d[0]*(W.length-1)>=size||c0+d[1]*(W.length-1)>=size)continue;
+        var r1=r0+d[0]*(W.length-1),c1=c0+d[1]*(W.length-1);if(r1<0||c1<0||r1>=size||c1>=size)continue;
         var fits=true;for(k=0;k<W.length;k++){var ch=g[r0+d[0]*k][c0+d[1]*k];if(ch&&ch!==W[k]){fits=false;break;}}
         if(!fits)continue;var cells=[];
         for(k=0;k<W.length;k++){g[r0+d[0]*k][c0+d[1]*k]=W[k];cells.push((r0+d[0]*k)*size+(c0+d[1]*k));}
         placed[order[wi]]=cells;put=true;}
       if(!put)ok=false;}
     if(ok){var FILL='ABCDEFGHIKLMNOPRSTUVWY',letters=[];
+      if(gr('spell')>=3){/* filler made from the hidden words' own letters, so they don't stand out */
+        FILL=words.join('').toUpperCase()+FILL.slice(0,6);
+        if(gr('spell')>=4){/* fake starts: the first 2-3 letters of real words, dropped in empty spots */
+          for(var fk=0;fk<words.length+2;fk++){var fw=pick(words).toUpperCase().slice(0,rnd(2,3)),fd=pick(dirs),fr=rnd(0,size-1),fc=rnd(0,size-1),fine=true;
+            for(k=0;k<fw.length;k++){var rr=fr+fd[0]*k,cc=fc+fd[1]*k;if(rr<0||cc<0||rr>=size||cc>=size||g[rr][cc]){fine=false;break;}}
+            if(fine)for(k=0;k<fw.length;k++)g[fr+fd[0]*k][fc+fd[1]*k]=fw[k];}}}
       for(r=0;r<size;r++)for(c=0;c<size;c++)letters.push(g[r][c]||FILL[rnd(0,FILL.length-1)]);
       return {size:size,words:words,letters:letters,placed:placed};}}
   return null;}
@@ -1415,25 +1427,33 @@ function gameHunt(){huntStation(function(){var w=C.learned.hunt;var stars=C.hint
 /* ---------- 📖 Read & Match ---------- */
 var RM_A={cat:'🐱',dog:'🐶',frog:'🐸',duck:'🦆',pig:'🐷',fox:'🦊',bear:'🐻',cow:'🐮',bee:'🐝',owl:'🦉'};
 var RM_B={bed:'🛏️',car:'🚗',tree:'🌳',box:'📦',hat:'🎩',boat:'⛵',log:'🪵',rock:'🪨',cake:'🎂',chair:'🪑'};
+/* grades 4-5 use more (and longer) animals and things, so the pictures take real reading to tell apart */
+var RM_A2={rabbit:'🐰',turtle:'🐢',penguin:'🐧',monkey:'🐵',lion:'🦁',horse:'🐴',octopus:'🐙',giraffe:'🦒',squirrel:'🐿️',hedgehog:'🦔',parrot:'🦜',kitten:'🐱',puppy:'🐶',beaver:'🦫'};
+var RM_B2={bicycle:'🚲',piano:'🎹',sofa:'🛋️',bucket:'🪣',ladder:'🪜',basket:'🧺',suitcase:'🧳',umbrella:'☂️',tractor:'🚜',canoe:'🛶',barrel:'🛢️',sled:'🛷',tent:'⛺',wagon:'🛒'};
+/* {A}+{B} is the answer. {D} is a decoy animal and {C} a decoy thing that also appear in the sentence. */
 var RM_T={1:['The {A} is on the {B}.','The {A} is in the {B}.'],2:['The {A} sat on the {B}.','A big {A} ran to the {B}.'],
- 3:['The {D} ran away, but the {A} hopped onto the {B}.','The {D} stayed home, and the {A} sat on the {B}.'],
- 4:['While the {D} was sleeping, the {A} quietly climbed onto the {B}.','The {D} wanted the {B}, but the {A} got there first.'],
- 5:['Although the {D} made a lot of noise, the {A} calmly settled beside the {B} and refused to move.','The {D} searched everywhere, yet only the {A} discovered the hidden {B}.']};
+ 3:['The {D} ran away, but the {A} hopped onto the {B}.','The {D} stayed home, and the {A} sat on the {B}.','The {A} did not pick the {C}. It sat on the {B}.'],
+ 4:['While the {D} was sleeping, the {A} quietly climbed onto the {B}.','The {D} wanted the {B}, but the {A} got there first.','The {A} looked at the {C}, then jumped onto the {B} instead.','It was not the {D} on the {B}. It was the {A}!'],
+ 5:['Although the {D} made a lot of noise near the {C}, the {A} calmly settled beside the {B} and refused to move.','The {D} searched everywhere, yet only the {A} discovered the hidden {B}, not the {C}.',
+    'Before the {D} could reach the {B}, the {A} had already curled up on it, leaving the {C} empty.','Everyone thought the {D} would choose the {C}, but the {A} surprised them by picking the {B}.',
+    'The {A} ignored the {C} completely and spent the whole afternoon on the {B} while the {D} watched.']};
 function gameReadMatch(){var g=gr('read'),total=8,n=0,first=0,words=0;
   stage.innerHTML='<div class="st-head"><span class="tag">📖 Read & Match</span><div class="pips" id="pips">'+'<b></b>'.repeat(total)+'</div></div>'+
-   '<p class="line1">Read it. Tap the picture that matches.</p><div class="paper"><div class="statement" id="rs"></div></div><div class="choices three pics" id="rc"></div><div id="hint"></div>';
-  function next(){var A=Object.keys(RM_A),B=Object.keys(RM_B);var a=pick(A),d=pick(A.filter(function(x){return x!==a;})),b=pick(B),c=pick(B.filter(function(x){return x!==b;}));
-    var sent=pick(RM_T[g]).replace('{A}',a).replace('{B}',b).replace('{D}',d);words+=sent.split(' ').length;
+   '<p class="line1">Read it. Tap the picture that matches.</p><div class="paper"><div class="statement" id="rs"></div></div><div class="choices '+(g>=4?'four':'three')+' pics" id="rc"></div><div id="hint"></div>';
+  var AM=g>=4?Object.assign({},RM_A,RM_A2):RM_A,BM=g>=4?Object.assign({},RM_B,RM_B2):RM_B;
+  function uniq(o){var seen={};return o.filter(function(x){if(seen[x])return false;seen[x]=1;return true;});}
+  function next(){var A=Object.keys(AM),B=Object.keys(BM);var a=pick(A),d=pick(A.filter(function(x){return AM[x]!==AM[a];})),b=pick(B),c=pick(B.filter(function(x){return x!==b;}));
+    var sent=pick(RM_T[g]).replace(/\{A\}/g,a).replace(/\{B\}/g,b).replace(/\{D\}/g,d).replace(/\{C\}/g,c);words+=sent.split(' ').length;
     $('#rs').innerHTML=wordsHTML(sent);hookHear($('#rs'));
-    var right=RM_A[a]+' '+RM_B[b];var x=pick(A.filter(function(z){return z!==a&&z!==d;}));
-    var opts=[right,(g>=3?RM_A[d]:RM_A[x])+' '+RM_B[b],RM_A[a]+' '+RM_B[c]];var tries=0;$('#hint').innerHTML='';
+    var right=AM[a]+' '+BM[b];var x=pick(A.filter(function(z){return AM[z]!==AM[a]&&AM[z]!==AM[d];}));
+    var opts=g>=4?uniq([right,AM[d]+' '+BM[b],AM[a]+' '+BM[c],AM[d]+' '+BM[c]]):[right,(g>=3?AM[d]:AM[x])+' '+BM[b],AM[a]+' '+BM[c]];var tries=0;$('#hint').innerHTML='';
     var rc=$('#rc');rc.innerHTML='';shuffle(opts).forEach(function(o){var bt=document.createElement('button');bt.className='choice';bt.textContent=o;bt.onclick=function(){
       if(o===right){SFX.good();bt.classList.add('right');n++;pip(n);if(!tries)first++;var pts=tries?5:15;C.points+=pts;$('#pts').textContent=C.points;floatPts('+'+pts,bt);
         $$('#rc .choice').forEach(function(z){z.disabled=true;});
         if(n>=total)setTimeout(function(){S.wordsRead+=words;persist();arcadeEnd('readmatch',C.points,['📖 You read <b>'+words+' words</b>','🎯 <b>'+first+' of '+total+'</b> right on the first try'],first>=7?3:first>=5?2:1);},900);
         else setTimeout(next,900);}
-      else{tries++;SFX.nudge();bt.classList.add('dim');bt.disabled=true;$$('#rs .w').forEach(function(s){var w=normWord(s.textContent);if(w===a||w===b)s.classList.add('find');});
-        $('#hint').innerHTML='<div class="hintbox"><p>Look at the yellow words. Who is it, and where?</p></div>';}};rc.appendChild(bt);});}
+      else{tries++;SFX.nudge();bt.classList.add('dim');bt.disabled=true;if(g<4||tries>=2)$$('#rs .w').forEach(function(s){var w=normWord(s.textContent);if(w===a||w===b)s.classList.add('find');});
+        $('#hint').innerHTML='<div class="hintbox"><p>'+(g>=4?'Careful! Some words are tricks. Who really did it, and where?':'Look at the yellow words. Who is it, and where?')+'</p></div>';}};rc.appendChild(bt);});}
   next();}
 
 /* ---------- 🃏 Memory Match ---------- */
