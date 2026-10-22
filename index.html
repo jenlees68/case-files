@@ -1889,7 +1889,7 @@ function parentTour(done){GROWN_OK=true;
    {before:fam,sel:'#gKids',icon:'👪',title:'More than one kid',text:'Add a detective for each kid. Each one gets their own points, rewards, levels and pet. Kids switch by tapping their name on the home screen.'},
    {before:fam,sel:'#gPin',icon:'🔐',title:'PIN and hint',text:'Change the PIN or hint here. Forgot it? Tap “Forgot PIN?” on the lock screen and solve a grown-up math problem.'},
    {before:fam,sel:'#gFb',icon:'💌',title:'Feedback & problems',text:'Something broken or have an idea? This opens an email to us. Kids get a “Tell a grown-up” button that brings them here.'},
-   {before:fam,sel:'#gAbout',icon:'ℹ️',title:'About, privacy, delete',text:'See the version and privacy policy, replay these tours, or delete all data from this phone.'}
+   {before:fam,sel:'#gAbout',icon:'ℹ️',title:'About, privacy, erase',text:'See the version and privacy policy, replay these tours, or erase all game data on this phone.'}
   ],{done:function(){FAM.tourDone=true;saveFam();if(done)done();else{renderGrownFamily();toast('Tour done! 🎉');}},lastLabel:'Finish tour'});}
 
 /* ================= v3.0: KID WALKTHROUGH ================= */
@@ -1984,9 +1984,9 @@ function renderGrownFamily(){setHUD(false);ensureWallet();if(!GROWN_OK){renderPi
    '<p style="margin:0;color:var(--muted);font-size:15px">No ads. No accounts. No tracking. Progress stays on this phone unless you link it to your progress page.</p>'+
    '<div class="row"><a class="btn alt" href="privacy.html" style="min-height:48px;font-size:17px;text-decoration:none">🔏 Privacy policy</a></div>'+
    '<h2 class="h2" style="margin:8px 0 0">SHOW ME AGAIN</h2><div class="row"><button class="btn alt" id="rpT" style="min-height:48px;font-size:17px">Grown-up tour</button><button class="btn alt" id="rkT" style="min-height:48px;font-size:17px">Kid walkthrough</button></div>'+
-   '<h2 class="h2" style="margin:8px 0 0">DELETE MY DATA</h2>'+
-   '<p style="margin:0;color:var(--muted);font-size:15px">Erases every kid, point, reward, PIN and setting from this phone. This can’t be undone. If you linked a progress page, email <b>'+FEEDBACK_EMAIL+'</b> and we’ll delete that copy too.</p>'+
-   '<div id="delBox"><button class="btn pink" id="delAll" style="min-height:48px;font-size:17px">Delete all data</button></div></section>'+
+   '<h2 class="h2" style="margin:8px 0 0">ERASE ALL GAME DATA</h2>'+
+   '<p style="margin:0;color:var(--muted);font-size:15px">Erases all Case Files game data on this phone: every kid, point, reward, PIN and setting. Nothing else on the phone is touched. This can’t be undone. If you linked a progress page, email <b>'+FEEDBACK_EMAIL+'</b> and we’ll delete that copy too.</p>'+
+   '<div id="delBox"><button class="btn pink" id="delAll" style="min-height:48px;font-size:17px">Erase all game data</button></div></section>'+
    '<div class="row" style="justify-content:center"><button class="btn alt" id="lockB">🔒 Lock & go home</button></div>';
   wireGrownTabs();
   $('#lockB').onclick=function(){GROWN_OK=false;SFX.tap();goHome();};
@@ -2003,14 +2003,14 @@ function renderGrownFamily(){setHUD(false);ensureWallet();if(!GROWN_OK){renderPi
   $('#chPin').onclick=function(){SFX.tap();renderMakePin(function(){toast('PIN saved');renderGrownFamily();},'Change your PIN');};
   $('#rpT').onclick=function(){SFX.tap();parentTour();};
   $('#rkT').onclick=function(){SFX.tap();GROWN_OK=false;kidTour();};
-  $('#delAll').onclick=function(){$('#delBox').innerHTML='<p style="margin:0 0 8px;font-weight:700">Type DELETE to confirm.</p><div class="row"><input type="text" id="delTxt" autocomplete="off" style="width:160px"><button class="btn pink" id="delY" style="min-height:48px;font-size:17px">Erase everything</button><button class="btn alt" id="delN" style="min-height:48px;font-size:17px">Cancel</button></div><p id="delMsg" style="margin:8px 0 0"></p>';
+  $('#delAll').onclick=function(){$('#delBox').innerHTML='<p style="margin:0 0 8px;font-weight:700">Type DELETE to confirm.</p><div class="row"><input type="text" id="delTxt" autocomplete="off" style="width:160px"><button class="btn pink" id="delY" style="min-height:48px;font-size:17px">Erase all game data</button><button class="btn alt" id="delN" style="min-height:48px;font-size:17px">Cancel</button></div><p id="delMsg" style="margin:8px 0 0"></p>';
     $('#delN').onclick=renderGrownFamily;
     $('#delY').onclick=function(){if($('#delTxt').value.trim().toUpperCase()!=='DELETE'){toast('Type DELETE first.');return;}$('#delMsg').textContent='Deleting…';deleteAllData();};};}
 function deleteAllData(){var linked=FAM.kids.some(function(k){var sy={};try{sy=JSON.parse(localStorage.getItem(syncKeyOf(k.id)))||{};}catch(e){}return !!sy.key;});
   Promise.resolve().then(function(){
     try{Object.keys(localStorage).forEach(function(k){if(k.indexOf('caseFilesDetective')===0)localStorage.removeItem(k);});}catch(e){}
-    stage.innerHTML='<div class="center" style="padding-top:14px;gap:12px"><div style="font-size:56px">🧹</div><h1 class="big" style="font-size:28px;margin:0">All data deleted</h1>'+
-     (linked?'<p class="line1" style="max-width:34ch">This phone is wiped. To delete the copy on your progress page, email <b>'+FEEDBACK_EMAIL+'</b> and we’ll remove it.</p>':'<p class="line1">This phone is wiped. The game will start fresh.</p>')+
+    stage.innerHTML='<div class="center" style="padding-top:14px;gap:12px"><div style="font-size:56px">🧹</div><h1 class="big" style="font-size:28px;margin:0">All game data erased</h1>'+
+     (linked?'<p class="line1" style="max-width:34ch">All Case Files game data is erased from this phone. To delete the copy on your progress page, email <b>'+FEEDBACK_EMAIL+'</b> and we’ll remove it.</p>':'<p class="line1">All Case Files game data is erased from this phone. The game will start fresh.</p>')+
      '<button class="btn" id="fresh">Start over</button></div>';
     $('#fresh').onclick=function(){location.reload();};});}
 /* kid side: "Tell a grown-up" opens the PIN, then the feedback card */
