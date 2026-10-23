@@ -498,16 +498,18 @@ input[type=text]{font:inherit;font-size:18px;background:var(--board2);color:var(
 (function(){
 'use strict';
 /* ================= storage ================= */
-var VERSION='v3.1';
+var VERSION='v3.2';
 var KEY='caseFilesDetective.v1',FAM_KEY='caseFilesDetective.family',FEEDBACK_EMAIL='rexakinzapps@gmail.com';
 function defSkill(){return {lvl:1,att:0,first:0,run:0,missRun:0,missed:{}};}
 function defaults(){return {name:'',cases:0,points:0,bestCase:0,badges:[],archive:[],
   skills:{mult:defSkill(),div:defSkill(),spell:defSkill(),read:defSkill(),hunt:defSkill()},pupSaved:0,grade:{math:2,spell:2,read:2},arcade:{},
-  wordsRead:0,bestStreak:0,dayStreak:0,lastDay:'',muted:false,micMode:'relaxed',caseNo:0,av:'🕵️',col:'#ffb547',pet:null,kidOnboard:false,readToMe:true};}
+  wordsRead:0,bestStreak:0,dayStreak:0,lastDay:'',muted:false,micMode:'balanced',micV:2,caseNo:0,av:'🕵️',col:'#ffb547',pet:null,kidOnboard:false,readToMe:true};}
 /* ---- family (shared by every kid on this phone): PIN, hint, mic approval, kid list ---- */
 function kidKey(id){return id==='main'?KEY:KEY+'.'+id;}
 function syncKeyOf(id){return id==='main'?'caseFilesDetective.sync':'caseFilesDetective.sync.'+id;}
-function loadKid(id){var s=defaults();try{var raw=localStorage.getItem(kidKey(id));if(raw){var o=JSON.parse(raw);s=Object.assign(defaults(),o);s.skills=Object.assign(defaults().skills,o.skills||{});}}catch(e){}return s;}
+function loadKid(id){var s=defaults();try{var raw=localStorage.getItem(kidKey(id));if(raw){var o=JSON.parse(raw);s=Object.assign(defaults(),o);s.skills=Object.assign(defaults().skills,o.skills||{});}}catch(e){}
+  /* v3.2: the old "Relaxed" mic setting let wrong words through; move everyone to the new Balanced setting once */
+  if((s.micV||0)<2){if(s.micMode!=='strict')s.micMode='balanced';s.micV=2;}return s;}
 var FAM=null;try{FAM=JSON.parse(localStorage.getItem(FAM_KEY));}catch(e){}
 var S;
 if(!FAM){var legacy=null;try{legacy=localStorage.getItem(KEY);}catch(e){}
@@ -563,11 +565,18 @@ function micOn(){return !!SR&&FAM.micOK&&!micBroken;}
 function micLocked(){return !!SR&&!FAM.micOK;}
 var NUM={'0':'zero','1':'one','2':'two','3':'three','4':'four','5':'five','6':'six','7':'seven','8':'eight','9':'nine','10':'ten'};
 function normWord(w){w=String(w).toLowerCase().replace(/[’']/g,'').replace(/[^a-z0-9]/g,'');return NUM[w]||w;}
-var HOMO={};[['to','too','two'],['there','their','theyre'],['red','read'],['by','buy','bye'],['no','know'],['right','write'],['whole','hole'],['hear','here'],['for','four'],['new','knew'],['one','won'],['eight','ate'],['blue','blew'],['sea','see'],['so','sew'],['flip','flick'],['flop','flap'],['ok','okay'],,['gigi','geegee','gg','jiji','gigis','gigi'],['jax','jacks','jacques','jack']].forEach(function(g){g.forEach(function(w){HOMO[w]=(HOMO[w]||[]).concat(g);});});
+var HOMO={};[['to','too','two'],['there','their','theyre'],['red','read'],['by','buy','bye'],['no','know'],['right','write'],['whole','hole'],['hear','here'],['for','four'],['new','knew'],['one','won'],['eight','ate'],['blue','blew'],['sea','see'],['so','sew'],['flip','flick'],['flop','flap'],['ok','okay'],['live','leave'],['gigi','geegee','gg','jiji','gigis','gigi'],['jax','jacks','jacques','jack']].forEach(function(g){g.forEach(function(w){HOMO[w]=(HOMO[w]||[]).concat(g);});});
 var TINY={a:1,an:1,the:1,to:1,of:1,and:1,on:1,in:1,at:1,i:1,it:1,by:1};
 var FILLER={um:1,uh:1,umm:1,uhh:1,hmm:1,er:1,ah:1,mm:1};
 function lev(a,b){var m=a.length,n=b.length,d=[],i,j;for(i=0;i<=m;i++){d[i]=[i];}for(j=0;j<=n;j++)d[0][j]=j;for(i=1;i<=m;i++)for(j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[m][n];}
-function relaxed(){return S.micMode!=='strict';}
+/* mic pickiness: gentle (forgives a lot, for accents and new readers), balanced (default), strict */
+function relaxed(){return S.micMode==='gentle'||S.micMode==='relaxed';}
+function strictMode(){return S.micMode==='strict';}
+/* vowel fingerprint: "ship" i, "shop" o, "sheep" ee, "bike" i+ (silent e makes it long). Wrong vowels = wrong word. */
+function vowelSig(w){w=String(w).toLowerCase().replace(/[^a-z]/g,'');if(!w)return '';var magic=w.length>3&&/[^aeiou]e$/.test(w)&&!/le$/.test(w);if(magic)w=w.slice(0,-1);
+  w=w.replace(/igh/g,'I').replace(/ay/g,'ai').replace(/ey$/,'ee').replace(/ea/g,'ee').replace(/oa/g,'o+').replace(/ow$/,'o+').replace(/y$/,w.length>2?'ee':'I');
+  var g=w.slice(1).match(/[aeiouI+]+/g)||[];var f=/^[aeiou]+/.exec(w);if(f)g.unshift(f[0]);if(magic&&g.length)g[g.length-1]+='+';return g.join('.');}
+function sameVowels(a,b){return vowelSig(a)===vowelSig(b);}
 function skel(w){return w.charAt(0)+w.slice(1).replace(/[aeiouy]/g,'').replace(/(.)\1+/g,'$1');}
 /* sound-alike key: spells words the way they sound, so live/leave/love/life, gigi/geegee/jiji, sneaker/sneakers line up */
 function phon(w){w=String(w).toLowerCase().replace(/[^a-z]/g,'');if(!w)return '';
@@ -579,9 +588,10 @@ function phon(w){w=String(w).toLowerCase().replace(/[^a-z]/g,'');if(!w)return ''
 function sim(a,b){if(!a||!b)return 0;return 1-lev(a,b)/Math.max(a.length,b.length);}
 function match(heard,target){if(!heard||!target)return false;if(heard===target)return true;if(HOMO[target]&&HOMO[target].indexOf(heard)>=0)return true;
   if(heard===target+'s'||target===heard+'s'||heard===target+'es'||heard===target+'ed'||target===heard+'ed'||heard===target+'d')return true;
-  if(target.length>=6&&lev(heard,target)<=1)return true;if(target.length>=9&&lev(heard,target)<=2)return true;
+  var gentle=relaxed();
+  if(target.length>=6&&lev(heard,target)<=1&&(gentle||sameVowels(heard,target)))return true;if(target.length>=9&&lev(heard,target)<=2&&(gentle||sameVowels(heard,target)))return true;
   var ph=phon(heard),pt=phon(target);
-  if(target.length>=4&&ph&&ph===pt)return true;
+  if(target.length>=4&&ph&&ph===pt&&(gentle||sameVowels(heard,target)))return true;
   if(relaxed()){
     if(target.length<=3){var PAIR={b:'p',p:'b',d:'t',t:'d',g:'k',k:'g',v:'f',f:'v'},a0=heard.charAt(0),t0=target.charAt(0);
       if(ph&&ph===pt)return true;if(heard.length>4||lev(heard,target)>1)return false;
@@ -600,13 +610,14 @@ function looseMatch(heard,target){if(match(heard,target))return true;if(!relaxed
    the same words twice, starting the sentence over) are ignored. Names split into pieces ("g g") and
    words run together ("alive" for "I live") are rejoined. She is only stopped when she clearly said a
    different word in a word's place. */
-function align(heard,W,start){var p=start,k=0,rx=relaxed(),problem=-1;
+function align(heard,W,start){var p=start,k=0,rx=relaxed(),problem=-1,skipOnly=false;
   function hitAt(m,wi){if(m>=heard.length||wi>=W.length)return null;
     if(match(heard[m],W[wi]))return [1,1];
     if(m+1<heard.length&&match(heard[m]+heard[m+1],W[wi]))return [2,1];
     if(wi+1<W.length&&W[wi].length+W[wi+1].length>=4&&match(heard[m],W[wi]+W[wi+1]))return [1,2];
     return null;}
   function look(wi){return TINY[W[wi]]?2:(rx?6:4);}
+  /* balanced/strict: a skipped real word is never passed; she gets asked to read it */
   function find(wi){for(var m=k;m<Math.min(heard.length,k+look(wi));m++){var r=hitAt(m,wi);if(r)return {m:m,r:r};}return null;}
   while(p<W.length&&k<heard.length){
     var f=find(p);
@@ -618,9 +629,9 @@ function align(heard,W,start){var p=start,k=0,rx=relaxed(),problem=-1;
     var allTiny=skipped.every(function(x){return TINY[x];});
     var real=gap.filter(function(t){for(var q=Math.max(0,p-4);q<p;q++)if(match(t,W[q]))return false;return !TINY[t];});
     var close=real.some(function(t){return skipped.some(function(x){return looseMatch(t,x);});});
-    if(allTiny||(rx&&(real.length===0||close))){p+=skip+nx.r[1];k=nx.m+nx.r[0];continue;}
-    problem=p;break;}
-  return {p:p,problem:problem,trail:Math.max(0,heard.length-k),k:k};}
+    if((allTiny&&!strictMode())||(rx&&(real.length===0||close))){p+=skip+nx.r[1];k=nx.m+nx.r[0];continue;}
+    problem=p;skipOnly=real.length===0;break;}
+  return {p:p,problem:problem,skipOnly:skipOnly,trail:Math.max(0,heard.length-k),k:k};}
 
 /* ================= content ================= */
 var SETTINGS=[
@@ -1255,7 +1266,7 @@ function readStation(st,done){var sk=S.skills.read;var sents=[st.flavor,st.wit],
         if(r.p>best){best=r.p;lastProg=Date.now();trailAt=0;paint(best);}
         if(best>=W.length){finished();return;}
         if(e.results[e.results.length-1].isFinal){
-          if(r.problem>=0&&r.problem>=best-1){problem(Math.max(r.problem,best),true);return;}
+          if(r.problem>=0&&r.problem>=best-1){problem(Math.max(r.problem,best),!r.skipOnly);return;}
           noise=r.trail;if(r.trail>0&&!trailAt)trailAt=Date.now();}};
       rec.onerror=function(ev){if(fatal(ev.error))micFail();};
       rec.onend=function(){setGo(false);
@@ -1284,7 +1295,7 @@ function readStation(st,done){var sk=S.skills.read;var sents=[st.flavor,st.wit],
         r2.onend=function(){if(got||!fixing)return;tries++;
           if(tries===1){setStatus('Here’s how it sounds. Now you say it!');say(w,{rate:.75,onend:function(){setTimeout(listenWord,150);}});}
           else if(tries<3){setStatus('Try once more…');listenWord();}
-          else{setStatus('Good try! Let’s keep going.');ok(true);}};
+          else{setStatus('Good try! Let’s keep going.');if(!real){sentMiss++;sk.missed[w.toLowerCase()]=(sk.missed[w.toLowerCase()]||0)+1;}ok(true);}};
         try{r2.start();}catch(e){micFail();}}
       function ok(gaveUp){fixing=false;trailAt=0;noise=0;spans[i].classList.remove('stuck');spans[i].classList.add('fixed');if(!gaveUp)SFX.good();
         best=Math.max(best,i+1);anchor=best;committed=[];lastProg=Date.now();lastSound=0;helpShown=false;
@@ -1685,10 +1696,10 @@ function renderGrown(){setHUD(false);ensureWallet();if(!GROWN_OK){renderPin(rend
    '<p style="margin:0;font-size:16px">'+(FAM.micOK?'✅ <b>Approved.</b> The game listens while your kid reads out loud and checks the words.':'🔒 <b>Not approved yet.</b> Kids read and tap “I read it!” instead. If they tap the mic, they see a note to ask you.')+'</p>'+
    '<p style="margin:0;color:var(--muted);font-size:14px">The phone’s own speech service turns speech into text. The game never records or saves audio.'+(SR?'':' (This browser can’t listen; use Chrome.)')+'</p>'+
    '<div class="row">'+(FAM.micOK?'<button class="btn alt" id="micOff" style="min-height:48px;font-size:17px">Turn the mic off</button>':'<button class="btn" id="micOn" style="min-height:48px;font-size:17px">🎙️ Approve the mic</button>')+'</div>'+
-   '<div class="toggle" role="group" aria-label="Mic pickiness"><span>Mic pickiness</span><button class="btn '+(relaxed()?'':'alt')+'" id="mmR" style="min-height:44px;font-size:16px;padding:6px 14px">Relaxed</button><button class="btn '+(relaxed()?'alt':'')+'" id="mmS" style="min-height:44px;font-size:16px;padding:6px 14px">Strict</button></div>'+
+   '<div class="toggle" role="group" aria-label="Mic pickiness"><span>Mic pickiness</span>'+[['gentle','Gentle'],['balanced','Balanced'],['strict','Strict']].map(function(m){var on=m[0]==='gentle'?relaxed():S.micMode===m[0];return '<button class="btn '+(on?'':'alt')+' mm" data-m="'+m[0]+'" style="min-height:44px;font-size:16px;padding:6px 14px">'+m[1]+'</button>';}).join('')+'</div>'+
    '<label class="toggle"><input type="checkbox" id="dbgT" '+(S.micDebug?'checked':'')+' style="width:26px;height:26px"> Show what the mic hears while they read</label>'+
    (SR?'<div style="display:flex;flex-direction:column;gap:8px"><div class="row"><button class="btn alt" id="micTest" style="min-height:48px;font-size:17px">🎙️ Mic check</button><span style="color:var(--muted);font-size:15px">Tap, then say a sentence. You’ll see exactly what the phone heard.</span></div><p class="heard" id="micTestOut" style="text-align:left;font-size:16px;color:var(--text)"></p></div>':'')+
-   '<p style="margin:0;color:var(--muted);font-size:14px">Relaxed lets kids read at a normal speed and forgives words the mic misses. Strict stops them on every skipped or slightly-off word.</p>'+
+   '<p style="margin:0;color:var(--muted);font-size:14px"><b>Balanced</b> (best for most kids): wrong vowel sounds and skipped words get caught (ship ≠ shop ≠ sheep), and they’re asked to read that word again. <b>Gentle</b> forgives close-sounding words, for strong accents or brand-new readers. <b>Strict</b> also stops on small words like “a” and “the”.</p>'+
    '<p style="margin:0;color:var(--muted);font-size:15px">Arcade: '+(ARCADE.map(function(g){var r=(S.arcade||{})[g.id];return r?g.name+' (played '+r.plays+'×, best '+r.best+')':null;}).filter(Boolean).join(' · ')||'not played yet')+'</p>'+
    '<p style="margin:0;color:var(--muted);font-size:15px">Cases: '+S.cases+' · Total points: '+S.points+' · Best case: '+S.bestCase+' · Words read: '+S.wordsRead+'</p>'+
    '<div id="resetBox"><button class="link" id="reset">Reset all progress</button></div></section>'+
@@ -1716,7 +1727,7 @@ function renderGrown(){setHUD(false);ensureWallet();if(!GROWN_OK){renderPin(rend
   if($('#startTour'))$('#startTour').onclick=function(){SFX.tap();parentTour();};
   if($('#micOn'))$('#micOn').onclick=function(){approveMic(renderGrownKeep);};
   if($('#micOff'))$('#micOff').onclick=function(){FAM.micOK=false;saveFam();stopAllMic();toast('Mic is off');renderGrownKeep();};
-  $('#mmR').onclick=function(){S.micMode='relaxed';persist();renderGrownKeep();};
+  $$('.mm').forEach(function(b){b.onclick=function(){S.micMode=b.dataset.m;persist();SFX.tap();renderGrownKeep();toast('Mic pickiness: '+b.textContent);};});
   $('#dbgT').onchange=function(e){S.micDebug=e.target.checked;persist();};
   $$('.gb').forEach(function(b){b.onclick=function(){var k=b.dataset.k,g=+b.dataset.g;if(!S.grade)S.grade={math:3,spell:2,read:1};if(S.grade[k]===g)return;S.grade[k]=g;
     ({math:['mult','div'],spell:['spell','hunt'],read:['read']})[k].forEach(function(s){var sk=S.skills[s];sk.lvl=1;sk.run=0;sk.missRun=0;});
@@ -1732,7 +1743,6 @@ function renderGrown(){setHUD(false);ensureWallet();if(!GROWN_OK){renderPin(rend
       r.onend=function(){if(cur)said.push(cur);if(Date.now()<until&&$('#micTest'))round();else{btn.textContent='🎙️ Mic check';if(!said.length&&out.textContent.indexOf('problem')<0)out.textContent='I didn’t hear anything. Check that the mic is allowed for this site, then try again.';}};
       try{r.start();}catch(er){out.textContent='Could not start the mic.';}}
     round();};
-  $('#mmS').onclick=function(){S.micMode='strict';persist();renderGrownKeep();};
   $('#reset').onclick=function(){$('#resetBox').innerHTML='<div class="row"><span>Erase every case, badge, score and reward point?</span><button class="btn pink" id="yes" style="min-height:48px;font-size:17px">Yes, erase</button><button class="btn alt" id="no" style="min-height:48px;font-size:17px">Keep it</button></div>';
     $('#yes').onclick=function(){var keep={name:S.name,rewards:S.rewards,rules:S.rules,grade:S.grade,av:S.av,col:S.col,pet:S.pet,kidOnboard:S.kidOnboard,readToMe:S.readToMe};S=Object.assign(defaults(),keep);S.wallet=null;persist();ensureWallet();renderGrown();};$('#no').onclick=renderGrown;};}
 
@@ -1897,7 +1907,7 @@ function parentTour(done){GROWN_OK=true;
    {before:rep,sel:'#gSkills',icon:'📊',title:'How they’re doing',text:'Each skill shows its level, how many tries, and how often they got it on the first try. “Needed help with” lists what to practice.'},
    {before:rep,sel:'#gGrades',icon:'🎚️',title:'Grade levels',text:'Change the level for math, spelling or reading any time. The game also moves up and down on its own inside each grade.'},
    {before:rep,sel:'#gSync',icon:'📱',title:'Progress page',text:'Want to check progress from your own phone? Link this phone to your progress page with a 6-character code.'},
-   {before:rep,sel:'#gMic',icon:'🎙️',title:'Microphone',text:'Approve or turn off the mic here. “Relaxed” is best for most kids. If a word won’t register, turn on “Show what the mic hears”.'},
+   {before:rep,sel:'#gMic',icon:'🎙️',title:'Microphone',text:'Approve or turn off the mic here. “Balanced” is best for most kids. If a word won’t register, turn on “Show what the mic hears”.'},
    {before:rep,sel:'#gBackup',icon:'💾',title:'Backup code',text:'Copy this code somewhere safe. If the phone is lost or reset, paste it back here to restore everything.'},
    {before:rew,sel:'#gReq',icon:'📨',title:'Approving rewards',text:'When your kid asks for a reward, it waits here. <b>Approve</b> takes the points. <b>Deny</b> gives them back.'},
    {before:rew,sel:'#gAdj',icon:'🎉',title:'Give or take points',text:'Great report card? Type points and a reason, then tap <b>Give points</b>. You can take points away the same way.'},
@@ -2105,7 +2115,7 @@ setInterval(function(){if(document.visibilityState!=='visible'||Date.now()-lastA
   streakTick(15);var ks=Object.keys(S.play).sort();if(ks.length>120)ks.slice(0,ks.length-120).forEach(function(k){delete S.play[k];});
   try{localStorage.setItem(kidKey(FAM.active),JSON.stringify(S));}catch(e){}if(SY.key)syncDirty=true;},15000);
 
-window.__test={renderRewards:renderRewards,earn:earn,ensureWallet:ensureWallet,pinHash:pinHash,MM_WORDS:MM_WORDS,RM_A:RM_A,RM_B:RM_B,startArcade:startArcade,renderArcade:renderArcade,genMath:genMath,genDiv:genDiv,mathHint:mathHint,spellPool:spellPool,readWit:readWit,readClue:readClue,pupText:pupText,PWIT:PWIT,PCLUE:PCLUE,TRx:TR,PUPx:PUP_TR,buildHunt:buildHunt,makePupCase:makePupCase,openStation:function(kind,type){startCase(kind);runStation(C.stations.findIndex(function(s){return s.type===type;}));},align:align,normWord:normWord,match:match,makeCase:makeCase,TR:TR,makeBackup:makeBackup,readBackup:readBackup,getS:function(){return S;},syncSummary:syncSummary,syncState:syncState,getSY:function(){return SY;},openWitness:function(){startCase();runStation(C.stations.findIndex(function(s){return s.type==='read';}));},caseC:function(){return C;},getFAM:function(){return FAM;},goHome:function(){goHome();},parentTour:parentTour,kidTour:kidTour,markPlayed:markPlayed,streakTick:streakTick,PET:PET};
+window.__test={renderRewards:renderRewards,earn:earn,ensureWallet:ensureWallet,pinHash:pinHash,MM_WORDS:MM_WORDS,RM_A:RM_A,RM_B:RM_B,startArcade:startArcade,renderArcade:renderArcade,genMath:genMath,genDiv:genDiv,mathHint:mathHint,spellPool:spellPool,readWit:readWit,readClue:readClue,pupText:pupText,PWIT:PWIT,PCLUE:PCLUE,TRx:TR,PUPx:PUP_TR,buildHunt:buildHunt,makePupCase:makePupCase,openStation:function(kind,type){startCase(kind);runStation(C.stations.findIndex(function(s){return s.type===type;}));},align:align,normWord:normWord,match:match,vowelSig:vowelSig,setMicMode:function(m){S.micMode=m;},makeCase:makeCase,TR:TR,makeBackup:makeBackup,readBackup:readBackup,getS:function(){return S;},syncSummary:syncSummary,syncState:syncState,getSY:function(){return SY;},openWitness:function(){startCase();runStation(C.stations.findIndex(function(s){return s.type==='read';}));},caseC:function(){return C;},getFAM:function(){return FAM;},goHome:function(){goHome();},parentTour:parentTour,kidTour:kidTour,markPlayed:markPlayed,streakTick:streakTick,PET:PET};
 goHome();
 })();
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
